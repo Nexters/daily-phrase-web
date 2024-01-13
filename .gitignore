@@ -1,0 +1,8 @@
+node_modules
+
+dist
+.astro
+.next
+
+.DS_Store
+pnpm-debug.log*

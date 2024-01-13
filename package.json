@@ -1,0 +1,22 @@
+{
+  "name": "daily-phrase-web",
+  "version": "0.1.0",
+  "description": "",
+  "license": "ISC",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "common": "pnpm -F @daily-phrase/common",
+    "back-office": "pnpm -F @daily-phrase/back-office",
+    "web": "pnpm -F @daily-phrase/web",
+    "dev": "pnpm -r dev"
+  },
+  "devDependencies": {
+    "typescript": "5.3.3"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "packageManager": "pnpm@8.14.1"
+}
