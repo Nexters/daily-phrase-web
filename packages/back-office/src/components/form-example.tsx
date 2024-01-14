@@ -16,11 +16,20 @@ import {
   FormMessage,
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
+import { Textarea } from './ui/textarea';
 
 const formSchema = z.object({
   username: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
   }),
+  bio: z
+    .string()
+    .min(10, {
+      message: 'Bio must be at least 10 characters.',
+    })
+    .max(160, {
+      message: 'Bio must not be longer than 30 characters.',
+    }),
 });
 
 export function ProfileForm() {
@@ -29,6 +38,7 @@ export function ProfileForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
+      bio: '',
     },
   });
 
@@ -52,6 +62,26 @@ export function ProfileForm() {
                 <Input placeholder='shadcn' {...field} />
               </FormControl>
               <FormDescription>This is your public display name.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='bio'
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bio</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder='Tell us a little bit about yourself'
+                  className='resize-none'
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                You can <span>@mention</span> other users and organizations.
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
