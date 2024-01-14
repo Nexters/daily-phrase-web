@@ -41,6 +41,7 @@ import {
 } from '~/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '~/components/ui/popover';
 import { Calendar } from '~/components/ui/calender';
+import { toast } from 'sonner';
 
 const languages = [
   { label: 'English', value: 'en' },
@@ -97,10 +98,18 @@ export function ProfileForm() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+
+    toast.promise(new Promise((resolve) => setTimeout(() => resolve(values), 1000)), {
+      loading: 'Loading...',
+      success: (data: any) => {
+        return `${data.username} has been added, check out the console.`;
+      },
+      error: 'Error',
+    });
   }
 
   return (
