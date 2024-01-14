@@ -1,3 +1,9 @@
+import { Button } from '~/components/ui/button';
+
 export default function Page() {
-  return <h1>Hello, Next.js!</h1>;
+  return (
+    <h1>
+      <Button>hello world</Button>
+    </h1>
+  );
 }
