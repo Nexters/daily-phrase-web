@@ -1,6 +1,7 @@
 // @see https://ui.shadcn.com/docs/components/form
 'use client';
 
+import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -16,9 +17,9 @@ import {
   FormMessage,
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
-import { Textarea } from './ui/textarea';
-import { Checkbox } from './ui/checkbox';
-import Link from 'next/link';
+import { Textarea } from '~/components/ui/textarea';
+import { Checkbox } from '~/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '~/components/ui/radio-group';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -33,6 +34,9 @@ const formSchema = z.object({
       message: 'Bio must not be longer than 30 characters.',
     }),
   mobile: z.boolean().default(false).optional(),
+  type: z.enum(['all', 'mentions', 'none'], {
+    required_error: 'You need to select a notification type.',
+  }),
 });
 
 export function ProfileForm() {
@@ -104,6 +108,42 @@ export function ProfileForm() {
                   <Link href='/'>mobile settings</Link> page.
                 </FormDescription>
               </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='type'
+          render={({ field }) => (
+            <FormItem className='space-y-3'>
+              <FormLabel>Notify me about...</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  className='flex flex-col space-y-1'
+                >
+                  <FormItem className='flex items-center space-x-3 space-y-0'>
+                    <FormControl>
+                      <RadioGroupItem value='all' />
+                    </FormControl>
+                    <FormLabel className='font-normal'>All new messages</FormLabel>
+                  </FormItem>
+                  <FormItem className='flex items-center space-x-3 space-y-0'>
+                    <FormControl>
+                      <RadioGroupItem value='mentions' />
+                    </FormControl>
+                    <FormLabel className='font-normal'>Direct messages and mentions</FormLabel>
+                  </FormItem>
+                  <FormItem className='flex items-center space-x-3 space-y-0'>
+                    <FormControl>
+                      <RadioGroupItem value='none' />
+                    </FormControl>
+                    <FormLabel className='font-normal'>Nothing</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
