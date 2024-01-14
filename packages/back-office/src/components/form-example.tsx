@@ -17,6 +17,8 @@ import {
 } from '~/components/ui/form';
 import { Input } from '~/components/ui/input';
 import { Textarea } from './ui/textarea';
+import { Checkbox } from './ui/checkbox';
+import Link from 'next/link';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -30,6 +32,7 @@ const formSchema = z.object({
     .max(160, {
       message: 'Bio must not be longer than 30 characters.',
     }),
+  mobile: z.boolean().default(false).optional(),
 });
 
 export function ProfileForm() {
@@ -83,6 +86,24 @@ export function ProfileForm() {
                 You can <span>@mention</span> other users and organizations.
               </FormDescription>
               <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name='mobile'
+          render={({ field }) => (
+            <FormItem className='flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow'>
+              <FormControl>
+                <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+              </FormControl>
+              <div className='space-y-1 leading-none'>
+                <FormLabel>Use different settings for my mobile devices</FormLabel>
+                <FormDescription>
+                  You can manage your mobile notifications in the{' '}
+                  <Link href='/'>mobile settings</Link> page.
+                </FormDescription>
+              </div>
             </FormItem>
           )}
         />
