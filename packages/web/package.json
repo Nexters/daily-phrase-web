@@ -10,6 +10,11 @@
     "format": "biome format **/*.{ts,tsx,astro,json} --write"
   },
   "dependencies": {
-    "astro": "^4.1.2"
+    "@astrojs/solid-js": "^4.0.1",
+    "astro": "^4.1.2",
+    "solid-js": "^1.8.11"
+  },
+  "devDependencies": {
+    "@astrojs/ts-plugin": "^1.4.0"
   }
 }

@@ -4,6 +4,14 @@
     "baseUrl": ".",
     "paths": {
       "~": ["src/*"]
-    }
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "solid-js",
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      },
+    ],
+    "verbatimModuleSyntax": true
   }
 }
