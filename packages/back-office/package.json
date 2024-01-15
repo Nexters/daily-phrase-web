@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "preview": "next start"
+    "preview": "next start",
+    "lint": "biome lint src/**/*.{ts,tsx,astro}",
+    "format": "biome format **/*.{ts,tsx,astro,json} --write"
   },
   "dependencies": {
     "next": "^14.0.4",
