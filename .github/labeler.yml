@@ -8,5 +8,5 @@ refactor:
   - head-branch: ['^refactor']
 
 chore:
-  - 'package.json'
-  - '**/*/package.json'
+  - changed-files:
+      - any-glob-to-any-file: ['package.json', '**/*/package.json']
