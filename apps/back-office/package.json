@@ -8,9 +8,7 @@
     "preview": "next start",
     "add:ui": "pnpm dlx shadcn-ui@latest add",
     "lint": "biome lint --apply ./src/**/*.{js,ts,tsx}",
-    "format": "biome format --write ./src/**/*.{js,ts,tsx}",
-    "test": "jest",
-    "test:watch": "jest --watchAll"
+    "format": "biome format --write ./src/**/*.{js,ts,tsx}"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

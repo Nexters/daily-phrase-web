@@ -17,15 +17,10 @@
   "scripts": {
     "build": "rm -rf dist && npx tsc --project ./tsconfig.build.json && vite build",
     "lint": "biome lint --apply ./src/**/*.{js,ts,tsx}",
-    "format": "biome format --write ./src/**/*.{js,ts,tsx}",
-    "test": "jest",
-    "test:watch": "jest --watchAll"
+    "format": "biome format --write ./src/**/*.{js,ts,tsx}"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.11",
     "@types/node": "^20.10.5",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
     "vite": "^5.0.10",
     "vite-plugin-dts": "^3.7.0",
