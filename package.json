@@ -4,7 +4,8 @@
   "description": "",
   "license": "ISC",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
     "common": "pnpm -F @daily-phrase/common",

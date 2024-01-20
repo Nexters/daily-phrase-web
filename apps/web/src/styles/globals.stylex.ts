@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 
 const globalStylex = stylex.create({
-	global: {},
+  global: {},
 });
 
 export default globalStylex;
