@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "~": ["*"]
+      "*/~": ["src/*"]
     }
   },
   "include": ["src", ".eslintrc.cjs", "jest.config.ts", "vite.config.ts"],

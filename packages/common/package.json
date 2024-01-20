@@ -16,6 +16,8 @@
   "author": "daily-phrase-front-end",
   "scripts": {
     "build": "rm -rf dist && npx tsc --project ./tsconfig.build.json && vite build",
+    "lint": "biome lint --apply ./src/**/*.{js,ts,tsx}",
+    "format": "biome format --write ./src/**/*.{js,ts,tsx}",
     "test": "jest",
     "test:watch": "jest --watchAll"
   },
