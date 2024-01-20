@@ -15,7 +15,9 @@
   },
   "author": "daily-phrase-front-end",
   "scripts": {
-    "build": "rm -rf dist && npx tsc --project ./tsconfig.build.json && vite build"
+    "build": "rm -rf dist && npx tsc --project ./tsconfig.build.json && vite build",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "devDependencies": {
     "@types/jest": "^29.5.11",
