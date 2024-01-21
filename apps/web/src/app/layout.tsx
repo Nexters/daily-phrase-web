@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 import type { Metadata } from "next";
-import globalStylex from "~/styles/globals.stylex";
+import "~/styles/global.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body {...stylex.props(globalStylex.global)}>{children}</body>
+    <html lang="ko">
+      <body {...stylex.props()}>{children}</body>
     </html>
   );
 }
