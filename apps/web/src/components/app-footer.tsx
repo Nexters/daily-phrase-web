@@ -7,24 +7,26 @@ import { BookmarkLinearIcon, LikeLinearIcon } from "./ui/icons";
 export default function AppFooter() {
   return (
     <div {...stylex.props(globalStyles.container, styles.container)}>
-      <div {...stylex.props(styles.footer)}>
+      <div {...stylex.props(styles.footer, styles.flexCenter)}>
         <button
           type="button"
-          {...stylex.props(styles.footerItem, styles.iconBtn)}
+          {...stylex.props(styles.flexCenter, styles.btnWrapper)}
         >
           <LikeLinearIcon {...stylex.props(styles.icon)} />
         </button>
         <button
           type="button"
-          {...stylex.props(styles.footerItem, styles.iconBtn)}
+          {...stylex.props(styles.flexCenter, styles.btnWrapper)}
         >
           <BookmarkLinearIcon {...stylex.props(styles.icon)} />
         </button>
         <button
           type="button"
-          {...stylex.props(styles.footerItem, styles.primaryBtn)}
+          {...stylex.props(styles.btnWrapper, styles.primaryBtnWrapper)}
         >
-          앱 설치하고 공유하기
+          <div {...stylex.props(styles.flexCenter, styles.primaryBtn)}>
+            앱 설치하고 공유하기
+          </div>
         </button>
       </div>
     </div>
@@ -39,26 +41,26 @@ const styles = stylex.create({
     right: 0,
   },
   footer: {
-    display: "flex",
-    alignItems: "center",
     gap: 12,
     padding: "0 10px",
     height: 90,
     background: "#fff",
   },
-  footerItem: {
+  flexCenter: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    flexShrink: 0,
   },
-  iconBtn: {
+  btnWrapper: {
     padding: "16px 6px",
     margin: "-16px -6px",
   },
   icon: {
     width: 48,
     height: 48,
+  },
+  primaryBtnWrapper: {
+    flex: 1,
   },
   primaryBtn: {
     flex: 1,
