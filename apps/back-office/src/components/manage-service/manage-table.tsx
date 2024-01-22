@@ -18,7 +18,7 @@ export const ManageTable = ({ data }: Props) => {
   return (
     <Table>
       <TableHeader>
-        <TableRow>
+        <TableRow className="w-full flex items-center justify-between">
           <TableHead>작성일자</TableHead>
           <TableHead>타이틀</TableHead>
           <TableHead>이미지</TableHead>
@@ -36,7 +36,10 @@ export const ManageTable = ({ data }: Props) => {
               const key = createdAt + title + imageUrl + content + viewCount;
               likeCount;
               return (
-                <TableRow key={key}>
+                <TableRow
+                  key={key}
+                  className="w-full flex items-center justify-center"
+                >
                   <Checkbox />
                   <TableCell>{new Date(createdAt).getDate()}</TableCell>
                   <TableCell>{title}</TableCell>
