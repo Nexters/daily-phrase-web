@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import AppFooter from "~/components/app-footer";
 import PostContent from "~/components/post-content";
-import { globalStyles } from "~/styles/globals.style";
+import { globalStyles } from "~/styles/globals.stylex";
 import GoAppCard from "./go-app-card";
 import PostCard from "./post-card";
 

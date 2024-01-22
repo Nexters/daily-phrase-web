@@ -1,5 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import { globalStyles } from "~/styles/globals.style";
+import { globalStyles } from "~/styles/globals.stylex";
 
 export default function HomePage() {
   return (

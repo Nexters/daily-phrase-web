@@ -1,7 +1,7 @@
 "use client";
 
 import * as stylex from "@stylexjs/stylex";
-import { globalStyles } from "~/styles/globals.style";
+import { globalStyles } from "~/styles/globals.stylex";
 import { BookmarkLinearIcon, LikeLinearIcon } from "./ui/icons";
 
 export default function AppFooter() {

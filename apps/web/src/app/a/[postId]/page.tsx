@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 import PostContent from "~/components/post-content";
-import { globalStyles } from "~/styles/globals.style";
+import { globalStyles } from "~/styles/globals.stylex";
 
 export default function AppContentPage() {
   return (
