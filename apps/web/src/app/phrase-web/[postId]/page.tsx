@@ -1,23 +1,23 @@
 import * as stylex from "@stylexjs/stylex";
 import AppFooter from "~/components/app-footer";
 import GoAppCard from "~/components/go-app-card";
-import PostCard from "~/components/post-card";
-import PostContent from "~/components/post-content";
+import PhraseCard from "~/components/phrase-card";
+import PhraseContent from "~/components/phrase-content";
 import { globalStyles } from "~/styles/globals.stylex";
 
-export default function PostPage() {
-  const postList = [...Array(3)];
+export default function PhrasePage() {
+  const phraseList = [...Array(3)];
 
   return (
     <main {...stylex.props(globalStyles.container, styles.container)}>
-      <PostContent />
+      <PhraseContent />
       <div {...stylex.props(globalStyles.separator)} />
       <h3 {...stylex.props(styles.listTitle)}>오늘의 글귀</h3>
       <div {...stylex.props(styles.listWrapper)}>
-        {postList.map((_, i) => {
+        {phraseList.map((_, i) => {
           return (
             // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <PostCard key={i} style={i > 0 && styles.listItemBorderTop} />
+            <PhraseCard key={i} style={i > 0 && styles.listItemBorderTop} />
           );
         })}
       </div>

@@ -1,20 +1,17 @@
 "use client";
 
 import * as stylex from "@stylexjs/stylex";
-import { CompiledStyles } from "@stylexjs/stylex/lib/StyleXTypes";
 import { EyeIcon, LikeLinearIcon } from "~/components/ui/icons";
 import { numberWithCommas } from "~/libs/utils";
 
-export default function PostCard({
-  style,
-}: {
-  style?: boolean | CompiledStyles;
-}) {
-  const onClickPost = () => {};
+export type PhraseCardProps = { style?: stylex.StyleXStyles };
+
+export default function PhraseCard({ style }: PhraseCardProps) {
+  const onClickPhrase = () => {};
 
   return (
     <div {...stylex.props(styles.wrap, style)}>
-      <button type="button" onClick={onClickPost}>
+      <button type="button" onClick={onClickPhrase}>
         <div {...stylex.props(styles.title)}>{"자식사랑 내리사랑"}</div>
         <div {...stylex.props(styles.text)}>
           {

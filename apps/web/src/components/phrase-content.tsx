@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 
-export default function PostContent() {
+export default function PhraseContent() {
   const content = `어느날 시계를 보다가 문든 이런 생각을 한 적이 있습니다.
 
 국회는 국정을 감사하거나 특정한
