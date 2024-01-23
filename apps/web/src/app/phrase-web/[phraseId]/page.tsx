@@ -5,7 +5,7 @@ import PhraseCard from "~/components/phrase-card";
 import PhraseContent from "~/components/phrase-content";
 import { globalStyles } from "~/styles/globals.stylex";
 
-export default function PhrasePage() {
+export default function PhraseWebPage() {
   const phraseList = [...Array(3)];
 
   return (
