@@ -1,9 +1,9 @@
 import * as stylex from "@stylexjs/stylex";
 import AppFooter from "~/components/app-footer";
+import GoAppCard from "~/components/go-app-card";
+import PostCard from "~/components/post-card";
 import PostContent from "~/components/post-content";
 import { globalStyles } from "~/styles/globals.stylex";
-import GoAppCard from "./go-app-card";
-import PostCard from "./post-card";
 
 export default function PostPage() {
   const postList = [...Array(3)];
