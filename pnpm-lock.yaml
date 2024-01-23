@@ -108,9 +108,6 @@ importers:
 
   apps/web:
     dependencies:
-      '@stylexjs/open-props':
-        specifier: ^0.4.1
-        version: 0.4.1
       '@stylexjs/stylex':
         specifier: ^0.4.1
         version: 0.4.1
@@ -1923,15 +1920,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
-
-  /@stylexjs/open-props@0.4.1:
-    resolution: {integrity: sha512-pYZ+R1oyvYLkTjw4Ioh5kq/dU6XVEoS0QmuAsCy1pw/CgnarfSJ0Ryi2+PgNQmMz/19De7+R9iNy2Oe2bfrgJw==}
-    dependencies:
-      css-mediaquery: 0.1.2
-      invariant: 2.2.4
-      styleq: 0.1.3
-      utility-types: 3.11.0
-    dev: false
 
   /@stylexjs/shared@0.4.1:
     resolution: {integrity: sha512-4h1rVuwE9iPN0yor0kvtHhMo7XjWrG3DdPYWZI9c6V4AquAbh53KxN6v6X9woM2HKUbt0GzjyCsEjc6Ci6Lo4w==}
