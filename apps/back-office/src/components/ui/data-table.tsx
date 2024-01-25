@@ -20,13 +20,13 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>;
   data: Array<TData>;
-  noDataMsg: string;
+  NoDataMsg: React.ReactNode;
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
-  noDataMsg,
+  NoDataMsg,
 }: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
     data,
@@ -41,13 +41,13 @@ const DataTable = <TData, TValue>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow
               key={headerGroup.id}
-              className="w-full flex items-center justify-between border-0"
+              className="w-full flex items-center border-0 hover:bg-inherit"
             >
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
                     key={header.id}
-                    className="w-full flex items-center justify-between"
+                    className="w-full flex items-center"
                   >
                     {header.isPlaceholder
                       ? null
@@ -67,10 +67,10 @@ const DataTable = <TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="w-full flex items-center justify-center border-0 data-[state=selected]:bg-slate-100 hover:bg-slate-100"
+                className="w-full flex items-center border-0 data-[state=selected]:bg-slate-100 hover:bg-slate-100"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} width={`${cell.column.getSize()}px`}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -78,9 +78,7 @@ const DataTable = <TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                {noDataMsg}
-              </TableCell>
+              <TableCell colSpan={columns.length}>{NoDataMsg}</TableCell>
             </TableRow>
           )}
         </TableBody>

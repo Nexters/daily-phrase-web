@@ -17,7 +17,11 @@ export default function Page() {
       <DataTable
         columns={manageTableColumns}
         data={phraseItemListMocks}
-        noDataMsg="현재 작성 된 글이 없습니다."
+        NoDataMsg={
+          <span className="w-full inline-block text-center text-slate-600 text-base">
+            현재 작성 된 글이 없습니다.
+          </span>
+        }
       />
       <ManagePagination
         pagination={pagination}
