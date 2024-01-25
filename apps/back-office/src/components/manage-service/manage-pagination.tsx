@@ -33,7 +33,7 @@ export const ManagePagination = ({ pagination, onPageMove }: Props) => {
         {paginationArr.map((num) => (
           <PaginationItem
             onClick={() => onPageMove(pagination, num)}
-            className={`p-2.5 leading-4 text-center	hover:bg-hover rounded-full cursor-pointer ${
+            className={`p-2.5 leading-4 text-center	hover:bg-slate-100 rounded-full cursor-pointer ${
               pagination.current === num ? "font-bold" : ""
             }`}
           >

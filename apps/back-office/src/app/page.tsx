@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { ManagePagination } from "~/components/manage-service/manage-pagination";
-import { ManageTable } from "~/components/manage-service/manage-table";
+import { manageTableColumns } from "~/components/manage-service/manage-table/columns";
+import DataTable from "~/components/ui/data-table";
 import { PaginationData } from "~/types/pagination";
 import { PhraseItem } from "~/types/phrase";
 
@@ -13,7 +14,11 @@ export default function Page() {
   });
   return (
     <div className="py-32 space-y-7">
-      <ManageTable data={phraseItemListMocks} />
+      <DataTable
+        columns={manageTableColumns}
+        data={phraseItemListMocks}
+        noDataMsg="현재 작성 된 글이 없습니다."
+      />
       <ManagePagination
         pagination={pagination}
         onPageMove={(pagination, next) =>
