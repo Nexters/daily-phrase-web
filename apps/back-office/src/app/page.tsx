@@ -8,6 +8,7 @@ import { PaginationData } from "~/types/pagination";
 import { PhraseItem } from "~/types/phrase";
 
 export default function Page() {
+  /** @todo 페이지네이션 상태 관리 필요 */
   const [pagination, setPagination] = useState<PaginationData>({
     current: 1,
     size: 20,
