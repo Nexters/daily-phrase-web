@@ -13,15 +13,20 @@ import {
 interface Props {
   pagination: PaginationData;
   onPageMove: (pagination: PaginationData, next: number) => void;
+  className?: string;
 }
 
-export const ManagePagination = ({ pagination, onPageMove }: Props) => {
+export const ManagePagination = ({
+  pagination,
+  onPageMove,
+  className,
+}: Props) => {
   const paginationArr = Array.from(
     { length: pagination.size },
     (_, idx) => idx + 1,
   );
   return (
-    <Pagination>
+    <Pagination className={className}>
       <PaginationStart onClick={() => onPageMove(pagination, 1)} />
       <PaginationPrevious
         onClick={() => {

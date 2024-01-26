@@ -28,6 +28,7 @@ export default function Page() {
         onPageMove={(pagination, next) =>
           setPagination((prev) => ({ ...prev, current: next }))
         }
+        className="justify-end"
       />
     </div>
   );
