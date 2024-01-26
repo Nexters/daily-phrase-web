@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import ActionBarLayout from "~/components/manage-service/action-bar-layout";
+import DisplayDataNumSelect from "~/components/manage-service/display-data-num-select";
 import { ManagePagination } from "~/components/manage-service/manage-pagination";
 import { manageTableColumns } from "~/components/manage-service/manage-table/columns";
 import DataTable from "~/components/ui/data-table";
+
 import { PaginationData } from "~/types/pagination";
 import { PhraseItem } from "~/types/phrase";
 
@@ -15,6 +18,13 @@ export default function Page() {
   });
   return (
     <div className="py-32 space-y-7">
+      <ActionBarLayout
+        right={
+          <>
+            <DisplayDataNumSelect options={options} />
+          </>
+        }
+      />
       <DataTable
         columns={manageTableColumns}
         data={phraseItemListMocks}
@@ -50,3 +60,10 @@ const phraseItemListMocks: Array<PhraseItem> = Array.from(
   { length: 20 },
   () => phraseItemMocks,
 );
+
+const options = [
+  { value: "10", label: "10개" },
+  { value: "30", label: "30개" },
+  { value: "50", label: "50개" },
+  { value: "100", label: "100개" },
+];
