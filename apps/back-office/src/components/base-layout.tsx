@@ -1,9 +1,10 @@
 "use client";
 
-import { TargetIcon } from "lucide-react";
+import { ChevronRightIcon, TargetIcon } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Nav from "./nav";
-import { Button } from "./ui/button";
+import { cn } from "~/libs/utils";
+import { Button, buttonVariants } from "./ui/button";
 
 export interface Route {
   pathname: string;
@@ -33,10 +34,6 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
       : route.pathname.startsWith(pathname),
   );
 
-  const isActiveRoute = (route: Route) => {
-    return route.pathname === currentRoute?.pathname;
-  };
-
   return (
     <div className="relative flex min-h-screen flex-col">
       <header className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -50,12 +47,28 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
         </div>
       </header>
       <aside className="fixed left-0 top-20 bottom-0 w-[220px] border-r">
-        <Nav
-          links={routes.map((route) => ({
-            ...route,
-            isActive: isActiveRoute(route),
-          }))}
-        />
+        <nav className="grid gap-1 py-8 px-6">
+          {routes.map((route, index) => {
+            const isActive = route.pathname === currentRoute?.pathname;
+
+            return (
+              <Link
+                key={index}
+                href={route.pathname}
+                className={cn(
+                  buttonVariants({
+                    variant: isActive ? "secondary" : "ghost",
+                    size: "default",
+                  }),
+                  "justify-start",
+                )}
+              >
+                {route.title}
+                {isActive && <ChevronRightIcon className="ml-auto h-4 w-4" />}
+              </Link>
+            );
+          })}
+        </nav>
       </aside>
       <main className="ml-[220px] mt-20 px-6 py-8 pb-[126px]">
         <div className="flex items-center mb-6">
