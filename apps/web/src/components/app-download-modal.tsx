@@ -39,6 +39,9 @@ export default function AppDownloadModal() {
 
   const onClickDownloadApp = () => {
     close();
+
+    // TODO: ios의 경우 안내창 띄우기
+    // TODO: 앱이 있으면 앱 열기, 없으면 playstore로 이동
   };
 
   if (status === "unmounted") {
