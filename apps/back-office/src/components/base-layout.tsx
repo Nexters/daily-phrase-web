@@ -5,6 +5,11 @@ import { usePathname } from "next/navigation";
 import Nav from "./nav";
 import { Button } from "./ui/button";
 
+export interface Route {
+  pathname: string;
+  title: string;
+}
+
 export const routes = [
   {
     pathname: "/",
@@ -14,7 +19,7 @@ export const routes = [
     pathname: "/test",
     title: "테스트",
   },
-];
+] satisfies Route[];
 
 export interface BaseLayoutProps {
   children?: React.ReactNode;
@@ -27,6 +32,10 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
       ? route.pathname === pathname
       : route.pathname.startsWith(pathname),
   );
+
+  const isActiveRoute = (route: Route) => {
+    return route.pathname === currentRoute?.pathname;
+  };
 
   return (
     <div className="relative flex min-h-screen flex-col">
@@ -44,7 +53,7 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
         <Nav
           links={routes.map((route) => ({
             ...route,
-            isActive: route.pathname === currentRoute?.pathname,
+            isActive: isActiveRoute(route),
           }))}
         />
       </aside>
