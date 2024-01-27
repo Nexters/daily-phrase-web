@@ -14,7 +14,7 @@ export default function Page() {
     size: 20,
   });
   return (
-    <div className="py-32 space-y-7">
+    <div className="space-y-7">
       <DataTable
         columns={manageTableColumns}
         data={phraseItemListMocks}

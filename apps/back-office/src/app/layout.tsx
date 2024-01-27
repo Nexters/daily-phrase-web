@@ -1,3 +1,4 @@
+import BaseLayout from "~/components/base-layout";
 import { Toaster } from "~/components/ui/sonner";
 import { cn } from "~/libs/utils";
 import "~/styles/globals.css";
@@ -15,12 +16,8 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css"
         />
       </head>
-      <body
-        className={cn(
-          "container min-h-screen bg-background font-pretendard antialiased",
-        )}
-      >
-        {children}
+      <body className={cn("bg-background font-pretendard antialiased")}>
+        <BaseLayout>{children}</BaseLayout>
         <Toaster />
       </body>
     </html>
