@@ -29,22 +29,31 @@ export default function Page() {
 
   const startIndex = (pagination.current - 1) * pagination.limit;
   const endIndex = startIndex + pagination.limit;
+
+  /** @todo 서버 데이터로 교체 */
   const data = getPhraseItemListMocks(totalRows).slice(startIndex, endIndex);
 
-  const onPageSizeChange = (rowsPerPage: string) => {
+  const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
+
+  const onRowSizeChange = (rowsPerPage: string) => {
     /** @todo 숫자형변환했을 때 숫자가 아니면 오류 뜨도록 */
     setPagination({
       current: 1,
       limit: Number(rowsPerPage),
       size: Math.ceil(totalRows / Number(rowsPerPage)), // 총 페이지 수 재계산
     });
+    setCheckedItems([]);
   };
 
-  const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
+  const onPageMove: Parameters<typeof ManagePagination>[0]["onPageMove"] = (
+    pagination,
+    next,
+  ) => {
+    setCheckedItems([]);
+    setPagination((prev) => ({ ...prev, current: next }));
+  };
 
-  const currentPageDataIds = data
-    .slice(startIndex, endIndex)
-    .map((item) => item.id);
+  const currentPageDataIds = data.map((item) => item.id);
 
   const isAllDeleteChecked = checkedItems.length === currentPageDataIds.length;
 
@@ -55,8 +64,8 @@ export default function Page() {
   const isDeleteChecked = (id: number) => checkedItems.includes(id);
 
   const onDeleteCheck: OnDelete = (id, checked) => {
-    if (!checked) return;
-    setCheckedItems((prev) => [...new Set(prev).add(id)]);
+    if (checked) setCheckedItems((prev) => [...new Set(prev).add(id)]);
+    else setCheckedItems((prev) => prev.filter((itemId) => itemId !== id));
   };
 
   return (
@@ -78,7 +87,7 @@ export default function Page() {
           <div className="flex justify-center items-center">
             <DisplayDataNumSelect
               options={rowsPerPageOptions}
-              onValueChange={onPageSizeChange}
+              onValueChange={onRowSizeChange}
             />
             <Button className="py-2 px-4 bg-slate-900 ml-[12px] font-semibold rounded-[6px] hover:bg-slate-900">
               추가하기
@@ -97,9 +106,7 @@ export default function Page() {
       />
       <ManagePagination
         pagination={pagination}
-        onPageMove={(pagination, next) =>
-          setPagination((prev) => ({ ...prev, current: next }))
-        }
+        onPageMove={onPageMove}
         className="justify-end"
       />
     </div>
