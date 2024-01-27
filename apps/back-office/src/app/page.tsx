@@ -4,11 +4,15 @@ import { useState } from "react";
 import ActionBarLayout from "~/components/manage-service/action-bar-layout";
 import DisplayDataNumSelect from "~/components/manage-service/display-data-num-select";
 import { ManagePagination } from "~/components/manage-service/manage-pagination";
-import { manageTableColumns } from "~/components/manage-service/manage-table/columns";
+import { getManageTableColumns } from "~/components/manage-service/manage-table/columns";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
+import {
+  OnCheck,
+  OnDelete,
+} from "~/components/manage-service/manage-service.type";
 import { PaginationData } from "~/types/pagination";
 import { getPhraseItemListMocks, rowsPerPageOptions } from "./meta";
 
@@ -36,12 +40,35 @@ export default function Page() {
     });
   };
 
+  const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
+
+  const currentPageDataIds = data
+    .slice(startIndex, endIndex)
+    .map((item) => item.id);
+
+  const isAllDeleteChecked = checkedItems.length === currentPageDataIds.length;
+
+  const onCheckAllDelete: OnCheck = (checked) => {
+    setCheckedItems(checked ? currentPageDataIds : []);
+  };
+
+  const isDeleteChecked = (id: number) => checkedItems.includes(id);
+
+  const onDeleteCheck: OnDelete = (id, checked) => {
+    if (!checked) return;
+    setCheckedItems((prev) => [...new Set(prev).add(id)]);
+  };
+
   return (
     <div className="py-32 space-y-7">
       <ActionBarLayout
         left={
           <div className="flex justify-center items-center">
-            <Checkbox className="m-4 data-[state=checked]:bg-slate-600" />
+            <Checkbox
+              checked={isAllDeleteChecked}
+              className="m-4 data-[state=checked]:bg-slate-600"
+              onCheckedChange={onCheckAllDelete}
+            />
             <Button className="py-2 px-4 bg-slate-100 text-slate-900 font-semibold rounded-[6px] hover:bg-slate-100">
               삭제
             </Button>
@@ -60,7 +87,7 @@ export default function Page() {
         }
       />
       <DataTable
-        columns={manageTableColumns}
+        columns={getManageTableColumns(isDeleteChecked, onDeleteCheck)}
         data={data}
         NoDataMsg={
           <span className="w-full inline-block text-center text-slate-600 text-base">

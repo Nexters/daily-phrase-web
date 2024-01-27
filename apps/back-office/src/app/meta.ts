@@ -1,4 +1,4 @@
-import { PhraseItem } from "~/types/phrase";
+import { PhraseItem, PhraseItemWithId } from "~/types/phrase";
 
 const phraseItemMocks: PhraseItem = {
   createdAt: new Date().getMilliseconds(),
@@ -11,8 +11,11 @@ const phraseItemMocks: PhraseItem = {
   likeCount: 9999999,
 };
 
-const getPhraseItemListMocks = (num: number): Array<PhraseItem> =>
-  Array.from({ length: num }, () => phraseItemMocks);
+const getPhraseItemListMocks = (num: number): Array<PhraseItemWithId> =>
+  Array.from({ length: num }, (_, idx) => ({
+    ...phraseItemMocks,
+    id: idx + 1,
+  }));
 
 const rowsPerPageOptions = [
   { value: "10", label: "10개" },
