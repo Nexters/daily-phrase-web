@@ -11,10 +11,8 @@ const phraseItemMocks: PhraseItem = {
   likeCount: 9999999,
 };
 
-const phraseItemListMocks: Array<PhraseItem> = Array.from(
-  { length: 20 },
-  () => phraseItemMocks,
-);
+const getPhraseItemListMocks = (num: number): Array<PhraseItem> =>
+  Array.from({ length: num }, () => phraseItemMocks);
 
 const rowsPerPageOptions = [
   { value: "10", label: "10개" },
@@ -23,4 +21,4 @@ const rowsPerPageOptions = [
   { value: "100", label: "100개" },
 ];
 
-export { phraseItemListMocks, rowsPerPageOptions };
+export { getPhraseItemListMocks, rowsPerPageOptions };

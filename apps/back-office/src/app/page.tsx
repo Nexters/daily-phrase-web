@@ -10,7 +10,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
 import { PaginationData } from "~/types/pagination";
-import { phraseItemListMocks, rowsPerPageOptions } from "./meta";
+import { getPhraseItemListMocks, rowsPerPageOptions } from "./meta";
 
 /** @description 서버 데이터 개수(변경 필요) */
 const totalRows = 100; // 전체 데이터 행의 수
@@ -19,15 +19,21 @@ export default function Page() {
   /** @todo 페이지네이션 상태 관리 필요, 현재는 프론트에서 페이지네이션 관리 */
   const [pagination, setPagination] = useState<PaginationData>({
     current: 1,
+    limit: Number(rowsPerPageOptions[0].value),
     size: Math.ceil(totalRows / Number(rowsPerPageOptions[0].value)),
   });
 
+  const startIndex = (pagination.current - 1) * pagination.limit;
+  const endIndex = startIndex + pagination.limit;
+  const data = getPhraseItemListMocks(totalRows).slice(startIndex, endIndex);
+
   const onPageSizeChange = (rowsPerPage: string) => {
     /** @todo 숫자형변환했을 때 숫자가 아니면 오류 뜨도록 */
-    setPagination((prev) => ({
-      ...prev,
+    setPagination({
+      current: 1,
+      limit: Number(rowsPerPage),
       size: Math.ceil(totalRows / Number(rowsPerPage)), // 총 페이지 수 재계산
-    }));
+    });
   };
 
   return (
@@ -55,7 +61,7 @@ export default function Page() {
       />
       <DataTable
         columns={manageTableColumns}
-        data={phraseItemListMocks}
+        data={data}
         NoDataMsg={
           <span className="w-full inline-block text-center text-slate-600 text-base">
             현재 작성 된 글이 없습니다.
