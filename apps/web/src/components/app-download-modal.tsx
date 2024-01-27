@@ -4,33 +4,67 @@ import { createPortal } from "react-dom";
 import { RemoveScroll } from "react-remove-scroll";
 import { create } from "zustand";
 
+type ModalStatus = "mounted" | "opened" | "closed" | "unmounted";
+
 export const useAppDownloadModalStore = create<{
-  isOpen: boolean;
+  status: ModalStatus;
   open: () => void;
   close: () => void;
-}>((set) => ({
-  isOpen: false,
-  open: () => set({ isOpen: true }),
-  close: () => set({ isOpen: false }),
+  transferStatus: () => void;
+}>((set, get) => ({
+  status: "unmounted",
+  open: () => {
+    if (get().status === "unmounted") {
+      set({ status: "mounted" });
+    }
+  },
+  close: () => {
+    if (get().status === "opened") {
+      set({ status: "closed" });
+    }
+  },
+  transferStatus: () => {
+    const { status } = get();
+
+    if (status === "mounted") {
+      set({ status: "opened" });
+    } else if (status === "closed") {
+      set({ status: "unmounted" });
+    }
+  },
 }));
 
 export default function AppDownloadModal() {
-  const { isOpen, close } = useAppDownloadModalStore();
+  const { status, close, transferStatus } = useAppDownloadModalStore();
 
   const onClickDownloadApp = () => {
     close();
   };
 
-  if (!isOpen) {
+  if (status === "unmounted") {
     return null;
   }
 
   return (
     <>
       {createPortal(
-        <RemoveScroll enabled={isOpen}>
-          <div {...stylex.props(styles.backdrop)} onClick={close} />
-          <div {...stylex.props(styles.card)}>
+        <RemoveScroll>
+          <div
+            {...stylex.props(
+              status === "mounted" && styles.backdropIn,
+              status === "closed" && styles.backdropOut,
+              styles.backdrop,
+            )}
+            onClick={close}
+          />
+          <div
+            {...stylex.props(
+              status === "mounted" && styles.cardIn,
+              status === "closed" && styles.cardOut,
+              styles.card,
+            )}
+            onAnimationEnd={transferStatus}
+          >
             <p {...stylex.props(styles.title)}>
               앱 설치하고
               <br />
@@ -69,6 +103,24 @@ const styles = stylex.create({
     right: 0,
     bottom: 0,
   },
+  backdropIn: {
+    animationName: stylex.keyframes({
+      "0%": { opacity: 0 },
+      "100%": { opacity: 1 },
+    }),
+    animationDuration: "150ms",
+    animationTimingFunction: "ease-out",
+    animationFillMode: "forwards",
+  },
+  backdropOut: {
+    animationName: stylex.keyframes({
+      "0%": { opacity: 1 },
+      "100%": { opacity: 0 },
+    }),
+    animationDuration: "150ms",
+    animationTimingFunction: "ease-out",
+    animationFillMode: "forwards",
+  },
   card: {
     background: "#fff",
     position: "fixed",
@@ -82,6 +134,22 @@ const styles = stylex.create({
     paddingTop: 21,
     fontSize: 16,
     lineHeight: "22px",
+  },
+  cardIn: {
+    animationName: stylex.keyframes({
+      "0%": { opacity: 0 },
+      "100%": { opacity: 1 },
+    }),
+    animationDuration: "200ms",
+    animationTimingFunction: "ease-out",
+  },
+  cardOut: {
+    animationName: stylex.keyframes({
+      "0%": { opacity: 1, transform: "translate3d(-50%,-50%,0)" },
+      "100%": { opacity: 0, transform: "translate3d(-50%,-45%,0)" },
+    }),
+    animationDuration: "200ms",
+    animationTimingFunction: "ease-out",
   },
   title: {
     color: "#000",
