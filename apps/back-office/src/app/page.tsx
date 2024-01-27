@@ -10,14 +10,26 @@ import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
 import { PaginationData } from "~/types/pagination";
-import { PhraseItem } from "~/types/phrase";
+import { phraseItemListMocks, rowsPerPageOptions } from "./meta";
+
+/** @description 서버 데이터 개수(변경 필요) */
+const totalRows = 100; // 전체 데이터 행의 수
 
 export default function Page() {
-  /** @todo 페이지네이션 상태 관리 필요 */
+  /** @todo 페이지네이션 상태 관리 필요, 현재는 프론트에서 페이지네이션 관리 */
   const [pagination, setPagination] = useState<PaginationData>({
     current: 1,
-    size: 20,
+    size: Math.ceil(totalRows / Number(rowsPerPageOptions[0].value)),
   });
+
+  const onPageSizeChange = (rowsPerPage: string) => {
+    /** @todo 숫자형변환했을 때 숫자가 아니면 오류 뜨도록 */
+    setPagination((prev) => ({
+      ...prev,
+      size: Math.ceil(totalRows / Number(rowsPerPage)), // 총 페이지 수 재계산
+    }));
+  };
+
   return (
     <div className="py-32 space-y-7">
       <ActionBarLayout
@@ -31,7 +43,10 @@ export default function Page() {
         }
         right={
           <div className="flex justify-center items-center">
-            <DisplayDataNumSelect options={options} />
+            <DisplayDataNumSelect
+              options={rowsPerPageOptions}
+              onValueChange={onPageSizeChange}
+            />
             <Button className="py-2 px-4 bg-slate-900 ml-[12px] font-semibold rounded-[6px] hover:bg-slate-900">
               추가하기
             </Button>
@@ -57,26 +72,3 @@ export default function Page() {
     </div>
   );
 }
-
-const phraseItemMocks: PhraseItem = {
-  createdAt: new Date().getMilliseconds(),
-  title:
-    "안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들",
-  imageUrl: "",
-  content:
-    "안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들",
-  viewCount: 9999999,
-  likeCount: 9999999,
-};
-
-const phraseItemListMocks: Array<PhraseItem> = Array.from(
-  { length: 20 },
-  () => phraseItemMocks,
-);
-
-const options = [
-  { value: "10", label: "10개" },
-  { value: "30", label: "30개" },
-  { value: "50", label: "50개" },
-  { value: "100", label: "100개" },
-];

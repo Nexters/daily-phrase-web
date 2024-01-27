@@ -9,11 +9,12 @@ import {
 
 interface Props {
   options: Array<{ value: string; label: string }>;
+  onValueChange: Parameters<typeof Select>[0]["onValueChange"];
 }
 
-const DisplayDataNumSelect = ({ options }: Props) => {
+const DisplayDataNumSelect = ({ options, onValueChange }: Props) => {
   return (
-    <Select>
+    <Select onValueChange={onValueChange}>
       <SelectTrigger
         className="w-[100px] radius=[6px] border-slate-300 font-medium font-slate-900 focus:ring-0 focus:ring-offset-0"
         icon={<ChevronDown className="h-4 w-4 stroke-slate-400" />}
