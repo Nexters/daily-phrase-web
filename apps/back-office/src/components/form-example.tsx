@@ -111,6 +111,7 @@ export function ProfileForm() {
       new Promise((resolve) => setTimeout(() => resolve(values), 1000)),
       {
         loading: "Loading...",
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
         success: (data: any) => {
           return `${data.username} has been added, check out the console.`;
         },

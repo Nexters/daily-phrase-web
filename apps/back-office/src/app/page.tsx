@@ -6,7 +6,7 @@ import ManageServiceTemplate from "~/components/manage-service/manage-service-te
  */
 export default function Page() {
   return (
-    <div className="py-32 space-y-7">
+    <div className="space-y-7">
       <ManageServiceTemplate />
     </div>
   );
