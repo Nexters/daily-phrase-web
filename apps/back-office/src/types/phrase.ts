@@ -7,3 +7,5 @@ export interface PhraseItem {
   viewCount: number;
   likeCount: number;
 }
+
+export type PhraseItemWithId = PhraseItem & { id: number };

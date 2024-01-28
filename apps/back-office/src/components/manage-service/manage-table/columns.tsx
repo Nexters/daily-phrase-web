@@ -1,7 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "~/components/ui/checkbox";
 import { EllipsisText } from "~/components/ui/text";
-import { PhraseItem } from "~/types/phrase";
+import { PhraseItemWithId } from "~/types/phrase";
+import { OnDelete } from "../manage-service.type";
 
 const TableHeadText = ({
   children,
@@ -20,7 +21,10 @@ const TableHeadText = ({
 );
 
 /** @todo header width와 cell width를 맞추어야 함. */
-export const manageTableColumns: Array<ColumnDef<PhraseItem>> = [
+export const getManageTableColumns = (
+  isDeleteChecked: (id: number) => boolean,
+  onDeleteCheck: OnDelete,
+): Array<ColumnDef<PhraseItemWithId>> => [
   {
     minSize: 180,
     accessorKey: "createdAt",
@@ -29,8 +33,8 @@ export const manageTableColumns: Array<ColumnDef<PhraseItem>> = [
       <div className="flex items-center justify-center">
         <Checkbox
           className="data-[state=checked]:bg-slate-600"
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          checked={isDeleteChecked(row.original.id)}
+          onCheckedChange={(checked) => onDeleteCheck(row.original.id, checked)}
           aria-label="Select row"
         />
         <EllipsisText className="inline-block p-4">
