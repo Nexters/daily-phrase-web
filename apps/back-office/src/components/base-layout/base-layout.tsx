@@ -2,60 +2,24 @@
 
 import { ChevronRightIcon, TargetIcon } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { cn } from "~/libs/utils";
-import { Button, buttonVariants } from "./ui/button";
-
-export interface Route {
-  pathname: string;
-  title: string;
-}
-
-export const routes = [
-  {
-    pathname: "/",
-    title: "서비스 관리",
-  },
-  {
-    pathname: "/test",
-    title: "테스트",
-  },
-] satisfies Route[];
-
-interface LayoutOption {
-  pathname: string;
-  hasHeader?: boolean;
-  hasSidebar?: boolean;
-}
-
-const layoutOptions: LayoutOption[] = [
-  { pathname: "/login", hasSidebar: false },
-];
-
-const defaultLayoutOption: Omit<LayoutOption, "pathname"> = {
-  hasHeader: true,
-  hasSidebar: true,
-};
-
-const getBoolean = (value: boolean | undefined | null, defaultValue: boolean) =>
-  typeof value === "boolean" ? value : defaultValue;
+import { Button, buttonVariants } from "../ui/button";
+import {
+  defaultLayoutOption,
+  layoutOptions,
+  layoutRoutes,
+} from "./base-layout.meta";
+import useLayoutPathname from "./hooks";
 
 export interface BaseLayoutProps {
   children?: React.ReactNode;
 }
 
 export default function BaseLayout({ children }: BaseLayoutProps) {
-  const pathname = usePathname();
-  const currentRoute = routes.find((route) =>
-    pathname === "/"
-      ? route.pathname === pathname
-      : route.pathname.startsWith(pathname),
+  const { hasHeader, hasSidebar, currentRoute } = useLayoutPathname(
+    layoutRoutes,
+    { layoutOptions, defaultLayoutOption },
   );
-  const layoutOption =
-    layoutOptions.find((layout) => layout.pathname === pathname) ||
-    defaultLayoutOption;
-  const hasHeader = getBoolean(layoutOption.hasHeader, true);
-  const hasSidebar = getBoolean(layoutOption.hasSidebar, true);
 
   return (
     <div className="relative flex min-h-screen flex-col">
@@ -75,7 +39,7 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
       {hasSidebar && (
         <aside className="fixed left-0 top-20 bottom-0 w-[220px] border-r">
           <nav className="grid gap-1 py-8 px-6">
-            {routes.map((route, index) => {
+            {layoutRoutes.map((route, index) => {
               const isActive = route.pathname === currentRoute?.pathname;
 
               return (
