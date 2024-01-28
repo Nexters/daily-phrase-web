@@ -1,3 +1,3 @@
-import useManagePagination from "./useManagePagination";
+import useManagePagination from "./use-manage-pagination";
 
 export { useManagePagination };

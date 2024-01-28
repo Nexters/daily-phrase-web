@@ -25,7 +25,7 @@ const DisplayDataNumSelect = ({ options, onValueChange }: Props) => {
         {options.map(({ label, value }) => (
           <SelectItem
             value={value}
-            noCheck={true}
+            hasCheckIcon={false}
             className="font-medium font-slate-900 focus:bg-slate-100"
           >
             {label}
