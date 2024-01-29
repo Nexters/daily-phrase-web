@@ -1,6 +1,7 @@
 import BaseLayout from "~/components/base-layout";
 import { Toaster } from "~/components/ui/sonner";
 import { cn } from "~/libs/utils";
+import QueryProvider from "~/providers/QueryProvider";
 import "~/styles/globals.css";
 
 export default function RootLayout({
@@ -17,7 +18,9 @@ export default function RootLayout({
         />
       </head>
       <body className={cn("bg-background font-pretendard antialiased")}>
-        <BaseLayout>{children}</BaseLayout>
+        <QueryProvider>
+          <BaseLayout>{children}</BaseLayout>
+        </QueryProvider>
         <Toaster />
       </body>
     </html>
