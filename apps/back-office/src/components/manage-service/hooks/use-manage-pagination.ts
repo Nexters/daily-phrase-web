@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { getPhraseItemListMocks } from "~/app/meta";
+import { getPhraseItemListMocks } from "~/components/manage-service/manage-service.meta";
 import { PaginationData } from "~/types/pagination";
 import { PhraseItemWithId } from "~/types/phrase";
 import { ManagePagination } from "../manage-pagination";

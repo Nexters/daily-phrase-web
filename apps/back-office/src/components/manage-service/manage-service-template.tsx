@@ -9,7 +9,10 @@ import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
 import { useManagePagination } from "~/components/manage-service/hooks";
-import { getPhraseItemListMocks, rowsPerPageOptions } from "../../app/meta";
+import {
+  getPhraseItemListMocks,
+  rowsPerPageOptions,
+} from "./manage-service.meta";
 
 /** @todo 서버 데이터 개수(변경 필요) */
 const totalRows = 100; // 전체 데이터 개수
