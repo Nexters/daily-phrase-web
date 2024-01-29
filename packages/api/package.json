@@ -1,0 +1,30 @@
+{
+  "name": "@daily-phrase/api",
+  "version": "0.1.0",
+  "description": "api modules for use by multiple packages",
+  "type": "module",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "typings": "./dist/index.d.ts",
+      "require": "./dist/index.umd.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "author": "daily-phrase-front-end",
+  "scripts": {
+    "build": "rm -rf dist && npx tsc --project ./tsconfig.build.json && vite build",
+    "lint": "biome lint --apply ./src/**/*.{js,ts,tsx}",
+    "format": "biome format --write ./src/**/*.{js,ts,tsx}"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "ts-node": "^10.9.2",
+    "vite": "^5.0.10",
+    "vite-plugin-dts": "^3.7.0",
+    "vite-tsconfig-paths": "^4.2.2"
+  },
+  "packageManager": "pnpm@8.14.1"
+}

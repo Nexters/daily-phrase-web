@@ -8,6 +8,7 @@
     "apps/*"
   ],
   "scripts": {
+    "api": "pnpm -F @daily-phrase/api",
     "common": "pnpm -F @daily-phrase/common",
     "back-office": "pnpm -F @daily-phrase/back-office",
     "web": "pnpm -F @daily-phrase/web",
