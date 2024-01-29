@@ -1,6 +1,6 @@
 interface BaseResponseError {
   status: number;
-  message: string;
+  message?: string;
 }
 
 export class BaseError extends Error {

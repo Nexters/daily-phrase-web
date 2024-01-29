@@ -4,7 +4,8 @@ import {
   BaseResponseSuccess,
 } from "./api-client.type";
 
-class ApiClient<ResponseError extends Error> implements ApiClientInstance {
+// biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
+class ApiClient<ResponseError extends any> implements ApiClientInstance {
   private config: ApiClientProps<ResponseError>["requestInit"];
   private responseInterceptor: ApiClientProps<ResponseError>["responseInterceptor"];
 

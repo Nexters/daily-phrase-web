@@ -2,7 +2,8 @@ export interface BaseResponseSuccess<T> {
   data: T;
 }
 
-export interface ApiClientProps<ResponseError extends Error> {
+// biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
+export interface ApiClientProps<ResponseError extends any> {
   requestInit: RequestInit & { baseURL?: string };
   requestInterceptor: (requestInit: RequestInit) => RequestInit;
   responseInterceptor: (
