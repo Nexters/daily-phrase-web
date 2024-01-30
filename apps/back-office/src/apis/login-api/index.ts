@@ -6,9 +6,9 @@ export class LoginApi {
     this.apiClient = apiClient;
   }
   login() {
-    this.apiClient.post("/api/admin/login");
+    return this.apiClient.post("/api/admin/login");
   }
   logout() {
-    this.apiClient.post("/api/admin/logout");
+    return this.apiClient.post("/api/admin/logout");
   }
 }

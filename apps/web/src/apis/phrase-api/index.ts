@@ -6,9 +6,17 @@ export class PhraseApi {
     this.apiClient = apiClient;
   }
   getPhraseList() {
-    this.apiClient.get("/api/v1/phrases");
+    return this.apiClient.get("/api/v1/phrases", {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
   getPhrase(id: string) {
-    this.apiClient.get(`/api/v1/phrase/${id}`);
+    return this.apiClient.get(`/api/v1/phrase/${id}`, {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
 }

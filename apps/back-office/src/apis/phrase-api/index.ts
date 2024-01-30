@@ -6,18 +6,30 @@ export class PhraseApi {
     this.apiClient = apiClient;
   }
   deletePhrase(id: string) {
-    this.apiClient.delete(`/api/admin/phrases/${id}`);
+    return this.apiClient.delete(`/api/admin/phrases/${id}`, {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
   getPhraseList() {
-    this.apiClient.get("/api/admin/phrases");
+    return this.apiClient.get("/api/admin/phrases", {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
   getPhrase(id: string) {
-    this.apiClient.delete(`/api/admin/phrases/${id}`);
+    return this.apiClient.delete(`/api/admin/phrases/${id}`, {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
   }
   updatePhrase(id: string) {
-    this.apiClient.patch(`/api/admin/phrases/${id}`);
+    return this.apiClient.patch(`/api/admin/phrases/${id}`);
   }
   createPhrase() {
-    this.apiClient.post("/api/admin/phrases");
+    return this.apiClient.post("/api/admin/phrases");
   }
 }
