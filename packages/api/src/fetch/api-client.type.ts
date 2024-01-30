@@ -2,34 +2,51 @@ export interface BaseResponseSuccess<T> {
   data: T;
 }
 
-// biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
-export interface ApiClientProps<ResponseError extends any> {
-  requestInit: RequestInit & { baseURL?: string };
-  requestInterceptor: (requestInit: RequestInit) => RequestInit;
-  responseInterceptor: (
-    error: ResponseError,
-    config: RequestInit,
-    fetchRoute: string,
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  ) => Promise<BaseResponseSuccess<any>>;
+interface AdditionalErrorConfig {
+  fetchRoute: string;
+}
+
+export type OnResponseError<ResponseError, ThrownError> = (
+  error: ResponseError,
+  requestConfig: RequestInit & AdditionalErrorConfig,
+) => ThrownError;
+
+export type OnResponseSuccess<ResponseSuccess, TransformedResponse> = (
+  response: ResponseSuccess,
+) => TransformedResponse;
+
+export type OnRequestError<ResponseError> = (
+  error: ResponseError,
+  requestConfig: RequestInit & AdditionalErrorConfig,
+) => never;
+
+export interface ApiClientProps {
+  requestConfig: RequestInit & { baseURL?: string };
+  onRequestSuccess?: (requestConfig: RequestInit) => RequestInit;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  onRequestError?: OnRequestError<any>;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  onResponseSuccess?: OnResponseSuccess<any, any>;
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  onResponseError?: OnResponseError<any, any>;
 }
 
 export interface ApiClientInstance {
-  get<T>(route: string, requestInit?: RequestInit): Promise<T>;
-  delete<T>(route: string, requestInit?: RequestInit): Promise<T>;
+  get<T>(route: string, requestConfig?: RequestInit): Promise<T>;
+  delete<T>(route: string, requestConfig?: RequestInit): Promise<T>;
   post<T>(
     route: string,
     body?: RequestInit["body"],
-    requestInit?: Omit<RequestInit, "body">,
+    requestConfig?: Omit<RequestInit, "body">,
   ): Promise<T>;
   put<T>(
     route: string,
     body?: RequestInit["body"],
-    requestInit?: Omit<RequestInit, "body">,
+    requestConfig?: Omit<RequestInit, "body">,
   ): Promise<T>;
   patch<T>(
     route: string,
     body?: RequestInit["body"],
-    requestInit?: Omit<RequestInit, "body">,
+    requestConfig?: Omit<RequestInit, "body">,
   ): Promise<T>;
 }

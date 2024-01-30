@@ -1,9 +1,9 @@
-import { ApiClient, ApiClientProps } from "@daily-phrase/api";
+import { ApiClient, OnResponseError } from "@daily-phrase/api";
 import { ResponseError } from "./apis.type";
 import { fetchErrorCreator } from "./config/fetch-error-creator";
 import { PhraseApi } from "./phrase-api";
 
-const requestInterceptor = (requestInit: RequestInit): RequestInit => {
+const onRequestSuccess = (requestInit: RequestInit): RequestInit => {
   if (typeof window !== "undefined" && requestInit.headers) {
     const copyRequestInit: RequestInit = JSON.parse(
       JSON.stringify(requestInit),
@@ -19,20 +19,26 @@ const requestInterceptor = (requestInit: RequestInit): RequestInit => {
   return requestInit;
 };
 
-const responseInterceptor: ApiClientProps<ResponseError>["responseInterceptor"] =
-  (error) => {
-    console.error("[Response Error]", error);
-    throw fetchErrorCreator(error);
-  };
+const onResponseError: OnResponseError<
+  ResponseError,
+  ReturnType<typeof fetchErrorCreator>
+> = (
+  /** @todo 에러 타입에 맞게 가공 */
+  error,
+) => {
+  console.error("[Response Error]", error);
+  /** @todo 에러 타입에 맞게 가공 */
+  return fetchErrorCreator(error);
+};
 
 const httpClient = new ApiClient({
-  requestInterceptor,
-  responseInterceptor,
-  requestInit: {
+  onResponseError,
+  onRequestSuccess,
+  requestConfig: {
     baseURL: process.env.API_URL,
   },
 });
 
 export const apis = {
-  phraseApi: new PhraseApi(httpClient),
+  adminApi: new PhraseApi(httpClient),
 };

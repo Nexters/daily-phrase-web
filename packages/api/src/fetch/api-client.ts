@@ -1,42 +1,49 @@
-import {
-  ApiClientInstance,
-  ApiClientProps,
-  BaseResponseSuccess,
-} from "./api-client.type";
+import { ApiClientInstance, ApiClientProps } from "./api-client.type";
+import { ApiError, BaseError } from "./custom-error";
 
-// biome-ignore lint/complexity/noUselessTypeConstraint: <explanation>
-class ApiClient<ResponseError extends any> implements ApiClientInstance {
-  private config: ApiClientProps<ResponseError>["requestInit"];
-  private responseInterceptor: ApiClientProps<ResponseError>["responseInterceptor"];
+class ApiClient implements ApiClientInstance {
+  private config: ApiClientProps["requestConfig"];
+  private onRequestSuccess: ApiClientProps["onRequestSuccess"];
+  /** @todo 구현 필요 */
+  private onRequestError: ApiClientProps["onRequestError"];
+  private onResponseSuccess: ApiClientProps["onResponseSuccess"];
+  private onResponseError: ApiClientProps["onResponseError"];
 
   constructor({
-    requestInterceptor,
-    responseInterceptor,
-    requestInit,
-  }: ApiClientProps<ResponseError>) {
-    this.config = requestInterceptor({
+    onRequestSuccess,
+    onRequestError,
+    onResponseSuccess,
+    onResponseError,
+    requestConfig,
+  }: ApiClientProps) {
+    this.config = {
       mode: "cors",
       credentials: "include",
-      ...requestInit,
+      ...requestConfig,
       headers: {
-        ...requestInit?.headers,
+        ...requestConfig?.headers,
       },
-    });
-    this.responseInterceptor = responseInterceptor;
+    };
+    this.onRequestSuccess = onRequestSuccess;
+    this.onRequestError = onRequestError;
+    this.onResponseSuccess = onResponseSuccess;
+    this.onResponseError = onResponseError;
   }
 
   private async common<T>(
     route: string,
-    requestInit?: RequestInit,
-  ): Promise<BaseResponseSuccess<T>> {
-    const requestConfig: RequestInit = {
+    requestConfig?: RequestInit,
+  ): Promise<T> {
+    const baseConf = {
       ...this.config,
-      ...requestInit,
+      ...requestConfig,
       headers: {
         ...this.config.headers,
-        ...requestInit?.headers,
+        ...requestConfig?.headers,
       },
     };
+    const requestConf: RequestInit =
+      this.onRequestSuccess?.(baseConf) || baseConf;
     const fetchRoute = `${this.config?.baseURL || ""}${route}`;
     const response: Response = await fetch(
       `${this.config?.baseURL || ""}${route}`,
@@ -50,63 +57,69 @@ class ApiClient<ResponseError extends any> implements ApiClientInstance {
     } catch (error) {
       data = await response.text();
     }
-    if (response.ok) return data as BaseResponseSuccess<T>;
-    return this.responseInterceptor(data, requestConfig, fetchRoute);
+    if (response.ok) return (this.onResponseSuccess?.(data) || data) as T;
+    throw (
+      this.onResponseError?.(data, { ...requestConf, fetchRoute }) ||
+      new BaseError({
+        message: `daily-phrase api call error\ncause=${data}`,
+        status: 500,
+      })
+    );
   }
 
-  async get<T>(route: string, requestInit?: RequestInit) {
+  async get<T>(route: string, requestConfig?: RequestInit) {
     const response = await this.common<T>(route, {
       method: "GET",
-      ...(requestInit ?? {}),
+      ...(requestConfig ?? {}),
     });
-    return response.data;
+    return response;
   }
 
   async post<T>(
     route: string,
     body?: RequestInit["body"],
-    requestInit?: Omit<RequestInit, "body">,
+    requestConfig?: Omit<RequestInit, "body">,
   ) {
     const response = await this.common<T>(route, {
-      ...(requestInit ?? {}),
+      ...(requestConfig ?? {}),
       method: "POST",
       body,
     });
-    return response.data;
+    return response;
   }
 
   async put<T>(
     route: string,
     body?: RequestInit["body"],
-    requestInit?: Omit<RequestInit, "body">,
+    requestConfig?: Omit<RequestInit, "body">,
   ) {
     const response = await this.common<T>(route, {
-      ...(requestInit ?? {}),
+      ...(requestConfig ?? {}),
       method: "PUT",
       body,
     });
-    return response.data;
+    return response;
   }
 
   async patch<T>(
     route: string,
     body?: RequestInit["body"],
-    requestInit?: Omit<RequestInit, "body">,
+    requestConfig?: Omit<RequestInit, "body">,
   ) {
     const response = await this.common<T>(route, {
-      ...(requestInit ?? {}),
+      ...(requestConfig ?? {}),
       method: "PATCH",
       body,
     });
-    return response.data;
+    return response;
   }
 
-  async delete<T>(route: string, requestInit?: RequestInit) {
+  async delete<T>(route: string, requestConfig?: RequestInit) {
     const response = await this.common<T>(route, {
-      ...(requestInit ?? {}),
+      ...(requestConfig ?? {}),
       method: "DELETE",
     });
-    return response.data;
+    return response;
   }
 }
 
