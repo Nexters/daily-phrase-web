@@ -22,9 +22,9 @@ export default function ManageDrawer() {
         <DrawerHeader />
         <DrawerMain>
           <Textarea
+            autoFocus
             className="min-h-9 text-2xl font-bold"
             placeholder="제목 없음"
-            draggable={false}
           />
           <Separator />
           <div className="flex w-full items-center gap-1.5">
