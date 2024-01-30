@@ -1,6 +1,6 @@
 import { ApiClient, OnResponseError } from "@daily-phrase/api";
 import { AdminApi } from "./admin-api";
-import { ResponseError } from "./apis.type";
+import { ResponseError, ResponseSuccess } from "./apis.type";
 import { fetchErrorCreator } from "./config/fetch-error-creator";
 
 const onRequestSuccess = (requestInit: RequestInit): RequestInit => {
@@ -31,9 +31,14 @@ const onResponseError: OnResponseError<
   return fetchErrorCreator(error);
 };
 
+const onResponseSuccess = <T>(response: ResponseSuccess<T>): T => {
+  return response.data;
+};
+
 const httpClient = new ApiClient({
   onResponseError,
   onRequestSuccess,
+  onResponseSuccess,
   requestConfig: {
     baseURL: process.env.API_URL,
   },
