@@ -1,4 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
+import AppDownloadModal from "~/components/app-download-modal";
 import AppFooter from "~/components/app-footer";
 import GoAppCard from "~/components/go-app-card";
 import PhraseCard from "~/components/phrase-card";
@@ -24,6 +25,7 @@ export default function PhraseWebPage() {
       <div {...stylex.props(globalStyles.separator)} />
       <GoAppCard />
       <AppFooter />
+      <AppDownloadModal />
     </main>
   );
 }

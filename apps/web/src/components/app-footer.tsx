@@ -2,9 +2,13 @@
 
 import * as stylex from "@stylexjs/stylex";
 import { globalStyles } from "~/styles/globals.stylex";
+import { useAppDownloadModalStore } from "./app-download-modal";
 import { BookmarkLinearIcon, LikeLinearIcon } from "./ui/icons";
 
 export default function AppFooter() {
+  // TODO: 앱이 있으면 팝업 없이 바로 앱으로 이동 가능한지 확인
+  const openAppDownloadModal = useAppDownloadModalStore((state) => state.open);
+
   return (
     <div {...stylex.props(globalStyles.container, styles.container)}>
       <div {...stylex.props(styles.footer, styles.flexCenter)}>
@@ -23,6 +27,7 @@ export default function AppFooter() {
         <button
           type="button"
           {...stylex.props(styles.btnWrapper, styles.primaryBtnWrapper)}
+          onClick={openAppDownloadModal}
         >
           <div {...stylex.props(styles.flexCenter, styles.primaryBtn)}>
             앱 설치하고 공유하기
