@@ -9,6 +9,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
 import { useManagePagination } from "~/components/manage-service/hooks";
+import ManageDrawer from "./manage-drawer";
 import {
   getPhraseItemListMocks,
   rowsPerPageOptions,
@@ -53,6 +54,7 @@ const ManageServiceTemplate = () => {
               options={rowsPerPageOptions}
               onValueChange={onRowSizeChange}
             />
+            <ManageDrawer />
             <Button className="py-2 px-4 bg-slate-900 ml-[12px] font-semibold rounded-[6px] hover:bg-slate-900">
               추가하기
             </Button>
