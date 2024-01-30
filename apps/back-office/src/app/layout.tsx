@@ -1,7 +1,7 @@
 import BaseLayout from "~/components/base-layout";
 import { Toaster } from "~/components/ui/sonner";
 import { cn } from "~/libs/utils";
-import QueryProvider from "~/providers/QueryProvider";
+import QueryProvider from "~/providers/query-provider";
 import "~/styles/globals.css";
 
 export default function RootLayout({

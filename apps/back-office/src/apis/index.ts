@@ -1,7 +1,7 @@
 import { ApiClient, ApiClientProps } from "@daily-phrase/api";
-import { AdminApi } from "./AdminApi";
+import { AdminApi } from "./admin-api";
 import { ResponseError } from "./apis.type";
-import { fetchErrorCreator } from "./config/fetchErrorCreator";
+import { fetchErrorCreator } from "./config/fetch-error-creator";
 
 const requestInterceptor = (requestInit: RequestInit): RequestInit => {
   if (typeof window !== "undefined" && requestInit.headers) {

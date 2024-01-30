@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 import type { Metadata } from "next";
-import QueryProvider from "~/providers/QueryProvider";
+import QueryProvider from "~/providers/query-provider";
 import "~/styles/globals.css";
 
 export const metadata: Metadata = {

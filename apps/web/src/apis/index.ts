@@ -1,7 +1,7 @@
 import { ApiClient, ApiClientProps } from "@daily-phrase/api";
 import { ResponseError } from "./apis.type";
-import { fetchErrorCreator } from "./config/fetchErrorCreator";
-import { PhraseApi } from "./PhraseApi";
+import { fetchErrorCreator } from "./config/fetch-error-creator";
+import { PhraseApi } from "./phrase-api";
 
 const requestInterceptor = (requestInit: RequestInit): RequestInit => {
   if (typeof window !== "undefined" && requestInit.headers) {
