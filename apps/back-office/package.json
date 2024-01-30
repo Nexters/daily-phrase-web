@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "pnpm -F @daily-phrase/api build && pnpm install && next dev --turbo",
     "build": "next build",
     "preview": "next start",
     "add:ui": "pnpm dlx shadcn-ui@latest add",
