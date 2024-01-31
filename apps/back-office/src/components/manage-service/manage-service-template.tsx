@@ -9,15 +9,13 @@ import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
 import { useManagePagination } from "~/components/manage-service/hooks";
-import {
-  getPhraseItemListMocks,
-  rowsPerPageOptions,
-} from "./manage-service.meta";
+import { PhraseItemWithId } from "~/types/phrase";
+import { rowsPerPageOptions } from "./manage-service.meta";
 
 /** @todo 서버 데이터 개수(변경 필요) */
 const totalRows = 100; // 전체 데이터 개수
 
-const ManageServiceTemplate = () => {
+const ManageServiceTemplate = ({ data }: { data: PhraseItemWithId[] }) => {
   const {
     pagination,
     transformedData,
@@ -27,10 +25,7 @@ const ManageServiceTemplate = () => {
     onCheckAllDelete,
     isDeleteChecked,
     onDeleteCheck,
-  } = useManagePagination(
-    getPhraseItemListMocks(totalRows),
-    Number(rowsPerPageOptions[0].value),
-  );
+  } = useManagePagination(data, Number(rowsPerPageOptions[0].value));
 
   return (
     <>
