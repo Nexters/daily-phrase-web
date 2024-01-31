@@ -9,7 +9,11 @@ import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
 import { useManagePagination } from "~/components/manage-service/hooks";
-import ManageDrawer from "./manage-drawer";
+import {
+  ManageDrawerContent,
+  ManageDrawerRoot,
+  ManageDrawerTrigger,
+} from "./manage-drawer";
 import {
   getPhraseItemListMocks,
   rowsPerPageOptions,
@@ -34,7 +38,7 @@ const ManageServiceTemplate = () => {
   );
 
   return (
-    <>
+    <ManageDrawerRoot>
       <ActionBarLayout
         left={
           <div className="flex justify-center items-center">
@@ -54,10 +58,11 @@ const ManageServiceTemplate = () => {
               options={rowsPerPageOptions}
               onValueChange={onRowSizeChange}
             />
-            <ManageDrawer />
-            <Button className="py-2 px-4 bg-slate-900 ml-[12px] font-semibold rounded-[6px] hover:bg-slate-900">
-              추가하기
-            </Button>
+            <ManageDrawerTrigger asChild>
+              <Button className="py-2 px-4 bg-slate-900 ml-[12px] font-semibold rounded-[6px] hover:bg-slate-900">
+                추가하기
+              </Button>
+            </ManageDrawerTrigger>
           </div>
         }
       />
@@ -75,7 +80,8 @@ const ManageServiceTemplate = () => {
         onPageMove={onPageMove}
         className="justify-end"
       />
-    </>
+      <ManageDrawerContent />
+    </ManageDrawerRoot>
   );
 };
 
