@@ -2,7 +2,6 @@ import { Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import {
   Drawer,
@@ -41,7 +40,6 @@ export function ManageDrawerContent() {
     }
   }, [form, isDrawerOpen, data]);
 
-  // 2. Define a submit handler.
   async function onSubmit(values: ManageValues) {
     console.log(values);
 
