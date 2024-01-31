@@ -24,6 +24,7 @@ const DisplayDataNumSelect = ({ options, onValueChange }: Props) => {
       <SelectContent className="w-[100px]">
         {options.map(({ label, value }) => (
           <SelectItem
+            key={value}
             value={value}
             hasCheckIcon={false}
             className="font-medium font-slate-900 focus:bg-slate-100"
