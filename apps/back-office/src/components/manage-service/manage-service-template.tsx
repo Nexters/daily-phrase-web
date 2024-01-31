@@ -10,11 +10,7 @@ import DataTable from "~/components/ui/data-table";
 
 import { useManagePagination } from "~/components/manage-service/hooks";
 import { useManageDrawer } from "./hooks/use-manage-drawer";
-import {
-  ManageDrawerContent,
-  ManageDrawerRoot,
-  ManageDrawerTrigger,
-} from "./manage-drawer";
+import { ManageDrawerContent, ManageDrawerRoot } from "./manage-drawer";
 import {
   getPhraseItemListMocks,
   rowsPerPageOptions,
