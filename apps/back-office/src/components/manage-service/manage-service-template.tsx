@@ -9,6 +9,7 @@ import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
 import { useManagePagination } from "~/components/manage-service/hooks";
+import { useManageDrawer } from "./hooks/use-manage-drawer";
 import {
   ManageDrawerContent,
   ManageDrawerRoot,
@@ -37,6 +38,9 @@ const ManageServiceTemplate = () => {
     Number(rowsPerPageOptions[0].value),
   );
 
+  const openNewDrawer = useManageDrawer((v) => v.openNewDrawer);
+  const openEditDrawer = useManageDrawer((v) => v.openEditDrawer);
+
   return (
     <ManageDrawerRoot>
       <ActionBarLayout
@@ -58,11 +62,12 @@ const ManageServiceTemplate = () => {
               options={rowsPerPageOptions}
               onValueChange={onRowSizeChange}
             />
-            <ManageDrawerTrigger asChild>
-              <Button className="py-2 px-4 bg-slate-900 ml-[12px] font-semibold rounded-[6px] hover:bg-slate-900">
-                추가하기
-              </Button>
-            </ManageDrawerTrigger>
+            <Button
+              className="py-2 px-4 bg-slate-900 ml-[12px] font-semibold rounded-[6px] hover:bg-slate-900"
+              onClick={openNewDrawer}
+            >
+              추가하기
+            </Button>
           </div>
         }
       />
@@ -74,6 +79,7 @@ const ManageServiceTemplate = () => {
             현재 작성 된 글이 없습니다.
           </span>
         }
+        onClickRow={openEditDrawer}
       />
       <ManagePagination
         pagination={pagination}

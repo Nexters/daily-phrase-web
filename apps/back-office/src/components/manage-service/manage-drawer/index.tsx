@@ -13,14 +13,19 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
 import { Textarea } from "~/components/ui/textarea";
+import { useManageDrawer } from "../hooks/use-manage-drawer";
 
 export function ManageDrawerRoot(props: React.ComponentProps<typeof Drawer>) {
-  return <Drawer modal={false} {...props} />;
+  const { open, setOpen } = useManageDrawer();
+
+  return <Drawer {...props} modal={false} open={open} onOpenChange={setOpen} />;
 }
 
 export const ManageDrawerTrigger = DrawerTrigger;
 
 export function ManageDrawerContent() {
+  const data = useManageDrawer((v) => v.data);
+
   return (
     <DrawerContent className="min-w-[480px] w-1/3">
       <DrawerHeader />
@@ -29,6 +34,7 @@ export function ManageDrawerContent() {
           autoFocus
           className="min-h-9 text-2xl font-bold"
           placeholder="제목 없음"
+          value={data?.title}
         />
         <Separator />
         <div className="flex w-full items-center gap-1.5">
@@ -50,7 +56,11 @@ export function ManageDrawerContent() {
           </Button>
         </div>
         <Separator />
-        <Textarea className="h-full" placeholder="텍스트를 작성해 주세요" />
+        <Textarea
+          className="h-full"
+          placeholder="텍스트를 작성해 주세요"
+          value={data?.content}
+        />
       </DrawerMain>
       <DrawerFooter>
         <DrawerClose asChild>
