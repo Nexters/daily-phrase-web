@@ -21,12 +21,14 @@ interface DataTableProps<TData, TValue> {
   columns: Array<ColumnDef<TData, TValue>>;
   data: Array<TData>;
   NoDataMsg: React.ReactNode;
+  onClickRow?: (data: TData) => void;
 }
 
 const DataTable = <TData, TValue>({
   columns,
   data,
   NoDataMsg,
+  onClickRow,
 }: DataTableProps<TData, TValue>) => {
   const table = useReactTable({
     data,
@@ -67,7 +69,8 @@ const DataTable = <TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="w-full flex items-center border-0 data-[state=selected]:bg-slate-100 hover:bg-slate-100"
+                className="w-full flex items-center border-0 cursor-pointer data-[state=selected]:bg-slate-100 hover:bg-slate-100"
+                onClick={() => onClickRow?.(row.original)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} width={`${cell.column.getSize()}px`}>

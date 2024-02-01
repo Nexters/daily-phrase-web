@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { PaginationData } from "~/types/pagination";
 import { PhraseItemWithId } from "~/types/phrase";
-import { ManagePagination } from "../manage-pagination";
 import { OnCheck, OnDelete } from "../manage-service.type";
+import { ManagePagination } from "../manage-table/pagination";
 
 const useManagePagination = (
   data: Array<PhraseItemWithId>,
