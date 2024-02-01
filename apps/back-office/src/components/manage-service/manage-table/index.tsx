@@ -2,15 +2,11 @@
 
 import ActionBar from "~/components/manage-service/manage-table/action-bar";
 import { getManageTableColumns } from "~/components/manage-service/manage-table/columns";
-import DisplayDataNumSelect from "~/components/manage-service/manage-table/display-data-num-select";
 import { ManagePagination } from "~/components/manage-service/manage-table/pagination";
-import { Button } from "~/components/ui/button";
-import { Checkbox } from "~/components/ui/checkbox";
 import DataTable from "~/components/ui/data-table";
 
 import { useManagePagination } from "~/components/manage-service/hooks";
 import { useManageDrawer } from "../hooks/use-manage-drawer";
-import { ManageDrawerContent, ManageDrawerRoot } from "../manage-drawer";
 import {
   getPhraseItemListMocks,
   rowsPerPageOptions,
