@@ -17,7 +17,7 @@ import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
-import { Textarea } from "~/components/ui/textarea";
+import { ClearTextArea, Textarea } from "~/components/ui/textarea";
 import { useManageDrawer } from "./hooks/use-manage-drawer";
 import { ManageValues, manageFormProps } from "./manage-drawer.meta";
 
@@ -68,7 +68,7 @@ export function ManageDrawerContent() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Textarea
+                    <ClearTextArea
                       className="min-h-9 text-2xl font-bold"
                       placeholder="제목 없음"
                       {...field}
@@ -101,11 +101,11 @@ export function ManageDrawerContent() {
               control={form.control}
               name="content"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="h-full">
                   <FormControl>
-                    <Textarea
+                    <ClearTextArea
                       placeholder="텍스트를 작성해 주세요"
-                      className="h-full"
+                      className="h-full text-base"
                       {...field}
                     />
                   </FormControl>
