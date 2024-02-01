@@ -1,4 +1,3 @@
-import BaseLayout from "~/components/base-layout";
 import { Toaster } from "~/components/ui/sonner";
 import { cn } from "~/libs/utils";
 import QueryProvider from "~/providers/query-provider";
@@ -18,9 +17,7 @@ export default function RootLayout({
         />
       </head>
       <body className={cn("bg-background font-pretendard antialiased")}>
-        <QueryProvider>
-          <BaseLayout>{children}</BaseLayout>
-        </QueryProvider>
+        <QueryProvider>{children}</QueryProvider>
         <Toaster />
       </body>
     </html>
