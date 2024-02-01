@@ -15,7 +15,7 @@ import { ManageActionBar } from "./action-bar";
 /** @todo 서버 데이터 개수(변경 필요) */
 const totalRows = 100; // 전체 데이터 개수
 
-const ManageServiceTemplate = () => {
+const ManageServiceTable = () => {
   const {
     pagination,
     transformedData,
@@ -60,4 +60,4 @@ const ManageServiceTemplate = () => {
   );
 };
 
-export default ManageServiceTemplate;
+export default ManageServiceTable;
