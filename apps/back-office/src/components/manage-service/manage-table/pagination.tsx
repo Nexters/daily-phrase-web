@@ -8,7 +8,7 @@ import {
   PaginationNext,
   PaginationPrevious,
   PaginationStart,
-} from "../ui/pagination";
+} from "../../ui/pagination";
 
 interface Props {
   pagination: PaginationData;
