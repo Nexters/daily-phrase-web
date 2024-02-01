@@ -9,7 +9,7 @@ type Props = {
   onClickCreate: () => void;
 };
 
-const ActionBar = ({
+export const ManageActionBar = ({
   isAllDeleteChecked,
   onCheckAllDelete,
   onRowSizeChange,
@@ -39,5 +39,3 @@ const ActionBar = ({
     </div>
   );
 };
-
-export default ActionBar;
