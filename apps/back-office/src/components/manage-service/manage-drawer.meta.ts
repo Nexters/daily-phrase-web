@@ -19,8 +19,5 @@ export const defaultValues = {
 
 export const manageFormProps = {
   resolver: manageResolver,
-  defaultValues: {
-    title: "",
-    content: "",
-  },
+  defaultValues,
 } satisfies UseFormProps<ManageValues>;
