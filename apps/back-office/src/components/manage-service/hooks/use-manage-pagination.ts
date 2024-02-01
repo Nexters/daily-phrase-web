@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { getPhraseItemListMocks } from "~/components/manage-service/manage-service.meta";
 import { PaginationData } from "~/types/pagination";
 import { PhraseItemWithId } from "~/types/phrase";
 import { OnCheck, OnDelete } from "../manage-service.type";
@@ -22,10 +21,7 @@ const useManagePagination = (
   const startIndex = (pagination.current - 1) * pagination.limit;
   const endIndex = startIndex + pagination.limit;
 
-  const transformedData = getPhraseItemListMocks(totalDataLen).slice(
-    startIndex,
-    endIndex,
-  );
+  const transformedData = data.slice(startIndex, endIndex);
 
   /**
    * @description 삭제 기능 상태, 페이지네이션과 삭제 기능이 서로 의존 관계에 있어 분리하려면 고민 필요

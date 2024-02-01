@@ -24,6 +24,7 @@ const DisplayDataNumSelect = ({ onValueChange }: Props) => {
       <SelectContent className="w-[100px]">
         {rowsPerPageOptions.map(({ label, value }) => (
           <SelectItem
+            key={value}
             value={value}
             hasCheckIcon={false}
             className="font-medium font-slate-900 focus:bg-slate-100"

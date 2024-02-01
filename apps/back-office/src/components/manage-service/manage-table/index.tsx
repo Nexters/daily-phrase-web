@@ -5,17 +5,12 @@ import { ManagePagination } from "~/components/manage-service/manage-table/pagin
 import DataTable from "~/components/ui/data-table";
 
 import { useManagePagination } from "~/components/manage-service/hooks";
+import { PhraseItemWithId } from "~/types/phrase";
 import { useManageDrawer } from "../hooks/use-manage-drawer";
-import {
-  getPhraseItemListMocks,
-  rowsPerPageOptions,
-} from "../manage-service.meta";
+import { rowsPerPageOptions } from "../manage-service.meta";
 import { ManageActionBar } from "./action-bar";
 
-/** @todo 서버 데이터 개수(변경 필요) */
-const totalRows = 100; // 전체 데이터 개수
-
-const ManageServiceTable = () => {
+const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
   const {
     pagination,
     transformedData,
@@ -25,10 +20,7 @@ const ManageServiceTable = () => {
     onCheckAllDelete,
     isDeleteChecked,
     onDeleteCheck,
-  } = useManagePagination(
-    getPhraseItemListMocks(totalRows),
-    Number(rowsPerPageOptions[0].value),
-  );
+  } = useManagePagination(data, Number(rowsPerPageOptions[0].value));
 
   const openNewDrawer = useManageDrawer((v) => v.openNewDrawer);
   const openEditDrawer = useManageDrawer((v) => v.openEditDrawer);
