@@ -5,14 +5,14 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
+} from "../../ui/select";
+import { rowsPerPageOptions } from "../manage-service.meta";
 
 interface Props {
-  options: Array<{ value: string; label: string }>;
-  onValueChange: Parameters<typeof Select>[0]["onValueChange"];
+  onValueChange?: Parameters<typeof Select>[0]["onValueChange"];
 }
 
-const DisplayDataNumSelect = ({ options, onValueChange }: Props) => {
+const DisplayDataNumSelect = ({ onValueChange }: Props) => {
   return (
     <Select onValueChange={onValueChange}>
       <SelectTrigger
@@ -22,7 +22,7 @@ const DisplayDataNumSelect = ({ options, onValueChange }: Props) => {
         <SelectValue placeholder="10개" />
       </SelectTrigger>
       <SelectContent className="w-[100px]">
-        {options.map(({ label, value }) => (
+        {rowsPerPageOptions.map(({ label, value }) => (
           <SelectItem
             value={value}
             hasCheckIcon={false}

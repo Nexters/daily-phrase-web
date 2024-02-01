@@ -15,7 +15,7 @@ export type ManageValues = z.infer<typeof manageSchema>;
 export const defaultValues = {
   title: "",
   content: "",
-};
+} satisfies ManageValues;
 
 export const manageFormProps = {
   resolver: manageResolver,
