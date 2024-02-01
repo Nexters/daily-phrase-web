@@ -1,4 +1,8 @@
-import ManageServiceTemplate from "~/components/manage-service/manage-service-template";
+import {
+  ManageDrawerContent,
+  ManageDrawerRoot,
+} from "~/components/manage-service/manage-drawer";
+import ManageServiceTable from "~/components/manage-service/manage-table";
 
 /**
  * @todo 글 추가하기, 수정하기 컴포넌트는 여기다 띄우고
@@ -6,11 +10,14 @@ import ManageServiceTemplate from "~/components/manage-service/manage-service-te
  */
 export default function Page() {
   return (
-    <div className="px-6 py-8 pb-[126px] space-y-7">
-      <div className="flex items-center mb-6">
-        <h1 className="text-2xl font-bold">서비스 관리</h1>
+    <ManageDrawerRoot>
+      <div className="px-6 py-8 pb-[126px] space-y-7">
+        <div className="flex items-center mb-6">
+          <h1 className="text-2xl font-bold">서비스 관리</h1>
+        </div>
+        <ManageServiceTable />
       </div>
-      <ManageServiceTemplate />
-    </div>
+      <ManageDrawerContent />
+    </ManageDrawerRoot>
   );
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import { PaginationData } from "~/types/pagination";
 import {
   Pagination,
   PaginationContent,
@@ -8,7 +7,9 @@ import {
   PaginationNext,
   PaginationPrevious,
   PaginationStart,
-} from "../ui/pagination";
+} from "~/components/ui/pagination";
+import { cn } from "~/libs/utils";
+import { PaginationData } from "~/types/pagination";
 
 interface Props {
   pagination: PaginationData;
@@ -26,7 +27,7 @@ export const ManagePagination = ({
     (_, idx) => idx + 1,
   );
   return (
-    <Pagination className={className}>
+    <Pagination className={cn("justify-end", className)}>
       <PaginationStart onClick={() => onPageMove(pagination, 1)} />
       <PaginationPrevious
         onClick={() => {
@@ -38,9 +39,10 @@ export const ManagePagination = ({
         {paginationArr.map((num) => (
           <PaginationItem
             onClick={() => onPageMove(pagination, num)}
-            className={`p-2.5 leading-4 text-center	hover:bg-slate-100 rounded-full cursor-pointer ${
-              pagination.current === num ? "font-bold" : ""
-            }`}
+            className={cn(
+              "p-2.5 leading-4 text-center	hover:bg-slate-100 rounded-full cursor-pointer",
+              pagination.current === num && "font-bold",
+            )}
           >
             <span className="text-base leading-4">{num}</span>
           </PaginationItem>
