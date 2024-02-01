@@ -51,11 +51,7 @@ const ManageServiceTable = () => {
         }
         onClickRow={openEditDrawer}
       />
-      <ManagePagination
-        pagination={pagination}
-        onPageMove={onPageMove}
-        className="justify-end"
-      />
+      <ManagePagination pagination={pagination} onPageMove={onPageMove} />
     </>
   );
 };
