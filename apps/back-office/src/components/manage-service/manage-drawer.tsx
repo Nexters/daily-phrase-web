@@ -29,18 +29,17 @@ export function ManageDrawerRoot(props: React.ComponentProps<typeof Drawer>) {
 
 export function ManageDrawerContent() {
   const form = useForm<ManageValues>(manageFormProps);
-  const { isEdit, isDrawerOpen, data, closeDrawer } = useManageDrawer((v) => ({
-    isEdit: !!v.data,
-    isDrawerOpen: v.open,
-    data: v.data,
-    closeDrawer: () => v.setOpen(false),
-  }));
+
+  const isDrawerOpen = useManageDrawer((v) => v.open);
+  const isEdit = useManageDrawer((v) => !!v.data);
+  const defaultValues = useManageDrawer((v) => v.data);
+  const closeDrawer = useManageDrawer((v) => () => v.setOpen(false));
 
   useEffect(() => {
     if (isDrawerOpen) {
-      form.reset(data ?? manageFormProps.defaultValues);
+      form.reset(defaultValues ?? manageFormProps.defaultValues);
     }
-  }, [form, isDrawerOpen, data]);
+  }, [form, isDrawerOpen, defaultValues]);
 
   async function onSubmit(values: ManageValues) {
     console.log(values);
