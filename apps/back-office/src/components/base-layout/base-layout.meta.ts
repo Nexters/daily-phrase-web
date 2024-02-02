@@ -1,6 +1,6 @@
-import { LayoutOption, LayoutRoute } from "./base-layout.type";
+import { LayoutRoute } from "./base-layout.type";
 
-const layoutRoutes = [
+export const authRoutes = [
   {
     pathname: "/",
     title: "서비스 관리",
@@ -10,14 +10,3 @@ const layoutRoutes = [
     title: "테스트",
   },
 ] satisfies LayoutRoute[];
-
-const layoutOptions: LayoutOption[] = [
-  { pathname: "/login", hasSidebar: false },
-];
-
-const defaultLayoutOption: Omit<LayoutOption, "pathname"> = {
-  hasHeader: true,
-  hasSidebar: true,
-};
-
-export { layoutRoutes, layoutOptions, defaultLayoutOption };

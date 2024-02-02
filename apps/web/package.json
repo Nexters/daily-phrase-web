@@ -19,6 +19,7 @@
     "react-remove-scroll": "^2.5.7"
   },
   "devDependencies": {
+    "@babel/plugin-transform-private-methods": "^7.23.3",
     "@babel/runtime": "^7.23.8",
     "@stylexjs/nextjs-plugin": "^0.4.1",
     "@tanstack/react-query-devtools": "^5.17.21",
