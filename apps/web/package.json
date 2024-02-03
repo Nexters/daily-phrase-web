@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "vercel:install": "pnpm -F @daily-phrase/api build && pnpm install",
-    "dev": "next dev",
-    "build": "pnpm run prebuild && next build",
+    "install:clear": "rm -rf node_modules && pnpm -F @daily-phrase/api build && pnpm install",
+    "dev": "next dev -p 3010",
+    "build": "next build",
     "start": "next start",
     "lint": "biome lint --apply ./src/**/*.{js,ts,tsx}",
     "format": "biome format --write ./src/**/*.{js,ts,tsx}"
