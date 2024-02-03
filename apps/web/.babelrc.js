@@ -1,7 +1,6 @@
 module.exports = {
   presets: ["next/babel"],
   plugins: [
-    ["@babel/plugin-transform-private-methods"],
     [
       "@stylexjs/babel-plugin",
       {
@@ -15,5 +14,6 @@ module.exports = {
         },
       },
     ],
+    ["@babel/plugin-transform-private-methods"],
   ],
 };
