@@ -1,5 +1,5 @@
+import { Phrase } from "@daily-phrase/api";
 import * as stylex from "@stylexjs/stylex";
-import { Phrase } from "~/apis/phrase-api/type";
 
 export default function PhraseContent({ phrase }: { phrase: Phrase }) {
   return (

@@ -1,6 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
 import { apis } from "~/apis";
-import { Phrase } from "~/apis/phrase-api/type";
 import AppDownloadModal from "~/components/app-download-modal";
 import AppFooter from "~/components/app-footer";
 import GoAppCard from "~/components/go-app-card";
@@ -14,7 +13,7 @@ export default async function PhraseWebPage({
   params: { phraseId: string };
 }) {
   const res = await apis.adminApi.getPhrase(params.phraseId);
-  const phrase: Phrase = res.result;
+  const phrase = res.result;
 
   return (
     <main {...stylex.props(globalStyles.container, styles.container)}>

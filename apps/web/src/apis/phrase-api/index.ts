@@ -1,6 +1,9 @@
-import { ApiClientInstance } from "@daily-phrase/api";
-import { ApiResponse } from "../apis.type";
-import { Phrase, PhrasePaging } from "./type";
+import {
+  ApiClientInstance,
+  ApiData,
+  Phrase,
+  PhrasePaging,
+} from "@daily-phrase/api";
 
 export class PhraseApi {
   private apiClient: ApiClientInstance;
@@ -8,7 +11,7 @@ export class PhraseApi {
     this.apiClient = apiClient;
   }
   getPhraseList(size: number) {
-    return this.apiClient.get<ApiResponse<PhrasePaging>>(
+    return this.apiClient.get<ApiData<PhrasePaging>>(
       `/api/v1/phrases?page=1&size=${size}`,
       {
         headers: {
@@ -18,7 +21,7 @@ export class PhraseApi {
     );
   }
   getPhrase(id: string) {
-    return this.apiClient.get<ApiResponse<Phrase>>(`/api/v1/phrases/${id}`, {
+    return this.apiClient.get<ApiData<Phrase>>(`/api/v1/phrases/${id}`, {
       headers: {
         "content-type": "application/json",
       },

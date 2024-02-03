@@ -1,7 +1,7 @@
 "use client";
 
+import { Phrase } from "@daily-phrase/api";
 import * as stylex from "@stylexjs/stylex";
-import { Phrase } from "~/apis/phrase-api/type";
 import { EyeIcon, LikeLinearIcon } from "~/components/ui/icons";
 import { numberWithCommas } from "~/libs/utils";
 

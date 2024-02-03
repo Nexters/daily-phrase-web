@@ -1,9 +1,9 @@
 "use client";
 
+import { Phrase } from "@daily-phrase/api";
 import * as stylex from "@stylexjs/stylex";
 import { useEffect, useState } from "react";
 import { apis } from "~/apis";
-import { Phrase } from "~/apis/phrase-api/type";
 import PhraseCard from "~/components/phrase-card";
 
 const PHRASE_LIST_SIZE = 3;
