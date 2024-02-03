@@ -2,6 +2,7 @@ export type Phrase = {
   phraseId: number;
   title: string;
   imageUrl: string;
+  /** ex: "1:1", "16:9" */
   imageRatio: string;
   content: string;
   likeCount: number;

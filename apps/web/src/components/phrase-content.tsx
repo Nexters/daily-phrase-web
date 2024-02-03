@@ -1,14 +1,18 @@
 import { Phrase } from "@daily-phrase/api";
 import * as stylex from "@stylexjs/stylex";
+import AspectRatioImg from "./ui/aspect-radio-img";
 
 export default function PhraseContent({ phrase }: { phrase: Phrase }) {
   return (
     <div {...stylex.props(styles.wrap)}>
       <div {...stylex.props(styles.title)}>{phrase.title}</div>
       {phrase.imageUrl && (
-        <div {...stylex.props(styles.imageWrapper)}>
-          <img alt="글귀 이미지" src={phrase.imageUrl} />
-        </div>
+        <AspectRatioImg
+          src={phrase.imageUrl}
+          alt="글귀 이미지"
+          radio={phrase.imageRatio}
+          {...stylex.props(styles.imageWrapper)}
+        />
       )}
       <div {...stylex.props(styles.text)}>{phrase.content}</div>
     </div>
