@@ -9,7 +9,7 @@ export class PhraseApi {
   }
   getPhraseList(size: number) {
     return this.apiClient.get<ApiResponse<PhrasePaging>>(
-      `/api/v1/phrases?size=${size}`,
+      `/api/v1/phrases?page=1&size=${size}`,
       {
         headers: {
           "content-type": "application/json",
