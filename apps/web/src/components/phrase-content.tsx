@@ -1,22 +1,16 @@
 import * as stylex from "@stylexjs/stylex";
+import { Phrase } from "~/apis/phrase-api/type";
 
-export default function PhraseContent() {
-  const content = `어느날 시계를 보다가 문든 이런 생각을 한 적이 있습니다.
-
-국회는 국정을 감사하거나 특정한
-국정사안에 대하여 조사할 수 있으며, 
-이에 필요한 서류의 제출 
-또는 증인의 출석과 증언이나 의견의 진술을 요구할 수 있다`;
-
+export default function PhraseContent({ phrase }: { phrase: Phrase }) {
   return (
     <div {...stylex.props(styles.wrap)}>
-      <div {...stylex.props(styles.title)}>
-        커피를 많이 마실수록 더 오래 산다고?
-      </div>
-      <div {...stylex.props(styles.imageWrapper)}>
-        <img alt="" src="/example.png" />
-      </div>
-      <div {...stylex.props(styles.text)}>{content}</div>
+      <div {...stylex.props(styles.title)}>{phrase.title}</div>
+      {phrase.imageUrl && (
+        <div {...stylex.props(styles.imageWrapper)}>
+          <img alt="글귀 이미지" src={phrase.imageUrl} />
+        </div>
+      )}
+      <div {...stylex.props(styles.text)}>{phrase.content}</div>
     </div>
   );
 }

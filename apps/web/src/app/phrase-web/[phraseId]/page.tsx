@@ -1,27 +1,26 @@
 import * as stylex from "@stylexjs/stylex";
+import { apis } from "~/apis";
+import { Phrase } from "~/apis/phrase-api/type";
 import AppDownloadModal from "~/components/app-download-modal";
 import AppFooter from "~/components/app-footer";
 import GoAppCard from "~/components/go-app-card";
-import PhraseCard from "~/components/phrase-card";
 import PhraseContent from "~/components/phrase-content";
 import { globalStyles } from "~/styles/globals.stylex";
+import PhraseList from "./phrase-list";
 
-export default function PhraseWebPage() {
-  const phraseList = [...Array(3)];
+export default async function PhraseWebPage({
+  params,
+}: {
+  params: { phraseId: string };
+}) {
+  const res = await apis.adminApi.getPhrase(params.phraseId);
+  const phrase: Phrase = res.result;
 
   return (
     <main {...stylex.props(globalStyles.container, styles.container)}>
-      <PhraseContent />
+      <PhraseContent phrase={phrase} />
       <div {...stylex.props(globalStyles.separator)} />
-      <h3 {...stylex.props(styles.listTitle)}>오늘의 글귀</h3>
-      <div {...stylex.props(styles.listWrapper)}>
-        {phraseList.map((_, i) => {
-          return (
-            // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-            <PhraseCard key={i} style={i > 0 && styles.listItemBorderTop} />
-          );
-        })}
-      </div>
+      <PhraseList />
       <div {...stylex.props(globalStyles.separator)} />
       <GoAppCard />
       <AppFooter />
@@ -33,19 +32,5 @@ export default function PhraseWebPage() {
 const styles = stylex.create({
   container: {
     paddingBottom: 90,
-  },
-  listTitle: {
-    color: "#000",
-    fontSize: 22,
-    fontWeight: 700,
-    padding: "40px 16px 8px",
-  },
-  listWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "0 16px 16px",
-  },
-  listItemBorderTop: {
-    borderTop: "1px solid #ececec",
   },
 });

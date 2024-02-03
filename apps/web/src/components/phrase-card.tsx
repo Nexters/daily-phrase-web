@@ -1,35 +1,37 @@
 "use client";
 
 import * as stylex from "@stylexjs/stylex";
+import { Phrase } from "~/apis/phrase-api/type";
 import { EyeIcon, LikeLinearIcon } from "~/components/ui/icons";
 import { numberWithCommas } from "~/libs/utils";
 
-export type PhraseCardProps = { style?: stylex.StyleXStyles };
+export type PhraseCardProps = {
+  phrase: Phrase;
+  style?: stylex.StyleXStyles;
+};
 
-export default function PhraseCard({ style }: PhraseCardProps) {
-  const onClickPhrase = () => {};
+export default function PhraseCard({ phrase, style }: PhraseCardProps) {
+  const onClickPhrase = () => {
+    location.href = `/phrase-web/${phrase.phraseId}`;
+  };
 
   return (
     <div {...stylex.props(styles.wrap, style)}>
       <button type="button" onClick={onClickPhrase}>
-        <div {...stylex.props(styles.title)}>{"자식사랑 내리사랑"}</div>
-        <div {...stylex.props(styles.text)}>
-          {
-            "어느날 시계를 보다가 문든 이런 생각을 한 적이 있습니다. 성급한 사람, 무덤덤한 사람, 아무 생각이 없는 사람"
-          }
-        </div>
+        <div {...stylex.props(styles.title)}>{phrase.title}</div>
+        <div {...stylex.props(styles.text)}>{phrase.content}</div>
         <div {...stylex.props(styles.imageWrapper)}>
-          <img src="/" alt="" />
+          <img src={phrase.imageUrl} alt="" />
         </div>
       </button>
       <div {...stylex.props(styles.footer)}>
         <button type="button" {...stylex.props(styles.iconWrapper)}>
           <EyeIcon width={20} height={20} />
-          <span>{numberWithCommas(1020104)}</span>
+          <span>{numberWithCommas(phrase.likeCount)}</span>
         </button>
         <button type="button" {...stylex.props(styles.iconWrapper)}>
           <LikeLinearIcon width={20} height={20} />
-          <span>{numberWithCommas(9999)}</span>
+          <span>{numberWithCommas(phrase.viewCount)}</span>
         </button>
       </div>
     </div>
