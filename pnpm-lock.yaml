@@ -18,7 +18,7 @@ importers:
   apps/back-office:
     dependencies:
       '@daily-phrase/api':
-        specifier: '*'
+        specifier: workspace:^
         version: link:../../packages/api
       '@hookform/resolvers':
         specifier: ^3.3.4
@@ -127,7 +127,7 @@ importers:
   apps/web:
     dependencies:
       '@daily-phrase/api':
-        specifier: ^0.1.0
+        specifier: workspace:^
         version: link:../../packages/api
       '@stylexjs/stylex':
         specifier: ^0.4.1
@@ -4291,7 +4291,7 @@ packages:
       debug: 4.3.4
       globrex: 0.1.2
       tsconfck: 2.1.2(typescript@5.3.3)
-      vite: 5.0.11(@types/node@20.11.5)
+      vite: 5.0.11(@types/node@20.11.0)
     transitivePeerDependencies:
       - supports-color
       - typescript

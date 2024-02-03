@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
-    "dev": "pnpm -F @daily-phrase/api build && pnpm install && next dev --turbo",
+    "dev": "next dev --turbo",
     "build": "next build",
     "preview": "next start",
     "add:ui": "pnpm dlx shadcn-ui@latest add",
@@ -11,7 +11,7 @@
     "format": "biome format --write ./src/**/*.{js,ts,tsx}"
   },
   "dependencies": {
-    "@daily-phrase/api": "*",
+    "@daily-phrase/api": "workspace:^",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
