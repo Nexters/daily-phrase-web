@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "vercel:install": "pnpm -F @daily-phrase/api build && pnpm install",
     "dev": "next dev",
-    "prebuild": "pnpm -F @daily-phrase/api build",
     "build": "pnpm run prebuild && next build",
     "start": "next start",
     "lint": "biome lint --apply ./src/**/*.{js,ts,tsx}",
