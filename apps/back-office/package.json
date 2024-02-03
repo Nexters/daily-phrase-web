@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "next build",
+    "prebuild": "pnpm -F @daily-phrase/api build",
+    "build": "pnpm run prebuild && next build",
     "preview": "next start",
     "add:ui": "pnpm dlx shadcn-ui@latest add",
     "lint": "biome lint --apply ./src/**/*.{js,ts,tsx}",
