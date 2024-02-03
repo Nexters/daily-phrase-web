@@ -12,7 +12,8 @@
     "common": "pnpm -F @daily-phrase/common",
     "back-office": "pnpm -F @daily-phrase/back-office",
     "web": "pnpm -F @daily-phrase/web",
-    "dev": "pnpm -r dev"
+    "dev": "pnpm run build:packages && pnpm -r dev",
+    "build:packages": "pnpm api build && pnpm api common && pnpm install"
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.2",
