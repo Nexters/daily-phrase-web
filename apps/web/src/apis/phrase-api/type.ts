@@ -7,3 +7,11 @@ export type Phrase = {
   likeCount: number;
   viewCount: number;
 };
+
+export type PhrasePaging = {
+  page: number;
+  size: number;
+  hasNext: boolean;
+  total: number;
+  phraseList: Phrase[];
+};

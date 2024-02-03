@@ -4,13 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "pnpm -F @daily-phrase/api build && pnpm install && next dev",
-    "build": "next build",
+    "build": "pnpm -F @daily-phrase/api build && pnpm install && next build",
     "start": "next start",
     "lint": "biome lint --apply ./src/**/*.{js,ts,tsx}",
     "format": "biome format --write ./src/**/*.{js,ts,tsx}"
   },
   "dependencies": {
-    "@daily-phrase/api": "*",
+    "@daily-phrase/api": "^0.1.0",
     "@stylexjs/stylex": "^0.4.1",
     "@tanstack/react-query": "^5.17.19",
     "next": "14.1.0",

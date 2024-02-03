@@ -6,12 +6,14 @@ import { apis } from "~/apis";
 import { Phrase } from "~/apis/phrase-api/type";
 import PhraseCard from "~/components/phrase-card";
 
+const PHRASE_LIST_SIZE = 3;
+
 export default function PhraseList() {
   const [isLoading, setIsLoading] = useState(true);
   const [phraseList, setPhraseList] = useState<Phrase[]>([]);
 
   const requestPhraseList = async () => {
-    const res = await apis.adminApi.getPhraseList();
+    const res = await apis.adminApi.getPhraseList(PHRASE_LIST_SIZE);
     setPhraseList(res.result.phraseList);
     setIsLoading(false);
   };
@@ -26,7 +28,7 @@ export default function PhraseList() {
       <h3 {...stylex.props(styles.listTitle)}>오늘의 글귀</h3>
       <div {...stylex.props(styles.listWrapper)}>
         {isLoading &&
-          [...Array(3)].map((_, i) => {
+          [...Array(PHRASE_LIST_SIZE)].map((_, i) => {
             return (
               <div key={i} {...stylex.props(styles.skeletonWrapper)}>
                 <div {...stylex.props(styles.skeleton, styles.skeletonTitle)} />

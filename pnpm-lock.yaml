@@ -127,7 +127,7 @@ importers:
   apps/web:
     dependencies:
       '@daily-phrase/api':
-        specifier: '*'
+        specifier: ^0.1.0
         version: link:../../packages/api
       '@stylexjs/stylex':
         specifier: ^0.4.1
