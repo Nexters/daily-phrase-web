@@ -1,27 +1,44 @@
 "use client";
 
 import { PlusIcon, XIcon } from "lucide-react";
-import { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import { cn, getGCD } from "~/libs/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
-type UploadImage = {
+export type InputImageValue = {
   src: string;
-  width: number;
-  height: number;
   radio: string;
-  size: number;
+  width?: number;
+  height?: number;
+  size?: number;
 };
 
 export type InputImageProps = {
   className?: string;
   options?: DropzoneOptions;
+  value?: InputImageValue[];
+  previewMaxHeight?: number;
+  onChange?: React.Dispatch<React.SetStateAction<InputImageValue[]>>;
 };
 
-export default function InputImage({ className, options }: InputImageProps) {
-  const [imgList, setImgList] = useState<UploadImage[]>([]);
+export default function InputImage({
+  value = [],
+  previewMaxHeight = 300,
+  className,
+  options,
+  onChange,
+}: InputImageProps) {
+  const initValue = useMemo(() => value, [value]);
+
+  useEffect(() => {}, []);
+
+  const [imgList, setImgList] = useState<InputImageValue[]>(initValue);
+
+  useEffect(() => {
+    onChange?.(imgList);
+  }, [imgList, onChange]);
 
   const onRemoveImg = (index: number) => {
     setImgList(imgList.filter((_, i) => i !== index));
@@ -84,12 +101,9 @@ export default function InputImage({ className, options }: InputImageProps) {
                 <div className="relative group">
                   <img
                     src={img.src}
-                    alt="Preview"
-                    style={{
-                      maxWidth: "100%",
-                      height: "auto",
-                      maxHeight: "500px",
-                    }}
+                    alt="미리보기"
+                    className="max-w-full h-auto"
+                    style={{ maxHeight: previewMaxHeight }}
                   />
                   <button
                     type="button"
