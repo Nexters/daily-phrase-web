@@ -1,6 +1,5 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -77,7 +76,17 @@ export function ManageDrawerContent() {
               )}
             />
             <Separator />
-            <InputImage />
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormControl>
+                    <InputImage />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
             <Separator />
             <FormField
               control={form.control}
