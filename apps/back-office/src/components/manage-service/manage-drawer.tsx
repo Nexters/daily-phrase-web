@@ -14,10 +14,9 @@ import {
   DrawerMain,
 } from "~/components/ui/drawer";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
-import { ClearTextArea, Textarea } from "~/components/ui/textarea";
+import { ClearTextArea } from "~/components/ui/textarea";
+import InputImage from "../ui/input-image";
 import { useManageDrawer } from "./hooks/use-manage-drawer";
 import { ManageValues, manageFormProps } from "./manage-drawer.meta";
 
@@ -78,24 +77,7 @@ export function ManageDrawerContent() {
               )}
             />
             <Separator />
-            <div className="flex w-full items-center gap-1.5">
-              <Label
-                htmlFor="phrase-img"
-                className="text-base text-muted-foreground"
-              >
-                이미지를 추가해 주세요.
-              </Label>
-              <Input
-                id="phrase-img"
-                type="file"
-                accept="image/*"
-                multiple={true}
-                className="hidden"
-              />
-              <Button variant="ghost" size="icon" className="ml-auto -my-2">
-                <Plus className="w-6 h-6 text-muted-foreground" />
-              </Button>
-            </div>
+            <InputImage />
             <Separator />
             <FormField
               control={form.control}
