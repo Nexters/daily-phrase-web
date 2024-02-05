@@ -16,3 +16,11 @@ export function getGCD(num1: number, num2: number) {
 
   return gcd;
 }
+
+export function renderFileSize(size: number) {
+  if (size < 1000) {
+    return `${size}KB`;
+  }
+
+  return `${(size / 1000).toFixed(1)}MB`;
+}

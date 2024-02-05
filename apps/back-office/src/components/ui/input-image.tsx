@@ -4,7 +4,7 @@ import { PlusIcon, XIcon } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
-import { cn, getGCD } from "~/libs/utils";
+import { cn, getGCD, renderFileSize } from "~/libs/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
 export type InputImageValue = {
@@ -12,6 +12,9 @@ export type InputImageValue = {
   radio: string;
   width?: number;
   height?: number;
+  /**
+   * 단위 KB
+   */
   size?: number;
 };
 
@@ -125,7 +128,10 @@ export default function InputImage({
                     비율:<span className="font-medium ml-1">{img.radio}</span>
                   </div>
                   <div>
-                    용량:<span className="font-medium ml-1">{img.size}KB</span>
+                    용량:
+                    <span className="font-medium ml-1">
+                      {renderFileSize(img.size ?? 0)}
+                    </span>
                   </div>
                 </div>
               </div>
