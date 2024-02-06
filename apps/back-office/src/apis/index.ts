@@ -41,7 +41,7 @@ const httpClient = new ApiClient({
   onRequestSuccess,
   onResponseSuccess,
   requestConfig: {
-    baseURL: process.env.API_URL,
+    baseURL: "", // TODO: 임시로 로컬 proxy 태움
   },
 });
 
