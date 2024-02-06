@@ -11,19 +11,15 @@ export type PhraseCardProps = {
 };
 
 export default function PhraseCard({ phrase, style }: PhraseCardProps) {
-  const onClickPhrase = () => {
-    location.href = `/phrase-web/${phrase.phraseId}`;
-  };
-
   return (
     <div {...stylex.props(styles.wrap, style)}>
-      <button type="button" onClick={onClickPhrase}>
+      <a href={`/phrase-web/${phrase.phraseId}`}>
         <div {...stylex.props(styles.title)}>{phrase.title}</div>
         <div {...stylex.props(styles.text)}>{phrase.content}</div>
         <div {...stylex.props(styles.imageWrapper)}>
           <img src={phrase.imageUrl} alt="" />
         </div>
-      </button>
+      </a>
       <div {...stylex.props(styles.footer)}>
         <button type="button" {...stylex.props(styles.iconWrapper)}>
           <EyeIcon width={20} height={20} />
