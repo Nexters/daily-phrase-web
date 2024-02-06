@@ -1,8 +1,10 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { apis } from "~/apis";
 import { Button } from "~/components/ui/button";
 import {
   Drawer,
@@ -39,16 +41,36 @@ export function ManageDrawerContent() {
     }
   }, [form, isDrawerOpen, defaultValues]);
 
-  async function onSubmit(values: ManageValues) {
-    console.log(values);
+  const mutation = useMutation({
+    mutationFn: (values: ManageValues) => {
+      if (isEdit) {
+        return apis.phraseApi.updatePhrase(defaultValues.phraseId);
+      }
+      return apis.phraseApi.createPhrase();
+    },
+  });
 
-    if (isEdit) {
-      toast.success("수정되었습니다.");
-    } else {
-      toast.success("추가되었습니다.");
+  async function onSubmit(values: ManageValues) {
+    if (mutation.isPending) {
+      return;
     }
 
-    closeDrawer();
+    toast.loading("요청중...");
+
+    try {
+      if (isEdit) {
+        await mutation.mutateAsync(values);
+        toast.success("수정되었습니다.");
+      } else {
+        await mutation.mutateAsync(values);
+        toast.success("추가되었습니다.");
+      }
+
+      closeDrawer();
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "알 수 없는 오류";
+      toast.error(message);
+    }
   }
 
   return (
@@ -106,11 +128,21 @@ export function ManageDrawerContent() {
           </DrawerMain>
           <DrawerFooter>
             <DrawerClose asChild>
-              <Button variant="secondary" size="lg">
+              <Button
+                type="button"
+                variant="secondary"
+                size="lg"
+                disabled={mutation.isPending}
+              >
                 취소
               </Button>
             </DrawerClose>
-            <Button variant="default" size="lg">
+            <Button
+              type="submit"
+              variant="default"
+              size="lg"
+              disabled={mutation.isPending}
+            >
               저장
             </Button>
           </DrawerFooter>
