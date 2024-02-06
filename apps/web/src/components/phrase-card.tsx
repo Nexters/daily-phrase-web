@@ -4,6 +4,7 @@ import { Phrase } from "@daily-phrase/api";
 import * as stylex from "@stylexjs/stylex";
 import { EyeIcon, LikeLinearIcon } from "~/components/ui/icons";
 import { numberWithCommas } from "~/libs/utils";
+import { useAppDownloadModalStore } from "./app-download-modal";
 
 export type PhraseCardProps = {
   phrase: Phrase;
@@ -11,6 +12,8 @@ export type PhraseCardProps = {
 };
 
 export default function PhraseCard({ phrase, style }: PhraseCardProps) {
+  const openAppDownloadModal = useAppDownloadModalStore((state) => state.open);
+
   return (
     <div {...stylex.props(styles.wrap, style)}>
       <a href={`/phrase-web/${phrase.phraseId}`}>
@@ -21,11 +24,19 @@ export default function PhraseCard({ phrase, style }: PhraseCardProps) {
         </div>
       </a>
       <div {...stylex.props(styles.footer)}>
-        <button type="button" {...stylex.props(styles.iconWrapper)}>
+        <button
+          type="button"
+          {...stylex.props(styles.iconWrapper)}
+          onClick={openAppDownloadModal}
+        >
           <EyeIcon width={20} height={20} />
           <span>{numberWithCommas(phrase.likeCount)}</span>
         </button>
-        <button type="button" {...stylex.props(styles.iconWrapper)}>
+        <button
+          type="button"
+          {...stylex.props(styles.iconWrapper)}
+          onClick={openAppDownloadModal}
+        >
           <LikeLinearIcon width={20} height={20} />
           <span>{numberWithCommas(phrase.viewCount)}</span>
         </button>
