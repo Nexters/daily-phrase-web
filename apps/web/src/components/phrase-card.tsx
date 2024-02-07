@@ -4,6 +4,7 @@ import { Phrase } from "@daily-phrase/api";
 import * as stylex from "@stylexjs/stylex";
 import { EyeIcon, LikeLinearIcon } from "~/components/ui/icons";
 import { numberWithCommas } from "~/libs/utils";
+import { useAppDownloadModalStore } from "./app-download-modal";
 
 export type PhraseCardProps = {
   phrase: Phrase;
@@ -11,25 +12,31 @@ export type PhraseCardProps = {
 };
 
 export default function PhraseCard({ phrase, style }: PhraseCardProps) {
-  const onClickPhrase = () => {
-    location.href = `/phrase-web/${phrase.phraseId}`;
-  };
+  const openAppDownloadModal = useAppDownloadModalStore((state) => state.open);
 
   return (
     <div {...stylex.props(styles.wrap, style)}>
-      <button type="button" onClick={onClickPhrase}>
+      <a href={`/phrase-web/${phrase.phraseId}`}>
         <div {...stylex.props(styles.title)}>{phrase.title}</div>
         <div {...stylex.props(styles.text)}>{phrase.content}</div>
         <div {...stylex.props(styles.imageWrapper)}>
           <img src={phrase.imageUrl} alt="" />
         </div>
-      </button>
+      </a>
       <div {...stylex.props(styles.footer)}>
-        <button type="button" {...stylex.props(styles.iconWrapper)}>
+        <button
+          type="button"
+          {...stylex.props(styles.iconWrapper)}
+          onClick={openAppDownloadModal}
+        >
           <EyeIcon width={20} height={20} />
           <span>{numberWithCommas(phrase.likeCount)}</span>
         </button>
-        <button type="button" {...stylex.props(styles.iconWrapper)}>
+        <button
+          type="button"
+          {...stylex.props(styles.iconWrapper)}
+          onClick={openAppDownloadModal}
+        >
           <LikeLinearIcon width={20} height={20} />
           <span>{numberWithCommas(phrase.viewCount)}</span>
         </button>

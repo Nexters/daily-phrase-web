@@ -15,12 +15,14 @@ export default function AppFooter() {
         <button
           type="button"
           {...stylex.props(styles.flexCenter, styles.btnWrapper)}
+          onClick={openAppDownloadModal}
         >
           <LikeLinearIcon {...stylex.props(styles.icon)} />
         </button>
         <button
           type="button"
           {...stylex.props(styles.flexCenter, styles.btnWrapper)}
+          onClick={openAppDownloadModal}
         >
           <BookmarkLinearIcon {...stylex.props(styles.icon)} />
         </button>

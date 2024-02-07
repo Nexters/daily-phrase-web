@@ -1,8 +1,11 @@
 "use client";
 
 import * as stylex from "@stylexjs/stylex";
+import { useAppDownloadModalStore } from "./app-download-modal";
 
 export default function GoAppCard() {
+  const openAppDownloadModal = useAppDownloadModalStore((state) => state.open);
+
   return (
     <div {...stylex.props(styles.wrapper)}>
       <div {...stylex.props(styles.title)}>
@@ -12,7 +15,11 @@ export default function GoAppCard() {
         <br />
         확인하세요.
       </div>
-      <button type="button" {...stylex.props(styles.btn, styles.cardBtn)}>
+      <button
+        type="button"
+        {...stylex.props(styles.btn, styles.cardBtn)}
+        onClick={openAppDownloadModal}
+      >
         글귀 보러가기
       </button>
     </div>

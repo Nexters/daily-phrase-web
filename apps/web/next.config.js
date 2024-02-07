@@ -1,11 +1,12 @@
-/** @type {import('next').NextConfig} */
+const path = require("path");
 const stylexPlugin = require("@stylexjs/nextjs-plugin");
 
+/** @type {import('next').NextConfig} */
 module.exports = stylexPlugin({
+  aliases: {
+    "~/*": [path.join(__dirname, "*")],
+  },
   rootDir: __dirname,
 })({
   reactStrictMode: true,
-  env: {
-    API_URL: process.env.API_URL,
-  },
 });

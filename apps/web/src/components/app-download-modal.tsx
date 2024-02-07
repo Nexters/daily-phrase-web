@@ -151,7 +151,7 @@ const styles = stylex.create({
       "0%": { opacity: 1, transform: "translate3d(-50%,-50%,0)" },
       "100%": { opacity: 0, transform: "translate3d(-50%,-45%,0)" },
     }),
-    animationDuration: "200ms",
+    animationDuration: "150ms",
     animationTimingFunction: "ease-out",
   },
   title: {

@@ -18,6 +18,7 @@ picture {
   pointer-events: none;
 }
 
+a,
 button {
   all: unset;
   cursor: pointer;
