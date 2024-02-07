@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import { useMutation } from "@tanstack/react-query";
+import { setCookie } from "cookies-next";
 import { toast } from "sonner";
 import { apis } from "~/apis";
+import { ACCESSTOKEN, REFRESHTOKEN } from "~/apis/config/cookie/token";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -35,7 +37,10 @@ const LoginForm = () => {
   const onSubmit = (data: LoginSchema) => {
     mutate(data, {
       onError: () => toast.error("로그인에 실패했습니다."),
-      onSuccess: () => {
+      onSuccess: (res) => {
+        setCookie(ACCESSTOKEN, res.result.accessToken);
+        setCookie(REFRESHTOKEN, res.result.accessToken);
+
         toast.success("로그인에 성공했습니다.");
         router.push("/");
       },
