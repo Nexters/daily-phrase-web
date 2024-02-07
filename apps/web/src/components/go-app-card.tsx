@@ -48,6 +48,7 @@ const styles = stylex.create({
     height: 40,
     backgroundColor: "#FFEAB1",
     borderRadius: 8,
+    fontWeight: 600,
   },
   cardBtn: {
     marginTop: 16,
