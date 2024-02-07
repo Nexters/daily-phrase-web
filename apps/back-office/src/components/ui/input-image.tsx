@@ -34,9 +34,6 @@ export default function InputImage({
   onChange,
 }: InputImageProps) {
   const initValue = useMemo(() => value, [value]);
-
-  useEffect(() => {}, []);
-
   const [imgList, setImgList] = useState<InputImageValue[]>(initValue);
 
   useEffect(() => {

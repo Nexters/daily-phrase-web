@@ -44,9 +44,11 @@ export function ManageDrawerContent() {
   const mutation = useMutation({
     mutationFn: (values: ManageValues) => {
       if (isEdit) {
-        return apis.phraseApi.updatePhrase(defaultValues.phraseId);
+        return new Promise((resolve) => setTimeout(resolve, 1000));
+        // return apis.phraseApi.updatePhrase(defaultValues.phraseId);
       }
-      return apis.phraseApi.createPhrase();
+      return new Promise((resolve) => setTimeout(resolve, 2000));
+      // return apis.phraseApi.createPhrase();
     },
   });
 
@@ -89,6 +91,7 @@ export function ManageDrawerContent() {
                 <FormItem>
                   <FormControl>
                     <ClearTextArea
+                      disabled={mutation.isPending}
                       className="min-h-9 text-2xl font-bold"
                       placeholder="제목 없음"
                       {...field}
@@ -104,7 +107,7 @@ export function ManageDrawerContent() {
               render={({ field }) => (
                 <FormItem className="">
                   <FormControl>
-                    <InputImage />
+                    <InputImage options={{ disabled: mutation.isPending }} />
                   </FormControl>
                 </FormItem>
               )}
@@ -117,6 +120,7 @@ export function ManageDrawerContent() {
                 <FormItem className="h-full">
                   <FormControl>
                     <ClearTextArea
+                      disabled={mutation.isPending}
                       placeholder="텍스트를 작성해 주세요"
                       className="h-full text-base"
                       {...field}
