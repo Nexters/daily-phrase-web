@@ -1,7 +1,5 @@
-import * as stylex from "@stylexjs/stylex";
 import { apis } from "~/apis";
 import PhraseContent from "~/components/phrase-content";
-import { globalStyles } from "~/styles/globals.stylex";
 
 export default async function PhraseWebviewPage({
   params,
@@ -12,10 +10,8 @@ export default async function PhraseWebviewPage({
   const phrase = res.result;
 
   return (
-    <main {...stylex.props(globalStyles.container)}>
+    <main>
       <PhraseContent phrase={phrase} />
     </main>
   );
 }
-
-const styles = stylex.create({});
