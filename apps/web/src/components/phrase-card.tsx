@@ -18,7 +18,7 @@ export default function PhraseCard({ phrase, style }: PhraseCardProps) {
     <div {...stylex.props(styles.wrap, style)}>
       <a href={`/phrase-web/${phrase.phraseId}`}>
         <div {...stylex.props(styles.title)}>{phrase.title}</div>
-        <div {...stylex.props(styles.text)}>{phrase.content}</div>
+        <p {...stylex.props(styles.text)}>{phrase.content}</p>
         <div {...stylex.props(styles.imageWrapper)}>
           <img src={phrase.imageUrl} alt="" />
         </div>
@@ -64,6 +64,11 @@ const styles = stylex.create({
     fontSize: 16,
     lineHeight: "22px",
     marginBottom: 10,
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 2,
+    display: "-webkit-box",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   imageWrapper: {
     marginBottom: 10,
