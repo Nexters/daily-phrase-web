@@ -1,8 +1,6 @@
 "use client";
 
-import * as stylex from "@stylexjs/stylex";
 import GoAppCard from "~/components/go-app-card";
-import { globalStyles } from "~/styles/globals.stylex";
 
 export default function ErrorPage({
   error,
@@ -10,27 +8,11 @@ export default function ErrorPage({
   error: Error;
 }) {
   return (
-    <div {...stylex.props(globalStyles.container, styles.container)}>
-      <h2 {...stylex.props(styles.title)}>{error.message}</h2>
-      <div {...stylex.props(styles.footer)}>
+    <div className="pt-16 pb-4 px-8 flex flex-col h-svh">
+      <h2 className="text-[28px] font-bold text-center">{error.message}</h2>
+      <div className="mt-auto">
         <GoAppCard />
       </div>
     </div>
   );
 }
-
-const styles = stylex.create({
-  container: {
-    padding: "64px 16px 32px",
-    height: "100vh",
-    display: "flex",
-    flexDirection: "column",
-  },
-  title: {
-    fontSize: 28,
-    textAlign: "center",
-  },
-  footer: {
-    marginTop: "auto",
-  },
-});

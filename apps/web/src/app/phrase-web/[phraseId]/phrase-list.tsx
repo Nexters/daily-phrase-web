@@ -1,10 +1,10 @@
 "use client";
 
 import { Phrase } from "@daily-phrase/api";
-import * as stylex from "@stylexjs/stylex";
 import { useEffect, useState } from "react";
 import { apis } from "~/apis";
 import PhraseCard from "~/components/phrase-card";
+import { cn } from "~/libs/utils";
 
 const PHRASE_LIST_SIZE = 3;
 
@@ -13,8 +13,15 @@ export default function PhraseList() {
   const [phraseList, setPhraseList] = useState<Phrase[]>([]);
 
   const requestPhraseList = async () => {
-    const res = await apis.adminApi.getPhraseList(PHRASE_LIST_SIZE);
-    setPhraseList(res.result.phraseList);
+    const res = await fetch("/api/v1/phrases?page=1&size=3", {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const { data } = await res.json();
+    // TODO: 백엔드 https 부착
+    // const res = await apis.adminApi.getPhraseList(PHRASE_LIST_SIZE);
+    setPhraseList(data.result.phraseList);
     setIsLoading(false);
   };
 
@@ -25,18 +32,17 @@ export default function PhraseList() {
 
   return (
     <>
-      <h3 {...stylex.props(styles.listTitle)}>오늘의 글귀</h3>
-      <div {...stylex.props(styles.listWrapper)}>
+      <h3 className="pt-10 pb-2 px-4 text-black text-[22px] font-bold">
+        오늘의 글귀
+      </h3>
+      <div className="flex flex-col pb-4 px-4">
         {isLoading &&
           [...Array(PHRASE_LIST_SIZE)].map((_, i) => {
             return (
-              <div key={i} {...stylex.props(styles.skeletonWrapper)}>
-                <div {...stylex.props(styles.skeleton, styles.skeletonTitle)} />
-                <div
-                  {...stylex.props(styles.skeleton, styles.skeletonDescription)}
-                />
-                <div {...stylex.props(styles.skeleton, styles.skeletonImage)} />
-                <div {...stylex.props(styles.skeleton)} />
+              <div key={i} className="w-full mt-2 pb-4 space-y-2.5">
+                <div className="animate-pulse bg-[#ececec] w-[150px] h-[27px] rounded-[8px]" />
+                <div className="animate-pulse bg-[#ececec] w-[250px] h-[27px] rounded-[8px]" />
+                <div className="animate-pulse bg-[#ececec] w-full h-[200px] rounded-[8px]" />
               </div>
             );
           })}
@@ -44,9 +50,9 @@ export default function PhraseList() {
           phraseList.map((phrase, i) => {
             return (
               <PhraseCard
-                key={phrase.title}
+                key={phrase.title + i}
                 phrase={phrase}
-                style={i > 0 && styles.listItemBorderTop}
+                className={cn(i > 0 && "border-t-[1px] border-[#ececec]")}
               />
             );
           })}
@@ -54,45 +60,3 @@ export default function PhraseList() {
     </>
   );
 }
-
-const styles = stylex.create({
-  skeletonWrapper: {
-    width: "100%",
-    marginTop: 8,
-    marginBottom: 16,
-  },
-  skeleton: {
-    backgroundColor: "#ececec",
-  },
-  skeletonTitle: {
-    width: 100,
-    height: 27,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  skeletonDescription: {
-    width: 200,
-    height: 27,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  skeletonImage: {
-    width: "100%",
-    height: 200,
-    borderRadius: 8,
-  },
-  listTitle: {
-    color: "#000",
-    fontSize: 22,
-    fontWeight: 700,
-    padding: "40px 16px 8px",
-  },
-  listWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "0 16px 16px",
-  },
-  listItemBorderTop: {
-    borderTop: "1px solid #ececec",
-  },
-});

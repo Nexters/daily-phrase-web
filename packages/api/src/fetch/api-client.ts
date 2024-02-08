@@ -47,7 +47,7 @@ class ApiClient implements ApiClientInstance {
     const fetchRoute = `${this.config?.baseURL || ""}${route}`;
     const response: Response = await fetch(
       `${this.config?.baseURL || ""}${route}`,
-      requestConfig,
+      requestConf,
     );
     /** @todo timeout 만들기 with AbortController */
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>

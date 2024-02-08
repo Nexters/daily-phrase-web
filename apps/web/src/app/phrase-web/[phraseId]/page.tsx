@@ -1,10 +1,9 @@
-import * as stylex from "@stylexjs/stylex";
 import { apis } from "~/apis";
 import AppDownloadModal from "~/components/app-download-modal";
 import AppFooter from "~/components/app-footer";
 import GoAppCard from "~/components/go-app-card";
 import PhraseContent from "~/components/phrase-content";
-import { globalStyles } from "~/styles/globals.stylex";
+import Separator from "~/components/ui/separator";
 import PhraseList from "./phrase-list";
 
 export default async function PhraseWebPage({
@@ -16,20 +15,14 @@ export default async function PhraseWebPage({
   const phrase = res.result;
 
   return (
-    <main {...stylex.props(globalStyles.container, styles.container)}>
+    <main className="pb-[90px]">
       <PhraseContent phrase={phrase} />
-      <div {...stylex.props(globalStyles.separator)} />
+      <Separator />
       <PhraseList />
-      <div {...stylex.props(globalStyles.separator)} />
+      <Separator />
       <GoAppCard />
       <AppFooter />
       <AppDownloadModal />
     </main>
   );
 }
-
-const styles = stylex.create({
-  container: {
-    paddingBottom: 90,
-  },
-});
