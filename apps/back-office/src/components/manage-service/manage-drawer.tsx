@@ -1,10 +1,6 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { apis } from "~/apis";
+import { ChevronsRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Drawer,
@@ -18,8 +14,11 @@ import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Separator } from "~/components/ui/separator";
 import { ClearTextArea } from "~/components/ui/textarea";
 import InputImage from "../ui/input-image";
-import { useManageDrawer } from "./hooks/use-manage-drawer";
-import { ManageValues, manageFormProps } from "./manage-drawer.meta";
+import {
+  useManageDrawer,
+  useManageDrawerForm,
+  useManageDrawerMutation,
+} from "./hooks/use-manage-drawer";
 
 export function ManageDrawerRoot(props: React.ComponentProps<typeof Drawer>) {
   const { open, setOpen } = useManageDrawer();
@@ -28,52 +27,10 @@ export function ManageDrawerRoot(props: React.ComponentProps<typeof Drawer>) {
 }
 
 export function ManageDrawerContent() {
-  const form = useForm<ManageValues>(manageFormProps);
+  const closeDrawer = useManageDrawer((v) => v.closeDrawer);
 
-  const isDrawerOpen = useManageDrawer((v) => v.open);
-  const isEdit = useManageDrawer((v) => !!v.data);
-  const defaultValues = useManageDrawer((v) => v.data);
-  const closeDrawer = useManageDrawer((v) => () => v.setOpen(false));
-
-  useEffect(() => {
-    if (isDrawerOpen) {
-      form.reset(defaultValues ?? manageFormProps.defaultValues);
-    }
-  }, [form, isDrawerOpen, defaultValues]);
-
-  const mutation = useMutation({
-    mutationFn: (values: ManageValues) => {
-      if (isEdit) {
-        return new Promise((resolve) => setTimeout(resolve, 1000));
-        // return apis.phraseApi.updatePhrase(defaultValues.phraseId);
-      }
-      return new Promise((resolve) => setTimeout(resolve, 2000));
-      // return apis.phraseApi.createPhrase();
-    },
-  });
-
-  async function onSubmit(values: ManageValues) {
-    if (mutation.isPending) {
-      return;
-    }
-
-    toast.loading("요청중...");
-
-    try {
-      if (isEdit) {
-        await mutation.mutateAsync(values);
-        toast.success("수정되었습니다.");
-      } else {
-        await mutation.mutateAsync(values);
-        toast.success("추가되었습니다.");
-      }
-
-      closeDrawer();
-    } catch (e) {
-      const message = e instanceof Error ? e.message : "알 수 없는 오류";
-      toast.error(message);
-    }
-  }
+  const { form } = useManageDrawerForm();
+  const { mutation, onSubmit } = useManageDrawerMutation();
 
   return (
     <Form {...form}>
@@ -82,7 +39,16 @@ export function ManageDrawerContent() {
           className="min-w-[480px] w-1/3"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <DrawerHeader />
+          <DrawerHeader>
+            <Button
+              disabled={mutation.isPending}
+              variant="ghost"
+              size="icon"
+              onClick={closeDrawer}
+            >
+              <ChevronsRight className="w-6 h-6" />
+            </Button>
+          </DrawerHeader>
           <DrawerMain>
             <FormField
               control={form.control}
@@ -131,16 +97,15 @@ export function ManageDrawerContent() {
             />
           </DrawerMain>
           <DrawerFooter>
-            <DrawerClose asChild>
-              <Button
-                type="button"
-                variant="secondary"
-                size="lg"
-                disabled={mutation.isPending}
-              >
-                취소
-              </Button>
-            </DrawerClose>
+            <Button
+              type="button"
+              variant="secondary"
+              size="lg"
+              disabled={mutation.isPending}
+              onClick={closeDrawer}
+            >
+              취소
+            </Button>
             <Button
               type="submit"
               variant="default"

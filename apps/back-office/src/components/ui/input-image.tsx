@@ -41,6 +41,8 @@ export default function InputImage({
   }, [imgList, onChange]);
 
   const onRemoveImg = (index: number) => {
+    if (options?.disabled) return;
+
     setImgList(imgList.filter((_, i) => i !== index));
   };
 
@@ -78,12 +80,19 @@ export default function InputImage({
   });
 
   return (
-    <div className={cn("text-muted-foreground", className)}>
+    <div
+      className={cn(
+        "text-muted-foreground",
+        options?.disabled && "cursor-not-allowed opacity-50",
+        className,
+      )}
+    >
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         <div
           className={cn(
             "-mx-2 px-2 py-2 flex rounded-md cursor-pointer transition hover:bg-secondary",
+            options?.disabled && "cursor-not-allowed opacity-50",
             isDragActive && "bg-secondary",
           )}
         >
