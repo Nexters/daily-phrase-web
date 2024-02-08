@@ -24,6 +24,7 @@ const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
     onCheckAllDelete,
     isDeleteChecked,
     onDeleteCheck,
+    checkedItems,
   } = useManagePagination(data, Number(rowsPerPageOptions[0].value));
 
   const openNewDrawer = useManageDrawer((v) => v.openNewDrawer);
@@ -36,6 +37,7 @@ const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
         onRowSizeChange={onRowSizeChange}
         onCheckAllDelete={onCheckAllDelete}
         onClickCreate={openNewDrawer}
+        checkedItems={checkedItems}
       />
       <DataTable
         columns={getManageTableColumns(isDeleteChecked, onDeleteCheck)}

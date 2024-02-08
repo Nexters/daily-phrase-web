@@ -71,6 +71,7 @@ const useManagePagination = (
     onCheckAllDelete,
     isDeleteChecked,
     onDeleteCheck,
+    checkedItems,
   };
 };
 
