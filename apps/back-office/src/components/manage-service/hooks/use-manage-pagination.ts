@@ -47,7 +47,7 @@ const useManagePagination = (
     setPagination((prev) => ({ ...prev, current: next }));
   };
 
-  const currentPageDataIds = transformedData.map((item) => item.id);
+  const currentPageDataIds = transformedData.map((item) => item.phraseId);
 
   const isAllDeleteChecked = checkedItems.length === currentPageDataIds.length;
 

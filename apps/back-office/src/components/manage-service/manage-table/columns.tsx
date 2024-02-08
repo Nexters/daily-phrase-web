@@ -33,8 +33,10 @@ export const getManageTableColumns = (
       <div className="flex items-center justify-center">
         <Checkbox
           className="data-[state=checked]:bg-slate-600"
-          checked={isDeleteChecked(row.original.id)}
-          onCheckedChange={(checked) => onDeleteCheck(row.original.id, checked)}
+          checked={isDeleteChecked(row.original.phraseId)}
+          onCheckedChange={(checked) =>
+            onDeleteCheck(row.original.phraseId, checked)
+          }
           aria-label="Select row"
         />
         <EllipsisText className="inline-block p-4">
@@ -53,7 +55,7 @@ export const getManageTableColumns = (
     minSize: 140,
     accessorKey: "imageUrl",
     header: () => <TableHeadText textAlign="left">이미지</TableHeadText>,
-    cell: ({ row }) => <EllipsisText>{row.original.imageUrl}</EllipsisText>,
+    cell: ({ row }) => <EllipsisText>{row.original.filename}</EllipsisText>,
   },
   {
     minSize: 348,
