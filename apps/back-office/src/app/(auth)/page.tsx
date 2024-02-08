@@ -16,12 +16,12 @@ export default function Page() {
         <div className="flex items-center mb-6">
           <h1 className="text-2xl font-bold">서비스 관리</h1>
         </div>
-        <AsyncBoundary
+        {/* <AsyncBoundary
           LoadingFallback={<Loading />}
           errorFallbackRender={ErrorFallback}
-        >
-          <ManageServiceDataTable />
-        </AsyncBoundary>
+        > */}
+        <ManageServiceDataTable />
+        {/* </AsyncBoundary> */}
       </div>
       <ManageDrawerContent />
     </ManageDrawerRoot>

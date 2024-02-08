@@ -10,9 +10,11 @@ import { useManageDrawer } from "../hooks/use-manage-drawer";
 import { rowsPerPageOptions } from "../manage-service.meta";
 import { ManageActionBar } from "./action-bar";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { apis } from "~/apis";
 import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
+import ErrorFallback from "~/components/error-fallback";
+import Loading from "~/components/loading";
 
 const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
   const {
@@ -57,10 +59,12 @@ const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
 export default ManageServiceTable;
 
 const ManageServiceTableConnector = () => {
-  const { data } = useSuspenseQuery({
+  const { data, isPending, isError, error } = useQuery({
     queryFn: () => apis.phraseApi.getPhraseList(),
     queryKey: queryKeys.phraseList,
   });
+  if (isPending) return <Loading />;
+  if (isError) return <ErrorFallback reset={() => {}} error={error} />;
   if (!data) return null;
   return <ManageServiceTable data={data.result} />;
 };
