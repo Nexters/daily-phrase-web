@@ -6,7 +6,7 @@ export default async function PhraseWebviewPage({
 }: {
   params: { phraseId: string };
 }) {
-  const res = await apis.adminApi.getPhrase(params.phraseId);
+  const res = await apis.phraseApi.getPhrase(params.phraseId);
   const phrase = res.result;
 
   return (

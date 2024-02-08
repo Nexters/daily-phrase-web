@@ -13,14 +13,8 @@ export default function PhraseList() {
   const [phraseList, setPhraseList] = useState<Phrase[]>([]);
 
   const requestPhraseList = async () => {
-    const res = await fetch("/api/v1/phrases?page=1&size=3", {
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    const { data } = await res.json();
     // TODO: 백엔드 https 부착
-    // const res = await apis.adminApi.getPhraseList(PHRASE_LIST_SIZE);
+    const data = await apis.phraseApi.getPhraseList(PHRASE_LIST_SIZE);
     setPhraseList(data.result.phraseList);
     setIsLoading(false);
   };
