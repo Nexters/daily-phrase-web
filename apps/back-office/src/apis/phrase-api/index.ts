@@ -1,4 +1,5 @@
-import { ApiClientInstance } from "@daily-phrase/api";
+import { ApiClientInstance, ApiData } from "@daily-phrase/api";
+import { PhraseItemWithId } from "~/types/phrase";
 
 export class PhraseApi {
   private apiClient: ApiClientInstance;
@@ -13,11 +14,14 @@ export class PhraseApi {
     });
   }
   getPhraseList() {
-    return this.apiClient.get("/api/admin/phrases", {
-      headers: {
-        "content-type": "application/json",
+    return this.apiClient.get<ApiData<Array<PhraseItemWithId>>>(
+      "/api/admin/phrases",
+      {
+        headers: {
+          "content-type": "application/json",
+        },
       },
-    });
+    );
   }
   getPhrase(id: string) {
     return this.apiClient.delete(`/api/admin/phrases/${id}`, {

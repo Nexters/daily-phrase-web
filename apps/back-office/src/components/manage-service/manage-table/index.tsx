@@ -10,6 +10,10 @@ import { useManageDrawer } from "../hooks/use-manage-drawer";
 import { rowsPerPageOptions } from "../manage-service.meta";
 import { ManageActionBar } from "./action-bar";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { apis } from "~/apis";
+import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
+
 const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
   const {
     pagination,
@@ -49,3 +53,14 @@ const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
 };
 
 export default ManageServiceTable;
+
+const ManageServiceTableConnector = () => {
+  const { data } = useSuspenseQuery({
+    queryFn: () => apis.phraseApi.getPhraseList(),
+    queryKey: queryKeys.phraseList,
+  });
+  if (!data) return null;
+  return <ManageServiceTable data={data.result} />;
+};
+
+export { ManageServiceTableConnector as ManageServiceDataTable };
