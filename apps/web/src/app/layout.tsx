@@ -21,7 +21,7 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css"
         />
       </head>
-      <body className="container">{children}</body>
+      <body className="container h-lvh">{children}</body>
     </html>
   );
 }

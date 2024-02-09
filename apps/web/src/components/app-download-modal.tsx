@@ -1,8 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { createPortal } from "react-dom";
 import { RemoveScroll } from "react-remove-scroll";
 import { create } from "zustand";
+import { AOS_APP_LINK } from "~/constants";
+import { detectDevice } from "~/libs/detect-device";
 import { cn } from "~/libs/utils";
 
 type ModalStatus = "mounted" | "opened" | "closed" | "unmounted";
@@ -37,12 +40,14 @@ export const useAppDownloadModalStore = create<{
 
 export default function AppDownloadModal() {
   const { status, close, transferStatus } = useAppDownloadModalStore();
+  const router = useRouter();
 
   const onClickDownloadApp = () => {
     close();
-
-    // TODO: ios의 경우 안내창 띄우기
     // TODO: 앱이 있으면 앱 열기, 없으면 playstore로 이동
+    const device = detectDevice();
+    if (device === "android") window.open(AOS_APP_LINK);
+    else router.push("/ios-not-supported");
   };
 
   if (status === "unmounted") {
