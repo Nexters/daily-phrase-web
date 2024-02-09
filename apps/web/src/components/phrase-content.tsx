@@ -1,52 +1,23 @@
 import { Phrase } from "@daily-phrase/api";
-import * as stylex from "@stylexjs/stylex";
 import AspectRatioImg from "./ui/aspect-radio-img";
 
 export default function PhraseContent({ phrase }: { phrase: Phrase }) {
   return (
-    <div {...stylex.props(styles.wrap)}>
-      <div {...stylex.props(styles.title)}>{phrase.title}</div>
+    <div className="flex flex-col py-8">
+      <div className="mb-4 px-4 text-black text-[28px] font-semibold leading-[36px]">
+        {phrase.title}
+      </div>
       {phrase.imageUrl && (
         <AspectRatioImg
           src={phrase.imageUrl}
           alt="글귀 이미지"
           radio={phrase.imageRatio}
-          {...stylex.props(styles.imageWrapper)}
+          className="mb-4 w-full min-h-[18px] flex items-center justify-center bg-[#DADADA]"
         />
       )}
-      <div {...stylex.props(styles.text)}>{phrase.content}</div>
+      <div className="px-4 text-black text-[18px] leading-[29px] whitespace-pre-wrap">
+        {phrase.content}
+      </div>
     </div>
   );
 }
-
-const styles = stylex.create({
-  wrap: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "32px 0",
-  },
-  title: {
-    marginBottom: 16,
-    padding: "0 16px",
-    color: "#000",
-    fontSize: 28,
-    fontWeight: 600,
-    lineHeight: "36px",
-  },
-  text: {
-    padding: "0 16px",
-    color: "#000",
-    fontSize: 18,
-    lineHeight: "29px",
-    whiteSpace: "pre-wrap",
-  },
-  imageWrapper: {
-    marginBottom: 16,
-    width: "100%",
-    minHeight: 180,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DADADA",
-  },
-});

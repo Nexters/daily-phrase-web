@@ -1,4 +1,6 @@
-import React from 'react';
+"use client";
+
+import React from "react";
 
 export type BasicErrorFallbackRenderProps = {
   reset: () => void;
@@ -36,7 +38,7 @@ const initialState = { hasError: false, error: null };
 
 const changedArray = (
   prevArray: Array<unknown> = [],
-  nextArray: Array<unknown> = []
+  nextArray: Array<unknown> = [],
 ) => {
   return (
     prevArray.length !== nextArray.length ||
@@ -84,7 +86,7 @@ export default class ErrorBoundary extends React.Component<
 
     if (!hasError) return children;
 
-    if (typeof errorFallbackRender === 'function') {
+    if (typeof errorFallbackRender === "function") {
       return errorFallbackRender({
         reset: this.resetBoundary,
         error,

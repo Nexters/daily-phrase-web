@@ -1,6 +1,4 @@
-import * as stylex from "@stylexjs/stylex";
 import type { Metadata } from "next";
-import QueryProvider from "~/providers/query-provider";
 import "~/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -23,9 +21,7 @@ export default function RootLayout({
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css"
         />
       </head>
-      <body {...stylex.props()}>
-        <QueryProvider>{children}</QueryProvider>
-      </body>
+      <body className="container h-lvh">{children}</body>
     </html>
   );
 }

@@ -45,5 +45,5 @@ const httpClient = new ApiClient({
 });
 
 export const apis = {
-  adminApi: new PhraseApi(httpClient),
+  phraseApi: new PhraseApi(httpClient),
 };

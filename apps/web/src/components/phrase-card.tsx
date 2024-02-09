@@ -1,96 +1,49 @@
 "use client";
 
 import { Phrase } from "@daily-phrase/api";
-import * as stylex from "@stylexjs/stylex";
 import { EyeIcon, LikeLinearIcon } from "~/components/ui/icons";
-import { numberWithCommas } from "~/libs/utils";
+import { cn, numberWithCommas } from "~/libs/utils";
 import { useAppDownloadModalStore } from "./app-download-modal";
 
 export type PhraseCardProps = {
+  className?: string;
   phrase: Phrase;
-  style?: stylex.StyleXStyles;
 };
 
-export default function PhraseCard({ phrase, style }: PhraseCardProps) {
+export default function PhraseCard({ className, phrase }: PhraseCardProps) {
   const openAppDownloadModal = useAppDownloadModalStore((state) => state.open);
 
   return (
-    <div {...stylex.props(styles.wrap, style)}>
+    <div className={cn("flex flex-col pt-2 pb-4", className)}>
       <a href={`/phrase-web/${phrase.phraseId}`}>
-        <div {...stylex.props(styles.title)}>{phrase.title}</div>
-        <div {...stylex.props(styles.text)}>{phrase.content}</div>
-        <div {...stylex.props(styles.imageWrapper)}>
-          <img src={phrase.imageUrl} alt="" />
+        <div className="mb-1 pt-2 text-black text-[20px] font-semibold leading-[27px]">
+          {phrase.title}
+        </div>
+        <p className="mb-2.5 text-base leading-[22px] text-[#64696B] line-clamp-2 text-ellipsis">
+          {phrase.content}
+        </p>
+        <div className="mb-2.5 w-full h-[180px] flex items-center justify-center bg-[#DADADA] rounded-[10px] overflow-hidden">
+          <img src={phrase.imageUrl} alt="" className="w-full h-full" />
         </div>
       </a>
-      <div {...stylex.props(styles.footer)}>
+      <div className="flex justify-between align-center gap-2.5">
         <button
           type="button"
-          {...stylex.props(styles.iconWrapper)}
+          className="flex-1 flex items-center justify-center gap-0.5 py-1.5 px-[22px] text-[#64696B] text-[14px] leading-[22px] rounded-[10px] border border-[#DADADA]"
           onClick={openAppDownloadModal}
         >
           <EyeIcon width={20} height={20} />
-          <span>{numberWithCommas(phrase.likeCount)}</span>
+          <span>{numberWithCommas(phrase.viewCount)}</span>
         </button>
         <button
           type="button"
-          {...stylex.props(styles.iconWrapper)}
+          className="flex-1 flex items-center justify-center gap-0.5 py-1.5 px-[22px] text-[#64696B] text-[14px] leading-[22px] rounded-[10px] border border-[#DADADA]"
           onClick={openAppDownloadModal}
         >
           <LikeLinearIcon width={20} height={20} />
-          <span>{numberWithCommas(phrase.viewCount)}</span>
+          <span>{numberWithCommas(phrase.likeCount)}</span>
         </button>
       </div>
     </div>
   );
 }
-
-const styles = stylex.create({
-  wrap: {
-    display: "flex",
-    flexDirection: "column",
-    padding: "8px 0 16px",
-  },
-  title: {
-    marginBottom: 4,
-    paddingTop: 8,
-    color: "#000",
-    fontSize: 20,
-    fontWeight: 600,
-    lineHeight: "27px",
-  },
-  text: {
-    color: "#64696B",
-    fontSize: 16,
-    lineHeight: "22px",
-    marginBottom: 10,
-  },
-  imageWrapper: {
-    marginBottom: 10,
-    width: "100%",
-    height: 180,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DADADA",
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  footer: {
-    display: "flex",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    gap: 10,
-  },
-  iconWrapper: {
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "6px 22px",
-    color: "#64696B",
-    fontSize: 14,
-    lineHeight: "22px",
-    textOverflow: "ellipsis",
-  },
-});

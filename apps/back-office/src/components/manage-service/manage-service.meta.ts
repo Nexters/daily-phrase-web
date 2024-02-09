@@ -4,7 +4,7 @@ const phraseItemMocks: PhraseItem = {
   createdAt: new Date().getMilliseconds(),
   title:
     "안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들",
-  imageUrl: "",
+  filename: "",
   content:
     "안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들 안녕 친구들",
   viewCount: 9999999,
@@ -14,7 +14,7 @@ const phraseItemMocks: PhraseItem = {
 export const getPhraseItemListMocks = (num: number): Array<PhraseItemWithId> =>
   Array.from({ length: num }, (_, idx) => ({
     ...phraseItemMocks,
-    id: idx + 1,
+    phraseId: idx + 1,
   }));
 
 export const rowsPerPageOptions = [
