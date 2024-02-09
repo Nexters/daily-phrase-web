@@ -116,7 +116,10 @@ export default function InputImage({
                   />
                   <button
                     type="button"
-                    className="absolute inset-0 z-10 flex items-center justify-center text-primary-foreground bg-primary/40 transition opacity-0 group-hover:opacity-100"
+                    className={cn(
+                      "absolute inset-0 z-10 flex items-center justify-center text-primary-foreground bg-primary/40 transition opacity-0 group-hover:opacity-100",
+                      options?.disabled && "cursor-not-allowed",
+                    )}
                     onClick={() => onRemoveImg(index)}
                     onKeyDown={() => onRemoveImg(index)}
                   >

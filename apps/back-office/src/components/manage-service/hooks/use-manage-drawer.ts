@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { create } from "zustand";
+import { apis } from "~/apis";
 import { ManageValues, manageFormProps } from "../manage-drawer.meta";
 
 export const useManageDrawer = create<{
@@ -56,8 +57,9 @@ export const useManageDrawerForm = () => {
 
 export const useManageDrawerMutation = () => {
   const isEdit = useManageDrawer((v) => !!v.data);
-  const closeDrawer = useManageDrawer((v) => v.closeDrawer);
+  const isBlocking = useManageDrawer((v) => v.isBlocking);
   const setBlocking = useManageDrawer((v) => v.setBlocking);
+  const closeDrawer = useManageDrawer((v) => v.closeDrawer);
 
   const mutation = useMutation({
     mutationFn: (values: ManageValues) => {
@@ -71,29 +73,46 @@ export const useManageDrawerMutation = () => {
   });
 
   async function onSubmit(values: ManageValues) {
-    if (mutation.isPending) {
+    if (isBlocking) {
       return;
     }
 
     setBlocking(true);
-    toast.loading("요청중...");
 
     try {
-      if (isEdit) {
-        await mutation.mutateAsync(values);
-        toast.success("수정되었습니다.");
-      } else {
-        await mutation.mutateAsync(values);
-        toast.success("추가되었습니다.");
+      const blobImageList = values.imageList.filter((image) =>
+        image.src.startsWith("blob"),
+      );
+
+      if (blobImageList.length > 0) {
+        toast.loading("이미지 업로드 중...");
+        await Promise.all(
+          blobImageList.map(async (blogImage) => {
+            // upload image
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            URL.revokeObjectURL(blogImage.src);
+          }),
+        );
       }
+
+      if (isEdit) {
+        toast.loading("글귀 수정 중...");
+        await mutation.mutateAsync(values);
+        toast.success("수정 되었습니다.");
+      } else {
+        toast.loading("글귀 등록 중...");
+        await mutation.mutateAsync(values);
+        toast.success("등록 되었습니다.");
+      }
+
+      setBlocking(false);
       closeDrawer();
     } catch (e) {
+      setBlocking(false);
       const message = e instanceof Error ? e.message : "알 수 없는 오류";
       toast.error(message);
-    } finally {
-      setBlocking(false);
     }
   }
 
-  return { mutation, onSubmit };
+  return { onSubmit };
 };

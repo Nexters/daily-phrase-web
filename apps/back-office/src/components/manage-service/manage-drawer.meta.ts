@@ -4,7 +4,13 @@ import * as z from "zod";
 
 export const manageSchema = z.object({
   title: z.string(),
-  image: z.string().optional(),
+  imageList: z.array(
+    z.object({
+      src: z.string(),
+      radio: z.string(),
+      size: z.number(),
+    }),
+  ),
   content: z.string(),
 });
 
@@ -15,6 +21,7 @@ export type ManageValues = z.infer<typeof manageSchema>;
 export const defaultValues = {
   title: "",
   content: "",
+  imageList: [],
 } satisfies ManageValues;
 
 export const manageFormProps = {

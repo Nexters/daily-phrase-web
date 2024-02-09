@@ -4,7 +4,6 @@ import { ChevronsRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
@@ -27,10 +26,11 @@ export function ManageDrawerRoot(props: React.ComponentProps<typeof Drawer>) {
 }
 
 export function ManageDrawerContent() {
+  const isBlocking = useManageDrawer((v) => v.isBlocking);
   const closeDrawer = useManageDrawer((v) => v.closeDrawer);
 
   const { form } = useManageDrawerForm();
-  const { mutation, onSubmit } = useManageDrawerMutation();
+  const { onSubmit } = useManageDrawerMutation();
 
   return (
     <Form {...form}>
@@ -41,7 +41,7 @@ export function ManageDrawerContent() {
         >
           <DrawerHeader>
             <Button
-              disabled={mutation.isPending}
+              disabled={isBlocking}
               variant="ghost"
               size="icon"
               onClick={closeDrawer}
@@ -57,7 +57,7 @@ export function ManageDrawerContent() {
                 <FormItem>
                   <FormControl>
                     <ClearTextArea
-                      disabled={mutation.isPending}
+                      disabled={isBlocking}
                       className="min-h-9 text-2xl font-bold"
                       placeholder="제목 없음"
                       {...field}
@@ -69,11 +69,15 @@ export function ManageDrawerContent() {
             <Separator />
             <FormField
               control={form.control}
-              name="image"
+              name="imageList"
               render={({ field }) => (
                 <FormItem className="">
                   <FormControl>
-                    <InputImage options={{ disabled: mutation.isPending }} />
+                    <InputImage
+                      value={field.value}
+                      onChange={field.onChange}
+                      options={{ disabled: isBlocking }}
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -86,7 +90,7 @@ export function ManageDrawerContent() {
                 <FormItem className="h-full">
                   <FormControl>
                     <ClearTextArea
-                      disabled={mutation.isPending}
+                      disabled={isBlocking}
                       placeholder="텍스트를 작성해 주세요"
                       className="h-full text-base"
                       {...field}
@@ -101,7 +105,7 @@ export function ManageDrawerContent() {
               type="button"
               variant="secondary"
               size="lg"
-              disabled={mutation.isPending}
+              disabled={isBlocking}
               onClick={closeDrawer}
             >
               취소
@@ -110,7 +114,7 @@ export function ManageDrawerContent() {
               type="submit"
               variant="default"
               size="lg"
-              disabled={mutation.isPending}
+              disabled={isBlocking}
             >
               저장
             </Button>
