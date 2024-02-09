@@ -27,6 +27,7 @@ export default function AspectRatioImg({
       <img
         alt={alt}
         src={src}
+        className="w-full h-full"
         style={{
           position: "absolute",
           top: 0,

@@ -23,7 +23,7 @@ export default function PhraseCard({ className, phrase }: PhraseCardProps) {
           {phrase.content}
         </p>
         <div className="mb-2.5 w-full h-[180px] flex items-center justify-center bg-[#DADADA] rounded-[10px] overflow-hidden">
-          <img src={phrase.imageUrl} alt="" />
+          <img src={phrase.imageUrl} alt="" className="w-full h-full" />
         </div>
       </a>
       <div className="flex justify-between align-center gap-2.5">
