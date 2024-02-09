@@ -1,5 +1,4 @@
-import { Phrase } from "@daily-phrase/api";
-import { useMutation } from "@tanstack/react-query";
+import { AddPhrase, Phrase } from "@daily-phrase/api";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -61,17 +60,6 @@ export const useManageDrawerMutation = () => {
   const setBlocking = useManageDrawer((v) => v.setBlocking);
   const closeDrawer = useManageDrawer((v) => v.closeDrawer);
 
-  const mutation = useMutation({
-    mutationFn: (values: ManageValues) => {
-      if (isEdit) {
-        return new Promise((resolve) => setTimeout(resolve, 1000));
-        // return apis.phraseApi.updatePhrase(defaultValues.phraseId);
-      }
-      return new Promise((resolve) => setTimeout(resolve, 2000));
-      // return apis.phraseApi.createPhrase();
-    },
-  });
-
   async function onSubmit(values: ManageValues) {
     if (isBlocking) {
       return;
@@ -81,27 +69,47 @@ export const useManageDrawerMutation = () => {
 
     try {
       const blobImageList = values.imageList.filter((image) =>
-        image.src.startsWith("blob"),
+        image.src.startsWith("data:"),
       );
 
       if (blobImageList.length > 0) {
         toast.loading("이미지 업로드 중...");
         await Promise.all(
-          blobImageList.map(async (blogImage) => {
+          blobImageList.map(async (blogImage, i) => {
             // upload image
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            URL.revokeObjectURL(blogImage.src);
+            const res = await apis.phraseApi.uploadImage({
+              src: blogImage.src,
+              filename: blogImage.filename,
+            });
+            blobImageList[i].src = res.result.imageUrl;
+            // URL.revokeObjectURL(blogImage.previewSrc);
           }),
         );
       }
 
       if (isEdit) {
         toast.loading("글귀 수정 중...");
-        await mutation.mutateAsync(values);
+
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        // await apis.phraseApi.updatePhrase(defaultValues.phraseId);
+
+        toast.dismiss();
         toast.success("수정 되었습니다.");
       } else {
         toast.loading("글귀 등록 중...");
-        await mutation.mutateAsync(values);
+
+        const data = {
+          title: values.title,
+          content: values.content,
+          imageUrl: values.imageList[0].src,
+          imageRatio: values.imageList[0].radio,
+          fileName: values.imageList[0].filename,
+          fileSize: values.imageList[0].size,
+        } satisfies AddPhrase;
+
+        await apis.phraseApi.createPhrase(data);
+
+        toast.dismiss();
         toast.success("등록 되었습니다.");
       }
 
@@ -110,6 +118,7 @@ export const useManageDrawerMutation = () => {
     } catch (e) {
       setBlocking(false);
       const message = e instanceof Error ? e.message : "알 수 없는 오류";
+      toast.dismiss();
       toast.error(message);
     }
   }

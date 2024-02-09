@@ -8,7 +8,9 @@ import { cn, getGCD, renderFileSize } from "~/libs/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
 export type InputImageValue = {
-  src: string;
+  /** base64 */
+  src: string | ArrayBuffer | null;
+  previewSrc?: string;
   radio: string;
   width?: number;
   height?: number;
@@ -16,6 +18,7 @@ export type InputImageValue = {
    * 단위 KB
    */
   size?: number;
+  filename?: string;
 };
 
 export type InputImageProps = {
@@ -53,7 +56,7 @@ export default function InputImage({
       reader.onabort = () => toast.info("파일 등록이 취소되었습니다.");
       reader.onerror = () => toast.error("파일 등록에 실패했습니다.");
       reader.onload = () => {
-        const src = URL.createObjectURL(file);
+        const previewSrc = URL.createObjectURL(file);
 
         const img = new Image();
         img.onload = () => {
@@ -63,11 +66,22 @@ export default function InputImage({
           const radio = `${width / gcd}:${height / gcd}`;
           const size = Math.floor(file.size / 1024); // 단위 KB
 
-          setImgList((list) => [...list, { src, width, height, radio, size }]);
+          setImgList((list) => [
+            ...list,
+            {
+              src: reader.result,
+              previewSrc,
+              width,
+              height,
+              radio,
+              size,
+              filename: file.name,
+            },
+          ]);
         };
-        img.src = src;
+        img.src = previewSrc;
       };
-      reader.readAsArrayBuffer(file);
+      reader.readAsDataURL(file);
     }
   }, []);
 
@@ -106,10 +120,13 @@ export default function InputImage({
         <div className={cn("flex w-max space-x-4", imgList.length && "pb-4")}>
           {imgList.map((img, index) => {
             return (
-              <div key={img.src} className="mt-2 flex-shrink-0">
+              <div
+                key={`${index}${img.filename}`}
+                className="mt-2 flex-shrink-0"
+              >
                 <div className="relative group">
                   <img
-                    src={img.src}
+                    src={img.previewSrc}
                     alt="미리보기"
                     className="max-w-full h-auto"
                     style={{ maxHeight: previewMaxHeight }}
@@ -127,6 +144,7 @@ export default function InputImage({
                   </button>
                 </div>
                 <div className="mt-2 text-sm">
+                  <div className="font-medium">{img.filename}</div>
                   <div>
                     크기:
                     <span className="font-medium ml-1">

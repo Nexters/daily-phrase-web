@@ -8,6 +8,7 @@ export const manageSchema = z.object({
     z.object({
       src: z.string(),
       radio: z.string(),
+      filename: z.string(),
       size: z.number(),
     }),
   ),
