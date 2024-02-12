@@ -26,7 +26,7 @@ export async function GET(
   return Response.json(data);
 }
 
-export async function POST(
+async function postProxy(
   request: Request,
   { params }: { params: { slug: string[] } },
 ) {
@@ -52,3 +52,7 @@ export async function POST(
 
   return Response.json(data);
 }
+
+export const POST = postProxy;
+export const PUT = postProxy;
+export const DELETE = postProxy;
