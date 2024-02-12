@@ -4,7 +4,6 @@ import { Checkbox } from "~/components/ui/checkbox";
 import { EllipsisText } from "~/components/ui/text";
 import { cn } from "~/libs/utils";
 import { PhraseItemWithId } from "~/types/phrase";
-import { OnDelete } from "../manage-service.type";
 
 const TableHeadText = ({
   children,
@@ -18,7 +17,6 @@ const TableHeadText = ({
   </div>
 );
 
-/** @todo header width와 cell width를 맞추어야 함. */
 export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   {
     accessorKey: "select",
@@ -49,7 +47,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     header: () => <TableHeadText>작성일자</TableHeadText>,
     cell: ({ row }) => (
       <EllipsisText className="inline-block">
-        {format(row.original.createdAt, "yy.MM.dd HH:mm")}
+        {format(row.original.createdAt, "yy.MM.dd HH:mm:ss")}
       </EllipsisText>
     ),
   },
@@ -70,7 +68,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     accessorKey: "content",
     header: () => <TableHeadText className="text-left">텍스트</TableHeadText>,
     cell: ({ row }) => (
-      <EllipsisText className="max-w-[400px]">
+      <EllipsisText className="max-w-[500px]">
         {row.original.content}
       </EllipsisText>
     ),

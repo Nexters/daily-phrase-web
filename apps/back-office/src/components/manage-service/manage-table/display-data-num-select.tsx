@@ -1,5 +1,6 @@
 import { Table } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
+import { PhraseItemWithId } from "~/types/phrase";
 import {
   Select,
   SelectContent,
@@ -7,13 +8,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
-import { rowsPerPageOptions } from "../manage-service.meta";
 
-interface Props<TData> {
-  table: Table<TData>;
+interface Props {
+  table: Table<PhraseItemWithId>;
 }
 
-const DisplayDataNumSelect = <TData,>({ table }: Props<TData>) => {
+export const rowsPerPageOptions = [
+  { value: "10", label: "10개" },
+  { value: "20", label: "20개" },
+  { value: "30", label: "30개" },
+  { value: "50", label: "50개" },
+  { value: "100", label: "100개" },
+];
+
+const DisplayDataNumSelect = ({ table }: Props) => {
   return (
     <Select onValueChange={(v) => table.setPageSize(+v)}>
       <SelectTrigger
