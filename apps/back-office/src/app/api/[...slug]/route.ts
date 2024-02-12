@@ -26,33 +26,55 @@ export async function GET(
   return Response.json(data);
 }
 
-async function postProxy(
-  request: Request,
-  { params }: { params: { slug: string[] } },
-) {
-  const accessToken = getCookie(ACCESSTOKEN, { cookies });
+function proxy(method: string) {
+  return async (
+    request: Request,
+    { params }: { params: { slug: string[] } },
+  ) => {
+    const accessToken = getCookie(ACCESSTOKEN, { cookies });
 
-  if (!accessToken) {
-    return redirect("/login");
-  }
+    if (!accessToken) {
+      return redirect("/login");
+    }
 
-  const searchParams = new URL(request.url).searchParams.toString();
-  const body = await request.json();
-  const slug = params.slug.join("/");
+    const searchParams = new URL(request.url).searchParams.toString();
+    const body = method === "DELETE" ? {} : await request.json();
+    const slug = params.slug.join("/");
 
-  const res = await fetch(`${process.env.API_URL}/api/${slug}${searchParams}`, {
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    method: "POST",
-    body: JSON.stringify(body),
-  });
-  const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_URL}/api/${slug}${searchParams}`,
+        {
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          method,
+          body: JSON.stringify(body),
+        },
+      );
+      const data = await res.json();
 
-  return Response.json(data);
+      if (!data.isSuccess) {
+        return Response.json(data, { status: data.status });
+      }
+
+      return Response.json(data);
+    } catch (e) {
+      console.log(e);
+
+      if (e instanceof Error) {
+        return Response.json({ message: e.message }, { status: 400 });
+      }
+
+      return Response.json(
+        { message: "Internal Server Error" },
+        { status: 500 },
+      );
+    }
+  };
 }
 
-export const POST = postProxy;
-export const PUT = postProxy;
-export const DELETE = postProxy;
+export const POST = proxy("POST");
+export const PUT = proxy("PUT");
+export const DELETE = proxy("DELETE");

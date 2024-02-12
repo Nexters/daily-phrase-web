@@ -24,7 +24,7 @@ export class PhraseApi {
     );
   }
   getPhrase(id: number | string) {
-    return this.apiClient.delete(`/api/admin/phrases/${id}`, {
+    return this.apiClient.get(`/api/admin/phrases/${id}`, {
       headers: {
         "content-type": "application/json",
       },

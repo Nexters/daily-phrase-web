@@ -19,7 +19,7 @@ export const ManageActionBar = ({ table }: Props) => {
   const openNewDrawer = useManageDrawer((v) => v.openNewDrawer);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: apis.phraseApi.deletePhrase,
+    mutationFn: (id: number) => apis.phraseApi.deletePhrase(id),
   });
   const onDeleteClick = () => {
     const selectedRowModel = table.getSelectedRowModel();
@@ -38,8 +38,9 @@ export const ManageActionBar = ({ table }: Props) => {
         toast.success("글귀 삭제에 성공했습니다.");
         queryClient.invalidateQueries({ queryKey: queryKeys.phraseList });
       },
-      onError: () => {
-        toast.success("글귀 삭제에 실패했습니다.");
+      onError: (e) => {
+        console.log(e);
+        toast.error("글귀 삭제에 실패했습니다.");
       },
     });
   };
@@ -47,8 +48,7 @@ export const ManageActionBar = ({ table }: Props) => {
   return (
     <div className="flex justify-between items-center">
       <div className="flex justify-center items-center">
-        {(table.getIsSomePageRowsSelected() ||
-          table.getIsAllPageRowsSelected()) && (
+        {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
           <Button
             variant="secondary"
             disabled={isPending}
