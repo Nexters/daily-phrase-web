@@ -42,6 +42,12 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     ),
   },
   {
+    size: 40,
+    accessorKey: "id",
+    header: () => <TableHeadText>ID</TableHeadText>,
+    cell: ({ row }) => <>{row.original.phraseId}</>,
+  },
+  {
     size: 100,
     accessorKey: "createdAt",
     header: () => <TableHeadText>작성일자</TableHeadText>,
