@@ -76,12 +76,12 @@ export const useManageDrawerMutation = () => {
         toast.loading("이미지 업로드 중...");
         await Promise.all(
           blobImageList.map(async (blogImage, i) => {
-            // upload image
             const res = await apis.phraseApi.uploadImage({
               src: blogImage.src,
               filename: blogImage.filename,
             });
             blobImageList[i].src = res.result.imageUrl;
+            // TODO: 로컬 이미지 blob 제거
             // URL.revokeObjectURL(blogImage.previewSrc);
           }),
         );
