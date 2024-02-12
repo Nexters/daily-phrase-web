@@ -1,3 +1,4 @@
+import { Table } from "@tanstack/react-table";
 import React from "react";
 import { Button } from "~/components/ui/button";
 import {
@@ -10,52 +11,48 @@ import {
   PaginationStart,
 } from "~/components/ui/pagination";
 import { cn } from "~/libs/utils";
-import { PaginationData } from "~/types/pagination";
 
-interface Props {
-  pagination: PaginationData;
-  onPageMove: (pagination: PaginationData, next: number) => void;
+interface Props<TData> {
   className?: string;
+  table: Table<TData>;
 }
 
-export const ManagePagination = ({
-  pagination,
-  onPageMove,
-  className,
-}: Props) => {
-  const paginationArr = Array.from(
-    { length: pagination.size },
-    (_, idx) => idx + 1,
-  );
+export function ManagePagination<TData>({ className, table }: Props<TData>) {
   return (
     <Pagination className={cn("justify-end gap-1", className)}>
-      <PaginationStart onClick={() => onPageMove(pagination, 1)} />
+      <PaginationStart
+        aria-disabled={!table.getCanPreviousPage()}
+        onClick={() => table.setPageIndex(0)}
+      />
       <PaginationPrevious
-        onClick={() => {
-          if (pagination.current - 1 <= 0) return;
-          onPageMove(pagination, pagination.current - 1);
-        }}
+        aria-disabled={!table.getCanPreviousPage()}
+        onClick={() => table.previousPage()}
       />
       <PaginationContent>
-        {paginationArr.map((num) => (
+        {[...Array(table.getPageCount())].map((_, num) => (
           <PaginationItem key={num}>
             <Button
-              variant={pagination.current === num ? "default" : "ghost"}
+              variant={
+                table.getState().pagination.pageIndex === num
+                  ? "outline"
+                  : "ghost"
+              }
               size="icon"
-              onClick={() => onPageMove(pagination, num)}
+              onClick={() => table.setPageIndex(num)}
             >
-              <span className="text-base leading-4">{num}</span>
+              <span className="text-base leading-4">{num + 1}</span>
             </Button>
           </PaginationItem>
         ))}
       </PaginationContent>
       <PaginationNext
-        onClick={() => {
-          if (pagination.current >= pagination.size) return;
-          onPageMove(pagination, pagination.current + 1);
-        }}
+        aria-disabled={!table.getCanNextPage()}
+        onClick={() => table.nextPage()}
       />
-      <PaginationEnd onClick={() => onPageMove(pagination, pagination.size)} />
+      <PaginationEnd
+        aria-disabled={!table.getCanNextPage()}
+        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+      />
     </Pagination>
   );
-};
+}

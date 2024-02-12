@@ -6,7 +6,7 @@ export class PhraseApi {
   constructor(apiClient: ApiClientInstance) {
     this.apiClient = apiClient;
   }
-  deletePhrase(id: string) {
+  deletePhrase(id: number | string) {
     return this.apiClient.delete(`/api/admin/phrases/${id}`, {
       headers: {
         "content-type": "application/json",
@@ -23,14 +23,14 @@ export class PhraseApi {
       },
     );
   }
-  getPhrase(id: string) {
+  getPhrase(id: number | string) {
     return this.apiClient.delete(`/api/admin/phrases/${id}`, {
       headers: {
         "content-type": "application/json",
       },
     });
   }
-  updatePhrase(id: string) {
+  updatePhrase(id: number | string) {
     return this.apiClient.patch(`/api/admin/phrases/${id}`);
   }
   createPhrase(data: AddPhrase) {

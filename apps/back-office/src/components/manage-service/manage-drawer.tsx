@@ -47,7 +47,7 @@ export function ManageDrawerContent() {
               size="icon"
               onClick={closeDrawer}
             >
-              <ChevronsRight className="w-6 h-6" />
+              <ChevronsRight className="w-6 h-6 text-muted-foreground" />
             </Button>
           </DrawerHeader>
           <DrawerMain>

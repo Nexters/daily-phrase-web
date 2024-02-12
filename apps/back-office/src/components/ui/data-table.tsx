@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { Table as TableType, flexRender } from "@tanstack/react-table";
 import React from "react";
 
 import {
@@ -17,40 +12,26 @@ import {
   TableRow,
 } from "./table";
 
-interface DataTableProps<TData, TValue> {
-  columns: Array<ColumnDef<TData, TValue>>;
-  data: Array<TData>;
+interface DataTableProps<TData> {
+  table: TableType<TData>;
   NoDataMsg: React.ReactNode;
   onClickRow?: (data: TData) => void;
 }
 
-const DataTable = <TData, TValue>({
-  columns,
-  data,
+export const DataTable = <TData,>({
+  table,
   NoDataMsg,
   onClickRow,
-}: DataTableProps<TData, TValue>) => {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
-
+}: DataTableProps<TData>) => {
   return (
     <div className="border-t">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow
-              key={headerGroup.id}
-              className="w-full flex items-center border-0 hover:bg-inherit"
-            >
+            <TableRow key={headerGroup.id} className="border-0">
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead
-                    key={header.id}
-                    className="w-full flex items-center"
-                  >
+                  <TableHead key={header.id} className="">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -65,11 +46,11 @@ const DataTable = <TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getPaginationRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="w-full flex items-center border-0 cursor-pointer data-[state=selected]:bg-secondary hover:bg-secondary"
+                className="border-0 cursor-pointer"
                 onClick={() => onClickRow?.(row.original)}
               >
                 {row.getVisibleCells().map((cell) => (
@@ -81,7 +62,9 @@ const DataTable = <TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length}>{NoDataMsg}</TableCell>
+              <TableCell colSpan={table.getAllColumns().length}>
+                {NoDataMsg}
+              </TableCell>
             </TableRow>
           )}
         </TableBody>
@@ -89,5 +72,3 @@ const DataTable = <TData, TValue>({
     </div>
   );
 };
-
-export default DataTable;
