@@ -30,8 +30,16 @@ export class PhraseApi {
       },
     });
   }
-  updatePhrase(id: number | string) {
-    return this.apiClient.patch(`/api/admin/phrases/${id}`);
+  updatePhrase(id: number | string, data: object) {
+    return this.apiClient.patch(
+      `/api/admin/phrases/${id}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      },
+    );
   }
   createPhrase(data: AddPhrase) {
     return this.apiClient.post("/api/admin/phrases", JSON.stringify(data), {

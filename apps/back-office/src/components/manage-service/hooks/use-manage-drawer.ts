@@ -1,4 +1,3 @@
-import { AddPhrase, Phrase } from "@daily-phrase/api";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -56,7 +55,7 @@ export const useManageDrawerForm = () => {
 };
 
 export const useManageDrawerMutation = () => {
-  const isEdit = useManageDrawer((v) => !!v.data);
+  const defaultValues = useManageDrawer((v) => v.data);
   const isBlocking = useManageDrawer((v) => v.isBlocking);
   const setBlocking = useManageDrawer((v) => v.setBlocking);
   const closeDrawer = useManageDrawer((v) => v.closeDrawer);
@@ -88,29 +87,25 @@ export const useManageDrawerMutation = () => {
         );
       }
 
-      if (isEdit) {
+      if (defaultValues) {
         toast.loading("글귀 수정 중...");
-
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        // await apis.phraseApi.updatePhrase(defaultValues.phraseId);
-
+        await apis.phraseApi.updatePhrase(defaultValues.phraseId, {
+          ...defaultValues,
+          title: values.title,
+          content: values.content,
+        });
         toast.dismiss();
         toast.success("수정 되었습니다.");
       } else {
         toast.loading("글귀 등록 중...");
-        const firstImage = values.imageList[0];
-
-        const data = {
+        await apis.phraseApi.createPhrase({
           title: values.title,
           content: values.content,
           imageUrl: values.imageList[0]?.src ?? "",
           imageRatio: values.imageList[0]?.radio ?? "",
           fileName: values.imageList[0]?.filename ?? "",
           fileSize: values.imageList[0]?.size ?? "",
-        } satisfies AddPhrase;
-
-        await apis.phraseApi.createPhrase(data);
-
+        });
         toast.dismiss();
         toast.success("등록 되었습니다.");
       }

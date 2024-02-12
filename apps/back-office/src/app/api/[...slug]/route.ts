@@ -78,3 +78,4 @@ function proxy(method: string) {
 export const POST = proxy("POST");
 export const PUT = proxy("PUT");
 export const DELETE = proxy("DELETE");
+export const PATCH = proxy("PATCH");
