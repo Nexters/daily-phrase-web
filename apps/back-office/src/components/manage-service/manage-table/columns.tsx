@@ -1,4 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 import { Checkbox } from "~/components/ui/checkbox";
 import { EllipsisText } from "~/components/ui/text";
 import { PhraseItemWithId } from "~/types/phrase";
@@ -41,7 +42,7 @@ export const getManageTableColumns = (
           aria-label="Select row"
         />
         <EllipsisText className="inline-block p-4">
-          {row.original.createdAt}
+          {format(row.original.createdAt, "yy.MM.dd HH:mm")}
         </EllipsisText>
       </div>
     ),
