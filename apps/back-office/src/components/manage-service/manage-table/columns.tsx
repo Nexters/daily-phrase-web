@@ -34,6 +34,7 @@ export const getManageTableColumns = (
         <Checkbox
           className="data-[state=checked]:bg-slate-600"
           checked={isDeleteChecked(row.original.phraseId)}
+          onClick={(e) => e.stopPropagation()}
           onCheckedChange={(checked) =>
             onDeleteCheck(row.original.phraseId, checked)
           }
