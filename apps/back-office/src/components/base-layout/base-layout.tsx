@@ -14,7 +14,7 @@ export interface BaseLayoutProps {
 
 export default function BaseLayout({ children }: BaseLayoutProps) {
   const { currentRoute } = useLayoutPathname(authRoutes);
-  const { logout, isPending } = useLogout();
+  const { logout } = useLogout();
 
   return (
     <div className="relative flex min-h-screen flex-col">
@@ -25,7 +25,7 @@ export default function BaseLayout({ children }: BaseLayoutProps) {
           </Button>
           <div className="ml-auto">
             <Button variant="ghost" onClick={logout}>
-              {isPending ? "Loading..." : "로그아웃"}
+              로그아웃
             </Button>
           </div>
         </div>

@@ -4,16 +4,17 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { create } from "zustand";
 import { apis } from "~/apis";
+import { PhraseItemWithId } from "~/types/phrase";
 import { ManageValues, manageFormProps } from "../manage-drawer.meta";
 
 export const useManageDrawer = create<{
   isBlocking: boolean;
   open: boolean;
-  data?: Phrase;
+  data?: PhraseItemWithId;
   setOpen: (open: boolean) => void;
   setBlocking: (isBlocking: boolean) => void;
   openNewDrawer: () => void;
-  openEditDrawer: (data: Phrase) => void;
+  openEditDrawer: (data: PhraseItemWithId) => void;
   closeDrawer: () => void;
 }>((set, get) => ({
   isBlocking: false,

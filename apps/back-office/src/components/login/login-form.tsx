@@ -37,9 +37,10 @@ const LoginForm = () => {
   const onSubmit = (data: LoginSchema) => {
     mutate(data, {
       onError: () => toast.error("로그인에 실패했습니다."),
-      onSuccess: (res) => {
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      onSuccess: (res: any) => {
         setCookie(ACCESSTOKEN, res.result.accessToken);
-        setCookie(REFRESHTOKEN, res.result.accessToken);
+        setCookie(REFRESHTOKEN, res.result.refreshToken);
 
         toast.success("로그인에 성공했습니다.");
         router.push("/");

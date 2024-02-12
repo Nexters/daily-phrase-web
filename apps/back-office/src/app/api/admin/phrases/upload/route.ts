@@ -1,7 +1,15 @@
+import { getCookie } from "cookies-next";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { ACCESSTOKEN } from "~/apis/config/cookie/token";
+
 export async function POST(request: Request) {
+  const accessToken = getCookie(ACCESSTOKEN, { cookies });
+  if (!accessToken) {
+    return redirect("/login");
+  }
+
   const body = await request.json();
-  const accessToken =
-    "eyJhbGciOiJIUzM4NCJ9.eyJpc3MiOiJEYWlseVBocmFzZSIsImlhdCI6MTcwNzQ4NjYyOSwic3ViIjoiMSIsInR5cGUiOiJBQ0NFU1NfVE9LRU4iLCJyb2xlIjoiUk9MRV9BRE1JTiIsImV4cCI6MTcwNzQ5MDIyOX0.TJ9EpjQ2NWSMla6hJOmg5hV6Y_pOBpHiZDjBaPHtGRlnM6SKObBig45TVB6MTetT";
 
   const formData = new FormData();
   const imageFile = await base64toFile(body.src, body.filename);

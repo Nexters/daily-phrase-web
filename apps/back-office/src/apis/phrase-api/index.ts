@@ -14,7 +14,7 @@ export class PhraseApi {
     });
   }
   getPhraseList() {
-    return this.apiClient.get<ApiData<Array<PhraseItemWithId>>>(
+    return this.apiClient.get<ApiData<{ phraseList: Array<PhraseItemWithId> }>>(
       "/api/admin/phrases",
       {
         headers: {

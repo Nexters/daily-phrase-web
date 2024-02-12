@@ -10,7 +10,7 @@ import { useManageDrawer } from "../hooks/use-manage-drawer";
 import { rowsPerPageOptions } from "../manage-service.meta";
 import { ManageActionBar } from "./action-bar";
 
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { apis } from "~/apis";
 import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
 import ErrorFallback from "~/components/error-fallback";
@@ -63,10 +63,12 @@ const ManageServiceTableConnector = () => {
     queryFn: () => apis.phraseApi.getPhraseList(),
     queryKey: queryKeys.phraseList,
   });
+
   if (isPending) return <Loading />;
   if (isError) return <ErrorFallback reset={() => {}} error={error} />;
   if (!data) return null;
-  return <ManageServiceTable data={data.result} />;
+
+  return <ManageServiceTable data={data.result.phraseList} />;
 };
 
 export { ManageServiceTableConnector as ManageServiceDataTable };

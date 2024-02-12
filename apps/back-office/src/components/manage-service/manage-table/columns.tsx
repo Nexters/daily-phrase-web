@@ -24,7 +24,7 @@ const TableHeadText = ({
 export const getManageTableColumns = (
   isDeleteChecked: (id: number) => boolean,
   onDeleteCheck: OnDelete,
-): Array<ColumnDef<PhraseItemWithId>> => [
+): ColumnDef<PhraseItemWithId>[] => [
   {
     minSize: 180,
     accessorKey: "createdAt",
