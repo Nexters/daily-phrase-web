@@ -1,4 +1,4 @@
-const ACCESSTOKEN = "accessToken";
-const REFRESHTOKEN = "refreshToken";
+const ACCESS_TOKEN = "accessToken";
+const REFRESH_TOKEN = "refreshToken";
 
-export { ACCESSTOKEN, REFRESHTOKEN };
+export { ACCESS_TOKEN, REFRESH_TOKEN };

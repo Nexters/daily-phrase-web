@@ -1,13 +1,13 @@
 import { getCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { ACCESSTOKEN } from "~/apis/config/cookie/token";
+import { ACCESS_TOKEN } from "~/apis/config/cookie/token";
 
 export async function GET(
   request: Request,
   { params }: { params: { slug: string[] } },
 ) {
-  const accessToken = getCookie(ACCESSTOKEN, { cookies });
+  const accessToken = getCookie(ACCESS_TOKEN, { cookies });
   if (!accessToken) {
     return redirect("/login");
   }
@@ -31,7 +31,7 @@ function proxy(method: string) {
     request: Request,
     { params }: { params: { slug: string[] } },
   ) => {
-    const accessToken = getCookie(ACCESSTOKEN, { cookies });
+    const accessToken = getCookie(ACCESS_TOKEN, { cookies });
 
     if (!accessToken) {
       return redirect("/login");

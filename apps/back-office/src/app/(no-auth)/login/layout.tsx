@@ -1,10 +1,10 @@
 import { getCookie, getCookies } from "cookies-next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { ACCESSTOKEN } from "~/apis/config/cookie/token";
+import { ACCESS_TOKEN } from "~/apis/config/cookie/token";
 
 export default function Layout({ children }: React.PropsWithChildren) {
-  if (getCookie(ACCESSTOKEN, { cookies })) {
+  if (getCookie(ACCESS_TOKEN, { cookies })) {
     return redirect("/");
   }
 

@@ -1,7 +1,7 @@
 import { ApiClient, OnResponseError } from "@daily-phrase/api";
 import { getCookie } from "cookies-next";
 import { ResponseError, ResponseSuccess } from "./apis.type";
-import { ACCESSTOKEN } from "./config/cookie/token";
+import { ACCESS_TOKEN } from "./config/cookie/token";
 import { fetchErrorCreator } from "./config/fetch-error-creator";
 import { LoginApi } from "./login-api";
 import { PhraseApi } from "./phrase-api";
@@ -13,7 +13,7 @@ const onRequestSuccess = (requestInit: RequestInit): RequestInit => {
     );
     copyRequestInit.headers = {
       ...copyRequestInit.headers,
-      Authorization: `Bearer ${getCookie(ACCESSTOKEN)}`,
+      Authorization: `Bearer ${getCookie(ACCESS_TOKEN)}`,
     };
     return copyRequestInit;
   }

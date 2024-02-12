@@ -18,7 +18,7 @@ import { deleteCookie } from "cookies-next";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 import { apis } from "~/apis";
-import { ACCESSTOKEN } from "~/apis/config/cookie/token";
+import { ACCESS_TOKEN } from "~/apis/config/cookie/token";
 import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
 import ErrorFallback from "~/components/error-fallback";
 import Loading from "~/components/loading";
@@ -69,7 +69,7 @@ const ManageServiceTableConnector = () => {
 
   // TODO: 토큰 리프레쉬 하기
   if (data?.status === 401) {
-    deleteCookie(ACCESSTOKEN);
+    deleteCookie(ACCESS_TOKEN);
     return redirect("login");
   }
 
