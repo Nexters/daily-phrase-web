@@ -36,7 +36,7 @@ const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn(className)} {...props} />
+  <li ref={ref} className={className} {...props} />
 ));
 PaginationItem.displayName = "PaginationItem";
 
@@ -72,7 +72,7 @@ const PaginationPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    className={cn(className)}
+    className={className}
     {...props}
   >
     <ChevronLeft className="h-4 w-4" />
@@ -84,11 +84,7 @@ const PaginationNext = ({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
-  <PaginationLink
-    aria-label="Go to next page"
-    className={cn(className)}
-    {...props}
-  >
+  <PaginationLink aria-label="Go to next page" className={className} {...props}>
     <ChevronRight className="h-4 w-4" />
   </PaginationLink>
 );
@@ -98,11 +94,7 @@ const PaginationEnd = ({
   className,
   ...props
 }: React.ComponentProps<typeof PaginationLink>) => (
-  <PaginationLink
-    aria-label="Go to end page"
-    className={cn(className)}
-    {...props}
-  >
+  <PaginationLink aria-label="Go to end page" className={className} {...props}>
     <ChevronsRight className="h-4 w-4" />
   </PaginationLink>
 );
@@ -114,7 +106,7 @@ const PaginationStart = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to start page"
-    className={cn(className)}
+    className={className}
     {...props}
   >
     <ChevronsLeft className="h-4 w-4" />
