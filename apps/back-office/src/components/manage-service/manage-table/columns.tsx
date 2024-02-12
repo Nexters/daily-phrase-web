@@ -60,19 +60,19 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   {
     minSize: 200,
     accessorKey: "title",
-    header: () => <TableHeadText className="text-left">타이틀</TableHeadText>,
+    header: () => <TableHeadText>타이틀</TableHeadText>,
     cell: ({ row }) => <EllipsisText>{row.original.title}</EllipsisText>,
   },
   {
     minSize: 140,
     accessorKey: "imageUrl",
-    header: () => <TableHeadText className="text-left">이미지</TableHeadText>,
+    header: () => <TableHeadText>이미지</TableHeadText>,
     cell: ({ row }) => <EllipsisText>{row.original.filename}</EllipsisText>,
   },
   {
     minSize: 348,
     accessorKey: "content",
-    header: () => <TableHeadText className="text-left">텍스트</TableHeadText>,
+    header: () => <TableHeadText>텍스트</TableHeadText>,
     cell: ({ row }) => (
       <EllipsisText className="max-w-[500px]">
         {row.original.content}
