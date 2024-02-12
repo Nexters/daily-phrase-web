@@ -41,6 +41,7 @@ export function ManageDrawerContent() {
         >
           <DrawerHeader>
             <Button
+              type="button"
               disabled={isBlocking}
               variant="ghost"
               size="icon"
