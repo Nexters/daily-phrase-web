@@ -69,7 +69,7 @@ const DataTable = <TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="w-full flex items-center border-0 cursor-pointer data-[state=selected]:bg-slate-100 hover:bg-slate-100"
+                className="w-full flex items-center border-0 cursor-pointer data-[state=selected]:bg-secondary hover:bg-secondary"
                 onClick={() => onClickRow?.(row.original)}
               >
                 {row.getVisibleCells().map((cell) => (

@@ -45,7 +45,7 @@ const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
         columns={getManageTableColumns(isDeleteChecked, onDeleteCheck)}
         data={transformedData}
         NoDataMsg={
-          <span className="w-full inline-block text-center text-slate-600 text-base">
+          <span className="w-full inline-block text-center text-base">
             현재 작성 된 글이 없습니다.
           </span>
         }

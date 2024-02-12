@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "~/components/ui/button";
 import {
   Pagination,
   PaginationContent,
@@ -27,7 +28,7 @@ export const ManagePagination = ({
     (_, idx) => idx + 1,
   );
   return (
-    <Pagination className={cn("justify-end", className)}>
+    <Pagination className={cn("justify-end gap-1", className)}>
       <PaginationStart onClick={() => onPageMove(pagination, 1)} />
       <PaginationPrevious
         onClick={() => {
@@ -37,15 +38,14 @@ export const ManagePagination = ({
       />
       <PaginationContent>
         {paginationArr.map((num) => (
-          <PaginationItem
-            key={num}
-            onClick={() => onPageMove(pagination, num)}
-            className={cn(
-              "p-2.5 leading-4 text-center	hover:bg-slate-100 rounded-full cursor-pointer",
-              pagination.current === num && "font-bold",
-            )}
-          >
-            <span className="text-base leading-4">{num}</span>
+          <PaginationItem key={num}>
+            <Button
+              variant={pagination.current === num ? "default" : "ghost"}
+              size="icon"
+              onClick={() => onPageMove(pagination, num)}
+            >
+              <span className="text-base leading-4">{num}</span>
+            </Button>
           </PaginationItem>
         ))}
       </PaginationContent>

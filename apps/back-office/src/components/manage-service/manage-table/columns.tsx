@@ -33,7 +33,7 @@ export const getManageTableColumns = (
     cell: ({ row }) => (
       <div className="flex items-center justify-center">
         <Checkbox
-          className="data-[state=checked]:bg-slate-600"
+          className="data-[state=checked]:bg-primary"
           checked={isDeleteChecked(row.original.phraseId)}
           onClick={(e) => e.stopPropagation()}
           onCheckedChange={(checked) =>

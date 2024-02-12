@@ -16,8 +16,8 @@ const DisplayDataNumSelect = ({ onValueChange }: Props) => {
   return (
     <Select onValueChange={onValueChange}>
       <SelectTrigger
-        className="w-[100px] radius=[6px] border-slate-300 font-medium font-slate-900 focus:ring-0 focus:ring-offset-0"
-        icon={<ChevronDown className="h-4 w-4 stroke-slate-400" />}
+        className="w-[100px] radius=[6px] font-medium focus:ring-0 focus:ring-offset-0"
+        icon={<ChevronDown className="h-4 w-4" />}
       >
         <SelectValue placeholder="10개" />
       </SelectTrigger>
@@ -27,7 +27,7 @@ const DisplayDataNumSelect = ({ onValueChange }: Props) => {
             key={value}
             value={value}
             hasCheckIcon={false}
-            className="font-medium font-slate-900 focus:bg-slate-100"
+            className="font-medium"
           >
             {label}
           </SelectItem>

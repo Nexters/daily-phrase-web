@@ -36,7 +36,7 @@ const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", className)} {...props} />
+  <li ref={ref} className={cn(className)} {...props} />
 ));
 PaginationItem.displayName = "PaginationItem";
 
@@ -71,8 +71,7 @@ const PaginationPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    size="default"
-    className={cn("gap-1 pl-2.5", className)}
+    className={cn(className)}
     {...props}
   >
     <ChevronLeft className="h-4 w-4" />
@@ -86,8 +85,7 @@ const PaginationNext = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
-    size="default"
-    className={cn("gap-1 pr-2.5", className)}
+    className={cn(className)}
     {...props}
   >
     <ChevronRight className="h-4 w-4" />
@@ -101,8 +99,7 @@ const PaginationEnd = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to end page"
-    size="default"
-    className={cn("gap-1 pl-2.5", className)}
+    className={cn(className)}
     {...props}
   >
     <ChevronsRight className="h-4 w-4" />
@@ -116,8 +113,7 @@ const PaginationStart = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to start page"
-    size="default"
-    className={cn("gap-1 pr-2.5", className)}
+    className={cn(className)}
     {...props}
   >
     <ChevronsLeft className="h-4 w-4" />
