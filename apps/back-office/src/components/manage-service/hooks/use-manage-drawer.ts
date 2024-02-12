@@ -98,14 +98,15 @@ export const useManageDrawerMutation = () => {
         toast.success("수정 되었습니다.");
       } else {
         toast.loading("글귀 등록 중...");
+        const firstImage = values.imageList[0];
 
         const data = {
           title: values.title,
           content: values.content,
-          imageUrl: values.imageList[0].src,
-          imageRatio: values.imageList[0].radio,
-          fileName: values.imageList[0].filename,
-          fileSize: values.imageList[0].size,
+          imageUrl: values.imageList[0]?.src ?? "",
+          imageRatio: values.imageList[0]?.radio ?? "",
+          fileName: values.imageList[0]?.filename ?? "",
+          fileSize: values.imageList[0]?.size ?? "",
         } satisfies AddPhrase;
 
         await apis.phraseApi.createPhrase(data);
