@@ -25,7 +25,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
       return (
         <Checkbox
           checked={
-            table.getIsAllRowsSelected() ||
+            table.getIsAllPageRowsSelected() ||
             (table.getIsSomeRowsSelected() && "indeterminate")
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
