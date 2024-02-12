@@ -15,7 +15,4 @@ export class LoginApi {
       { headers: { "content-type": "application/json" } },
     );
   }
-  logout() {
-    return this.apiClient.post("/api/admin/logout");
-  }
 }
