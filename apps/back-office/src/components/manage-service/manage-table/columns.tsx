@@ -25,8 +25,8 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
       return (
         <Checkbox
           checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
+            table.getIsAllRowsSelected() ||
+            (table.getIsSomeRowsSelected() && "indeterminate")
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         />
@@ -42,7 +42,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     ),
   },
   {
-    minSize: 180,
+    size: 100,
     accessorKey: "createdAt",
     header: () => <TableHeadText>작성일자</TableHeadText>,
     cell: ({ row }) => (
@@ -74,7 +74,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     ),
   },
   {
-    minSize: 140,
+    size: 70,
     accessorKey: "viewCount",
     header: () => <TableHeadText className="text-center">조회수</TableHeadText>,
     cell: ({ row }) => (
@@ -84,7 +84,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     ),
   },
   {
-    minSize: 140,
+    size: 70,
     accessorKey: "likeCount",
     header: () => (
       <TableHeadText className="text-center">좋아요수</TableHeadText>
