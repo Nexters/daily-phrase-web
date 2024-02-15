@@ -65,11 +65,6 @@ const DrawerHeader = ({
     className={cn("flex items-center gap-1.5 p-6 pb-0", className)}
     {...props}
   >
-    <DrawerClose asChild>
-      <Button variant="ghost" size="icon">
-        <ChevronsRight className="w-6 h-6" />
-      </Button>
-    </DrawerClose>
     {props.children}
   </div>
 );

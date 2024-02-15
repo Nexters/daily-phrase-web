@@ -6,7 +6,7 @@ export const authRoutes = [
     title: "서비스 관리",
   },
   {
-    pathname: "/test",
-    title: "테스트",
+    pathname: "/example",
+    title: "예시",
   },
 ] satisfies LayoutRoute[];

@@ -2,56 +2,55 @@
 
 import { getManageTableColumns } from "~/components/manage-service/manage-table/columns";
 import { ManagePagination } from "~/components/manage-service/manage-table/pagination";
-import DataTable from "~/components/ui/data-table";
+import { DataTable } from "~/components/ui/data-table";
 
-import { useManagePagination } from "~/components/manage-service/hooks";
 import { PhraseItemWithId } from "~/types/phrase";
 import { useManageDrawer } from "../hooks/use-manage-drawer";
-import { rowsPerPageOptions } from "../manage-service.meta";
 import { ManageActionBar } from "./action-bar";
 
-import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { deleteCookie } from "cookies-next";
+import { redirect } from "next/navigation";
+import { useState } from "react";
 import { apis } from "~/apis";
+import { ACCESS_TOKEN } from "~/apis/config/cookie/token";
 import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
 import ErrorFallback from "~/components/error-fallback";
 import Loading from "~/components/loading";
 
 const ManageServiceTable = ({ data }: { data: PhraseItemWithId[] }) => {
-  const {
-    pagination,
-    transformedData,
-    onRowSizeChange,
-    onPageMove,
-    isAllDeleteChecked,
-    onCheckAllDelete,
-    isDeleteChecked,
-    onDeleteCheck,
-    checkedItems,
-  } = useManagePagination(data, Number(rowsPerPageOptions[0].value));
-
-  const openNewDrawer = useManageDrawer((v) => v.openNewDrawer);
   const openEditDrawer = useManageDrawer((v) => v.openEditDrawer);
+
+  const [rowSelection, setRowSelection] = useState({});
+  const table = useReactTable({
+    data,
+    columns: getManageTableColumns(),
+    getCoreRowModel: getCoreRowModel(),
+    onRowSelectionChange: setRowSelection,
+    getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      rowSelection,
+    },
+  });
 
   return (
     <>
-      <ManageActionBar
-        isAllDeleteChecked={isAllDeleteChecked}
-        onRowSizeChange={onRowSizeChange}
-        onCheckAllDelete={onCheckAllDelete}
-        onClickCreate={openNewDrawer}
-        checkedItems={checkedItems}
-      />
+      <ManageActionBar table={table} />
       <DataTable
-        columns={getManageTableColumns(isDeleteChecked, onDeleteCheck)}
-        data={transformedData}
+        table={table}
         NoDataMsg={
-          <span className="w-full inline-block text-center text-slate-600 text-base">
+          <span className="w-full inline-block text-center text-base">
             현재 작성 된 글이 없습니다.
           </span>
         }
         onClickRow={openEditDrawer}
       />
-      <ManagePagination pagination={pagination} onPageMove={onPageMove} />
+      <ManagePagination table={table} />
     </>
   );
 };
@@ -63,10 +62,18 @@ const ManageServiceTableConnector = () => {
     queryFn: () => apis.phraseApi.getPhraseList(),
     queryKey: queryKeys.phraseList,
   });
+
   if (isPending) return <Loading />;
   if (isError) return <ErrorFallback reset={() => {}} error={error} />;
   if (!data) return null;
-  return <ManageServiceTable data={data.result} />;
+
+  // TODO: 토큰 리프레쉬 하기
+  if (data?.status === 401) {
+    deleteCookie(ACCESS_TOKEN);
+    return redirect("login");
+  }
+
+  return <ManageServiceTable data={data.result.phraseList} />;
 };
 
 export { ManageServiceTableConnector as ManageServiceDataTable };

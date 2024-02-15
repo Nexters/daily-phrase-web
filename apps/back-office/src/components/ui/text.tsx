@@ -1,4 +1,4 @@
-import React, { ReactHTML } from "react";
+import React from "react";
 import { cn } from "~/libs/utils";
 
 const EllipsisText = React.forwardRef<

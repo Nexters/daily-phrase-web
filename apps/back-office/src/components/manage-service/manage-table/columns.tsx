@@ -1,78 +1,104 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
 import { Checkbox } from "~/components/ui/checkbox";
 import { EllipsisText } from "~/components/ui/text";
+import { cn } from "~/libs/utils";
 import { PhraseItemWithId } from "~/types/phrase";
-import { OnDelete } from "../manage-service.type";
 
 const TableHeadText = ({
   children,
-  textAlign,
+  className,
   ...rest
-}: React.PropsWithChildren<
-  {
-    textAlign: "left" | "right" | "center";
-  } & React.HTMLAttributes<HTMLSpanElement>
->) => (
+}: React.HTMLAttributes<HTMLSpanElement>) => (
   <div
-    className={`w-full text-${textAlign} font-bold text-base tracking-normal leading-4	p-3`}
+    className={cn("font-bold text-base tracking-normal leading-4", className)}
   >
     <span {...rest}>{children}</span>
   </div>
 );
 
-/** @todo header width와 cell width를 맞추어야 함. */
-export const getManageTableColumns = (
-  isDeleteChecked: (id: number) => boolean,
-  onDeleteCheck: OnDelete,
-): Array<ColumnDef<PhraseItemWithId>> => [
+export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   {
-    minSize: 180,
-    accessorKey: "createdAt",
-    header: () => <TableHeadText textAlign="center">작성일자</TableHeadText>,
-    cell: ({ row }) => (
-      <div className="flex items-center justify-center">
+    accessorKey: "select",
+    size: 40,
+    header: ({ table }) => {
+      return (
         <Checkbox
-          className="data-[state=checked]:bg-slate-600"
-          checked={isDeleteChecked(row.original.phraseId)}
-          onCheckedChange={(checked) =>
-            onDeleteCheck(row.original.phraseId, checked)
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomeRowsSelected() && "indeterminate")
           }
-          aria-label="Select row"
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         />
-        <EllipsisText className="inline-block p-4">
-          {row.original.createdAt}
-        </EllipsisText>
-      </div>
+      );
+    },
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        onClick={(e) => e.stopPropagation()}
+        aria-label="Select row"
+      />
+    ),
+  },
+  {
+    size: 40,
+    accessorKey: "id",
+    header: () => <TableHeadText>ID</TableHeadText>,
+    cell: ({ row }) => <>{row.original.phraseId}</>,
+  },
+  {
+    size: 100,
+    accessorKey: "createdAt",
+    header: () => <TableHeadText>작성일자</TableHeadText>,
+    cell: ({ row }) => (
+      <EllipsisText className="inline-block">
+        {format(row.original.createdAt, "yy.MM.dd HH:mm:ss")}
+      </EllipsisText>
     ),
   },
   {
     minSize: 200,
     accessorKey: "title",
-    header: () => <TableHeadText textAlign="left">타이틀</TableHeadText>,
+    header: () => <TableHeadText>타이틀</TableHeadText>,
     cell: ({ row }) => <EllipsisText>{row.original.title}</EllipsisText>,
   },
   {
     minSize: 140,
     accessorKey: "imageUrl",
-    header: () => <TableHeadText textAlign="left">이미지</TableHeadText>,
+    header: () => <TableHeadText>이미지</TableHeadText>,
     cell: ({ row }) => <EllipsisText>{row.original.filename}</EllipsisText>,
   },
   {
     minSize: 348,
     accessorKey: "content",
-    header: () => <TableHeadText textAlign="left">텍스트</TableHeadText>,
-    cell: ({ row }) => <EllipsisText>{row.original.content}</EllipsisText>,
+    header: () => <TableHeadText>텍스트</TableHeadText>,
+    cell: ({ row }) => (
+      <EllipsisText className="max-w-[500px]">
+        {row.original.content}
+      </EllipsisText>
+    ),
   },
   {
-    minSize: 140,
+    size: 70,
     accessorKey: "viewCount",
-    header: () => <TableHeadText textAlign="center">조회수</TableHeadText>,
-    cell: ({ row }) => <EllipsisText>{row.original.viewCount}</EllipsisText>,
+    header: () => <TableHeadText className="text-center">조회수</TableHeadText>,
+    cell: ({ row }) => (
+      <EllipsisText className="text-center">
+        {row.original.viewCount}
+      </EllipsisText>
+    ),
   },
   {
-    minSize: 140,
+    size: 70,
     accessorKey: "likeCount",
-    header: () => <TableHeadText textAlign="center">좋아요수</TableHeadText>,
-    cell: ({ row }) => <EllipsisText>{row.original.likeCount}</EllipsisText>,
+    header: () => (
+      <TableHeadText className="text-center">좋아요수</TableHeadText>
+    ),
+    cell: ({ row }) => (
+      <EllipsisText className="text-center">
+        {row.original.likeCount}
+      </EllipsisText>
+    ),
   },
 ];

@@ -1,4 +1,6 @@
+import { Table } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
+import { PhraseItemWithId } from "~/types/phrase";
 import {
   Select,
   SelectContent,
@@ -6,29 +8,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
-import { rowsPerPageOptions } from "../manage-service.meta";
 
 interface Props {
-  onValueChange?: Parameters<typeof Select>[0]["onValueChange"];
+  table: Table<PhraseItemWithId>;
 }
 
-const DisplayDataNumSelect = ({ onValueChange }: Props) => {
+export const rowsPerPageOptions = [
+  { value: "10", label: "10개" },
+  { value: "20", label: "20개" },
+  { value: "30", label: "30개" },
+  { value: "50", label: "50개" },
+  { value: "100", label: "100개" },
+];
+
+const DisplayDataNumSelect = ({ table }: Props) => {
   return (
-    <Select onValueChange={onValueChange}>
+    <Select onValueChange={(v) => table.setPageSize(+v)}>
       <SelectTrigger
-        className="w-[100px] radius=[6px] border-slate-300 font-medium font-slate-900 focus:ring-0 focus:ring-offset-0"
-        icon={<ChevronDown className="h-4 w-4 stroke-slate-400" />}
+        className="w-[100px] font-medium focus:ring-0 focus:ring-offset-0"
+        icon={<ChevronDown className="h-4 w-4" />}
       >
-        <SelectValue placeholder="10개" />
+        <SelectValue placeholder={table.getState().pagination.pageSize} />
       </SelectTrigger>
       <SelectContent className="w-[100px]">
         {rowsPerPageOptions.map(({ label, value }) => (
-          <SelectItem
-            key={value}
-            value={value}
-            hasCheckIcon={false}
-            className="font-medium font-slate-900 focus:bg-slate-100"
-          >
+          <SelectItem key={value} value={value}>
             {label}
           </SelectItem>
         ))}

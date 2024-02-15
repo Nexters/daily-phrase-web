@@ -16,3 +16,12 @@ export type PhrasePaging = {
   total: number;
   phraseList: Phrase[];
 };
+
+export type AddPhrase = {
+  title: string;
+  content: string;
+  imageUrl: string;
+  imageRatio: string;
+  fileName: string;
+  fileSize: number;
+};
