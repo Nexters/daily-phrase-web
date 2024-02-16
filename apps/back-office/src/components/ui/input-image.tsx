@@ -29,6 +29,8 @@ export type InputImageProps = {
   onChange?: React.Dispatch<React.SetStateAction<InputImageValue[]>>;
 };
 
+let prevValue: InputImageValue[];
+
 export default function InputImage({
   value = [],
   previewMaxHeight = 300,
@@ -36,8 +38,15 @@ export default function InputImage({
   options,
   onChange,
 }: InputImageProps) {
-  const initValue = useMemo(() => value, [value]);
-  const [imgList, setImgList] = useState<InputImageValue[]>(initValue);
+  const [imgList, setImgList] = useState<InputImageValue[]>(value);
+
+  useEffect(() => {
+    // TODO: 임시로 상태 변경 무한 루프 방지... forward ref로 해결해야함
+    if (JSON.stringify(prevValue) === JSON.stringify(value)) return;
+
+    setImgList(value);
+    prevValue = value;
+  }, [value]);
 
   useEffect(() => {
     onChange?.(imgList);
@@ -126,7 +135,7 @@ export default function InputImage({
               >
                 <div className="relative group">
                   <img
-                    src={img.previewSrc}
+                    src={typeof img.src === "string" ? img.src : img.previewSrc}
                     alt="미리보기"
                     className="max-w-full h-auto"
                     style={{ maxHeight: previewMaxHeight }}
@@ -145,21 +154,25 @@ export default function InputImage({
                 </div>
                 <div className="mt-2 text-sm">
                   <div className="font-medium">{img.filename}</div>
-                  <div>
-                    크기:
-                    <span className="font-medium ml-1">
-                      {img.width}x{img.height}
-                    </span>
-                  </div>
+                  {!!img.width && !!img.height && (
+                    <div>
+                      크기:
+                      <span className="font-medium ml-1">
+                        {img.width}x{img.height}
+                      </span>
+                    </div>
+                  )}
                   <div>
                     비율:<span className="font-medium ml-1">{img.radio}</span>
                   </div>
-                  <div>
-                    용량:
-                    <span className="font-medium ml-1">
-                      {renderFileSize(img.size ?? 0)}
-                    </span>
-                  </div>
+                  {!!img.size && (
+                    <div>
+                      용량:
+                      <span className="font-medium ml-1">
+                        {renderFileSize(img.size)}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             );

@@ -47,7 +47,24 @@ export const useManageDrawerForm = () => {
 
   useEffect(() => {
     if (isDrawerOpen) {
-      form.reset(defaultValues ?? manageFormProps.defaultValues);
+      if (defaultValues) {
+        const drawerValue = {
+          title: defaultValues.title,
+          content: defaultValues.content,
+          imageList: defaultValues.url
+            ? [
+                {
+                  src: defaultValues.url,
+                  radio: "1:1",
+                  filename: defaultValues.filename,
+                },
+              ]
+            : [],
+        } satisfies ManageValues;
+        form.reset(drawerValue);
+      } else {
+        form.reset(manageFormProps.defaultValues);
+      }
     }
   }, [form, isDrawerOpen, defaultValues]);
 

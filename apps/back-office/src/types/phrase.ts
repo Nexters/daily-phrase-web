@@ -3,6 +3,7 @@ export interface PhraseItem {
   title: string;
   content: string;
   filename: string;
+  url: string;
   createdAt: number;
   viewCount: number;
   likeCount: number;
