@@ -15,20 +15,14 @@ export async function POST(request: Request) {
   const imageFile = await base64toFile(body.src, body.filename);
   formData.append("image", imageFile);
 
-  // TODO: API 500 에러 대응하기
-  console.log(imageFile);
-
   const res = await fetch(`${process.env.API_URL}/api/admin/phrases/upload`, {
     headers: {
-      "content-type": "multipart/form-data",
       Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
     body: formData,
   });
   const data = await res.json();
-
-  console.log(data);
 
   return Response.json(data);
 }

@@ -87,21 +87,19 @@ export const useManageDrawerMutation = () => {
     setBlocking(true);
 
     try {
-      const blobImageList = values.imageList.filter((image) =>
+      const hasLocalImage = values.imageList.some((image) =>
         image.src.startsWith("data:"),
       );
 
-      if (blobImageList.length > 0) {
+      if (hasLocalImage) {
         toast.loading("이미지 업로드 중...");
         await Promise.all(
-          blobImageList.map(async (blogImage, i) => {
+          values.imageList.map(async (blogImage, i) => {
             const res = await apis.phraseApi.uploadImage({
               src: blogImage.src,
               filename: blogImage.filename,
             });
-            blobImageList[i].src = res.result.imageUrl;
-            // TODO: 로컬 이미지 blob 제거
-            // URL.revokeObjectURL(blogImage.previewSrc);
+            values.imageList[i].src = res.result.imageUrl;
           }),
         );
       }
