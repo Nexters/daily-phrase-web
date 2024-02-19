@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { create } from "zustand";
 import { apis } from "~/apis";
+import { queryClient } from "~/apis/config/tanstack-query/query-client";
+import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
 import { PhraseItemWithId } from "~/types/phrase";
 import { ManageValues, manageFormProps } from "../manage-drawer.meta";
 
@@ -127,6 +129,7 @@ export const useManageDrawerMutation = () => {
         toast.success("등록 되었습니다.");
       }
 
+      queryClient.invalidateQueries({ queryKey: queryKeys.phraseList });
       setBlocking(false);
       closeDrawer();
     } catch (e) {
