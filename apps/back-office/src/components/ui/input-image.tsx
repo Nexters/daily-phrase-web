@@ -1,7 +1,13 @@
 "use client";
 
 import { PlusIcon, XIcon } from "lucide-react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import { cn, getGCD, renderFileSize } from "~/libs/utils";
@@ -38,12 +44,15 @@ export default function InputImage({
   options,
   onChange,
 }: InputImageProps) {
+  const v = useRef(value);
+
   const [imgList, setImgList] = useState<InputImageValue[]>(value);
 
   useEffect(() => {
     // TODO: 임시로 상태 변경 무한 루프 방지... forward ref로 해결해야함
     if (JSON.stringify(prevValue) === JSON.stringify(value)) return;
 
+    v.current = value;
     setImgList(value);
     prevValue = value;
   }, [value]);

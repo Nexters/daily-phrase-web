@@ -51,11 +51,11 @@ export const useManageDrawerForm = () => {
         const drawerValue = {
           title: defaultValues.title,
           content: defaultValues.content,
-          imageList: defaultValues.url
+          imageList: defaultValues.imageUrl
             ? [
                 {
-                  src: defaultValues.url,
-                  radio: "1:1",
+                  src: defaultValues.imageUrl,
+                  radio: defaultValues.imageRatio,
                   filename: defaultValues.filename,
                 },
               ]
@@ -121,7 +121,7 @@ export const useManageDrawerMutation = () => {
           imageUrl: values.imageList[0]?.src ?? "",
           imageRatio: values.imageList[0]?.radio ?? "",
           fileName: values.imageList[0]?.filename ?? "",
-          fileSize: values.imageList[0]?.size ?? "",
+          fileSize: values.imageList[0]?.size ?? 0,
         });
         toast.dismiss();
         toast.success("등록 되었습니다.");
