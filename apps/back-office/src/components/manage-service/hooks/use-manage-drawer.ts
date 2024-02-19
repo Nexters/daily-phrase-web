@@ -107,9 +107,12 @@ export const useManageDrawerMutation = () => {
       if (defaultValues) {
         toast.loading("글귀 수정 중...");
         await apis.phraseApi.updatePhrase(defaultValues.phraseId, {
-          ...defaultValues,
           title: values.title,
           content: values.content,
+          imageUrl: values.imageList[0]?.src ?? "",
+          imageRatio: values.imageList[0]?.radio ?? "",
+          fileName: values.imageList[0]?.filename ?? "",
+          fileSize: values.imageList[0]?.size ?? 0,
         });
         toast.dismiss();
         toast.success("수정 되었습니다.");
