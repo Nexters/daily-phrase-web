@@ -37,6 +37,7 @@ export const ManageActionBar = ({ table }: Props) => {
       onSuccess: () => {
         toast.success("글귀 삭제에 성공했습니다.");
         queryClient.invalidateQueries({ queryKey: queryKeys.phraseList });
+        table.resetRowSelection();
       },
       onError: (e) => {
         console.log(e);
