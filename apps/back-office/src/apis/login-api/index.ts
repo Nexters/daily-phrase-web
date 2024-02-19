@@ -12,7 +12,6 @@ export class LoginApi {
     return this.apiClient.post<ApiData<LoginResponse>>(
       "/api/admin/login",
       body,
-      { headers: { "content-type": "application/json" } },
     );
   }
 }

@@ -44,6 +44,9 @@ const httpClient = new ApiClient({
   onResponseSuccess,
   requestConfig: {
     baseURL: "", // TODO: 임시로 로컬 proxy 태움
+    headers: {
+      "content-type": "application/json",
+    },
   },
 });
 
