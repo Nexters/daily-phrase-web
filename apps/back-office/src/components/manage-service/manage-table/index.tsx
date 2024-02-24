@@ -2,9 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import {
+  ColumnFiltersState,
   SortingState,
   VisibilityState,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -45,6 +47,7 @@ export default function ManageServiceTable() {
 const ManageTable = ({ data }: { data: PhraseItemWithId[] }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     imageUrl: false,
   });
@@ -57,10 +60,13 @@ const ManageTable = ({ data }: { data: PhraseItemWithId[] }) => {
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
       rowSelection,
+      columnFilters,
       columnVisibility,
     },
   });

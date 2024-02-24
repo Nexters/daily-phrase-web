@@ -6,6 +6,7 @@ import { apis } from "~/apis";
 import { queryClient } from "~/apis/config/tanstack-query/query-client";
 import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
 import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 import { useManageDrawer } from "../hooks/use-manage-drawer";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { ManageTable } from "./type";
@@ -49,6 +50,16 @@ export function ManageTableToolbar({ table }: Props) {
     <div className="flex justify-between items-center">
       <div className="flex justify-center items-center gap-3">
         <DataTableViewOptions table={table} />
+        <div className="flex items-center py-4">
+          <Input
+            placeholder="제목 검색..."
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("title")?.setFilterValue(event.target.value)
+            }
+            className="max-w-lg"
+          />
+        </div>
         {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
           <Button
             variant="secondary"
