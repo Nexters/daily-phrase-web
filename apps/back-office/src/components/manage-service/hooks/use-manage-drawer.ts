@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -9,6 +8,10 @@ import { queryClient } from "~/apis/config/tanstack-query/query-client";
 import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
 import { PhraseItemWithId } from "~/types/phrase";
 import { ManageValues, manageFormProps } from "../manage-drawer.meta";
+import {
+  getDrawerClientValues,
+  getToBeSendValues,
+} from "../utils/data-transform";
 
 export const useManageDrawer = create<{
   isBlocking: boolean;
@@ -55,21 +58,7 @@ export const useManageDrawerForm = () => {
       form.reset(manageFormProps.defaultValues);
       return;
     }
-    const drawerValue = {
-      title: defaultValues.title,
-      isReserved: defaultValues.isReserved,
-      publishDate: defaultValues.publishDate ? defaultValues.publishDate : "",
-      content: defaultValues.content,
-      imageList: defaultValues.imageUrl
-        ? [
-            {
-              src: defaultValues.imageUrl,
-              radio: defaultValues.imageRatio,
-              filename: defaultValues.filename,
-            },
-          ]
-        : [],
-    } satisfies ManageValues;
+    const drawerValue = getDrawerClientValues(defaultValues);
     form.reset(drawerValue);
   }, [form, isDrawerOpen, defaultValues]);
 
@@ -81,11 +70,11 @@ export const useManageDrawerMutation = () => {
   const isBlocking = useManageDrawer((v) => v.isBlocking);
   const setBlocking = useManageDrawer((v) => v.setBlocking);
   const closeDrawer = useManageDrawer((v) => v.closeDrawer);
-  const { mutate: update, isPending: isUpdatePending } = useMutation({
+  const { mutate: update } = useMutation({
     mutationFn: (data: Parameters<typeof apis.phraseApi.updatePhrase>) =>
       apis.phraseApi.updatePhrase(...data),
   });
-  const { mutate: create, isPending: isCreatePending } = useMutation({
+  const { mutate: create } = useMutation({
     mutationFn: (...data: Parameters<typeof apis.phraseApi.createPhrase>) =>
       apis.phraseApi.createPhrase(...data),
   });
@@ -94,19 +83,6 @@ export const useManageDrawerMutation = () => {
     setBlocking(false);
     closeDrawer();
   };
-  const getToBeSendData = (values: ManageValues) => ({
-    title: values.title,
-    content: values.content,
-    imageUrl: values.imageList[0]?.src ?? "",
-    imageRatio: values.imageList[0]?.radio ?? "",
-    fileName: values.imageList[0]?.filename ?? "",
-    fileSize: values.imageList[0]?.size ?? 0,
-    isReserved: values.isReserved,
-    publishDate:
-      values.isReserved && values.publishDate
-        ? format(values.publishDate, "yyyy-MM-dd")
-        : "",
-  });
 
   async function onSubmit(values: ManageValues) {
     if (isBlocking) {
@@ -134,8 +110,8 @@ export const useManageDrawerMutation = () => {
       }
 
       if (defaultValues) {
-        if (isUpdatePending) toast.loading("글귀 수정 중...");
-        update([defaultValues.phraseId, getToBeSendData(values)], {
+        toast.loading("글귀 수정 중...");
+        update([defaultValues.phraseId, getToBeSendValues(values)], {
           onSuccess: () => {
             toast.dismiss();
             toast.success("수정 되었습니다.");
@@ -147,8 +123,8 @@ export const useManageDrawerMutation = () => {
           },
         });
       } else {
-        if (isCreatePending) toast.loading("글귀 등록 중...");
-        create(getToBeSendData(values), {
+        toast.loading("글귀 등록 중...");
+        create(getToBeSendValues(values), {
           onSuccess: () => {
             toast.dismiss();
             toast.success("등록 되었습니다.");
