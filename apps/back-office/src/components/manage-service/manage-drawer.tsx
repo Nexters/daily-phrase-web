@@ -21,6 +21,7 @@ import {
   useManageDrawerForm,
   useManageDrawerMutation,
 } from "./hooks/use-manage-drawer";
+import useTextareaHeight from "./hooks/use-textarea-height";
 
 export function ManageDrawerRoot(props: React.ComponentProps<typeof Drawer>) {
   const { open, setOpen } = useManageDrawer();
@@ -34,6 +35,7 @@ export function ManageDrawerContent() {
 
   const { form } = useManageDrawerForm();
   const { onSubmit } = useManageDrawerMutation();
+  const { textAreaRef, setTextareaHeight } = useTextareaHeight("px");
 
   return (
     <Form {...form}>
@@ -134,10 +136,21 @@ export function ManageDrawerContent() {
                 <FormItem className="h-full">
                   <FormControl>
                     <ClearTextArea
+                      {...field}
+                      ref={(ref) => {
+                        textAreaRef.current = ref;
+                        field.ref(ref);
+                        if (!textAreaRef.current) return;
+                        setTextareaHeight(textAreaRef.current);
+                      }}
                       disabled={isBlocking}
                       placeholder="텍스트를 작성해 주세요"
                       className="h-full text-base"
-                      {...field}
+                      onChange={(...args) => {
+                        if (!textAreaRef.current) return;
+                        setTextareaHeight(textAreaRef.current);
+                        field.onChange(...args);
+                      }}
                     />
                   </FormControl>
                 </FormItem>
