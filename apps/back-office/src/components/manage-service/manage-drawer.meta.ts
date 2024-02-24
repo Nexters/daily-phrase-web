@@ -13,6 +13,8 @@ export const manageSchema = z.object({
     }),
   ),
   content: z.string(),
+  isReserved: z.boolean(),
+  publishDate: z.string(),
 });
 
 export const manageResolver = zodResolver(manageSchema);
@@ -23,6 +25,8 @@ export const defaultValues = {
   title: "",
   content: "",
   imageList: [],
+  isReserved: false,
+  publishDate: "",
 } satisfies ManageValues;
 
 export const manageFormProps = {

@@ -5,9 +5,11 @@ export interface PhraseItem {
   filename: string;
   imageUrl: string;
   imageRatio: string;
-  createdAt: number;
+  createdAt: string;
   viewCount: number;
   likeCount: number;
+  isReserved: boolean;
+  publishDate: string | null;
 }
 
 export type PhraseItemWithId = PhraseItem & { phraseId: number };

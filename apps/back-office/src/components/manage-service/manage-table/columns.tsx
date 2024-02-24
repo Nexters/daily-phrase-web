@@ -12,6 +12,7 @@ export const columMapper = {
   content: "텍스트",
   viewCount: "조회수",
   likeCount: "좋아요",
+  publishDate: "예약일자",
 };
 
 export const renderColumnText = (key: string) => {
@@ -59,6 +60,18 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     cell: ({ row }) => (
       <div className="line-clamp-2">
         {format(row.original.createdAt, "yy.MM.dd")}
+      </div>
+    ),
+  },
+  {
+    size: 70,
+    accessorKey: "publishDate",
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
+    cell: ({ row }) => (
+      <div className="line-clamp-2">
+        {row.original.publishDate
+          ? format(row.original.publishDate, "yy.MM.dd")
+          : ""}
       </div>
     ),
   },

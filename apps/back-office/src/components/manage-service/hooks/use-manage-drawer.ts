@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -52,6 +53,10 @@ export const useManageDrawerForm = () => {
       if (defaultValues) {
         const drawerValue = {
           title: defaultValues.title,
+          isReserved: defaultValues.isReserved,
+          publishDate: defaultValues.publishDate
+            ? defaultValues.publishDate
+            : "",
           content: defaultValues.content,
           imageList: defaultValues.imageUrl
             ? [
@@ -113,6 +118,10 @@ export const useManageDrawerMutation = () => {
           imageRatio: values.imageList[0]?.radio ?? "",
           fileName: values.imageList[0]?.filename ?? "",
           fileSize: values.imageList[0]?.size ?? 0,
+          isReserved: values.isReserved,
+          publishDate: values.publishDate
+            ? format(values.publishDate, "yyyy-MM-dd")
+            : "",
         });
         toast.dismiss();
         toast.success("수정 되었습니다.");
@@ -125,6 +134,10 @@ export const useManageDrawerMutation = () => {
           imageRatio: values.imageList[0]?.radio ?? "",
           fileName: values.imageList[0]?.filename ?? "",
           fileSize: values.imageList[0]?.size ?? 0,
+          isReserved: values.isReserved,
+          publishDate: values.publishDate
+            ? format(values.publishDate, "yyyy-mm-dd")
+            : "",
         });
         toast.dismiss();
         toast.success("등록 되었습니다.");

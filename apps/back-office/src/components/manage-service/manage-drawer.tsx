@@ -1,5 +1,6 @@
 "use client";
 
+import { format, parse } from "date-fns";
 import { ChevronsRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
@@ -12,7 +13,9 @@ import {
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Separator } from "~/components/ui/separator";
 import { ClearTextArea } from "~/components/ui/textarea";
+import { Calendar } from "../ui/calender";
 import InputImage from "../ui/input-image";
+import { Switch } from "../ui/switch";
 import {
   useManageDrawer,
   useManageDrawerForm,
@@ -50,7 +53,7 @@ export function ManageDrawerContent() {
               <ChevronsRight className="w-6 h-6 text-muted-foreground" />
             </Button>
           </DrawerHeader>
-          <DrawerMain>
+          <DrawerMain className="overflow-y-auto">
             <FormField
               control={form.control}
               name="title"
@@ -65,6 +68,46 @@ export function ManageDrawerContent() {
                     />
                   </FormControl>
                 </FormItem>
+              )}
+            />
+            <Separator />
+            <FormField
+              control={form.control}
+              name="isReserved"
+              render={({ field }) => (
+                <>
+                  <div className="flex gap-2">
+                    <span className="font-semibold">예약 여부</span>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </div>
+                  {field.value ? (
+                    <FormField
+                      control={form.control}
+                      name="publishDate"
+                      render={({ field }) => (
+                        <Calendar
+                          mode="single"
+                          selected={
+                            field.value
+                              ? parse(field.value, "yyyy-MM-dd", new Date())
+                              : new Date()
+                          }
+                          onSelect={(day, selectedDay, ...rest) =>
+                            field.onChange(
+                              format(day || new Date(), "yyyy-MM-dd"),
+                              format(selectedDay, "yyyy-MM-dd"),
+                              ...rest,
+                            )
+                          }
+                          className="flex justify-center items-center rounded-md"
+                        />
+                      )}
+                    />
+                  ) : null}
+                </>
               )}
             />
             <Separator />
