@@ -28,43 +28,26 @@ export type InputImageValue = {
 };
 
 export type InputImageProps = {
+  previewMaxHeight?: number;
   className?: string;
   options?: DropzoneOptions;
-  value?: InputImageValue[];
-  previewMaxHeight?: number;
-  onChange?: React.Dispatch<React.SetStateAction<InputImageValue[]>>;
+  value: InputImageValue[];
+  onChange: React.Dispatch<React.SetStateAction<InputImageValue[]>>;
 };
 
 let prevValue: InputImageValue[];
 
 export default function InputImage({
-  value = [],
+  value,
   previewMaxHeight = 300,
   className,
   options,
   onChange,
 }: InputImageProps) {
-  const v = useRef(value);
-
-  const [imgList, setImgList] = useState<InputImageValue[]>(value);
-
-  useEffect(() => {
-    // TODO: 임시로 상태 변경 무한 루프 방지... forward ref로 해결해야함
-    if (JSON.stringify(prevValue) === JSON.stringify(value)) return;
-
-    v.current = value;
-    setImgList(value);
-    prevValue = value;
-  }, [value]);
-
-  useEffect(() => {
-    onChange?.(imgList);
-  }, [imgList, onChange]);
-
   const onRemoveImg = (index: number) => {
     if (options?.disabled) return;
 
-    setImgList(imgList.filter((_, i) => i !== index));
+    onChange(value.filter((_, i) => i !== index));
   };
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -84,7 +67,7 @@ export default function InputImage({
           const radio = `${width / gcd}:${height / gcd}`;
           const size = Math.floor(file.size / 1024); // 단위 KB
 
-          setImgList((list) => [
+          onChange((list) => [
             ...list,
             {
               src: reader.result,
@@ -135,8 +118,8 @@ export default function InputImage({
         </div>
       </div>
       <ScrollArea className="w-full whitespace-nowrap">
-        <div className={cn("flex w-max space-x-4", imgList.length && "pb-4")}>
-          {imgList.map((img, index) => {
+        <div className={cn("flex w-max space-x-4", value.length && "pb-4")}>
+          {value.map((img, index) => {
             return (
               <div
                 key={`${index}${img.filename}`}
