@@ -119,9 +119,10 @@ export const useManageDrawerMutation = () => {
           fileName: values.imageList[0]?.filename ?? "",
           fileSize: values.imageList[0]?.size ?? 0,
           isReserved: values.isReserved,
-          publishDate: values.publishDate
-            ? format(values.publishDate, "yyyy-MM-dd")
-            : "",
+          publishDate:
+            values.isReserved && values.publishDate
+              ? format(values.publishDate, "yyyy-MM-dd")
+              : "",
         });
         toast.dismiss();
         toast.success("수정 되었습니다.");
@@ -135,9 +136,10 @@ export const useManageDrawerMutation = () => {
           fileName: values.imageList[0]?.filename ?? "",
           fileSize: values.imageList[0]?.size ?? 0,
           isReserved: values.isReserved,
-          publishDate: values.publishDate
-            ? format(values.publishDate, "yyyy-mm-dd")
-            : "",
+          publishDate:
+            values.isReserved && values.publishDate
+              ? format(values.publishDate, "yyyy-mm-dd")
+              : "",
         });
         toast.dismiss();
         toast.success("등록 되었습니다.");
