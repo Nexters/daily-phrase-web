@@ -22,10 +22,13 @@ export default function PhraseCard({ className, phrase }: PhraseCardProps) {
     openAppDownloadModal();
     window.clarity?.("event", "phrase-card-view-count");
   };
+  const onCardClick = () => {
+    window.clarity?.("event", "other-phrase-card-click");
+  };
 
   return (
     <div className={cn("flex flex-col pt-2 pb-4", className)}>
-      <Link href={`/phrase-web/${phrase.phraseId}`}>
+      <Link href={`/phrase-web/${phrase.phraseId}`} onClick={onCardClick}>
         <div className="mb-1 pt-2 text-black text-[20px] font-semibold leading-[27px]">
           {phrase.title}
         </div>
