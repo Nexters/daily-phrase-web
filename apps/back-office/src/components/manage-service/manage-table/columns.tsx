@@ -1,7 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Checkbox } from "~/components/ui/checkbox";
-import { EllipsisText } from "~/components/ui/text";
 import { cn } from "~/libs/utils";
 import { PhraseItemWithId } from "~/types/phrase";
 
@@ -10,9 +9,7 @@ const TableHeadText = ({
   className,
   ...rest
 }: React.HTMLAttributes<HTMLSpanElement>) => (
-  <div
-    className={cn("font-bold text-base tracking-normal leading-4", className)}
-  >
+  <div className={cn("font-bold text-sm tracking-normal leading-4", className)}>
     <span {...rest}>{children}</span>
   </div>
 );
@@ -45,38 +42,38 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     size: 40,
     accessorKey: "id",
     header: () => <TableHeadText>ID</TableHeadText>,
-    cell: ({ row }) => <>{row.original.phraseId}</>,
+    cell: ({ row }) => <span>{row.original.phraseId}</span>,
   },
   {
-    size: 100,
+    size: 80,
     accessorKey: "createdAt",
     header: () => <TableHeadText>작성일자</TableHeadText>,
     cell: ({ row }) => (
-      <EllipsisText className="inline-block">
+      <div className="line-clamp-2">
         {format(row.original.createdAt, "yy.MM.dd HH:mm:ss")}
-      </EllipsisText>
+      </div>
     ),
   },
   {
-    minSize: 200,
+    size: 200,
     accessorKey: "title",
     header: () => <TableHeadText>타이틀</TableHeadText>,
-    cell: ({ row }) => <EllipsisText>{row.original.title}</EllipsisText>,
+    cell: ({ row }) => <div className="line-clamp-2">{row.original.title}</div>,
   },
   {
-    minSize: 140,
+    minSize: 100,
     accessorKey: "imageUrl",
     header: () => <TableHeadText>이미지</TableHeadText>,
-    cell: ({ row }) => <EllipsisText>{row.original.filename}</EllipsisText>,
+    cell: ({ row }) => (
+      <div className="line-clamp-2">{row.original.filename}</div>
+    ),
   },
   {
-    minSize: 348,
+    minSize: 400,
     accessorKey: "content",
-    header: () => <TableHeadText>텍스트</TableHeadText>,
+    header: () => <TableHeadText>콘텐츠</TableHeadText>,
     cell: ({ row }) => (
-      <EllipsisText className="max-w-[500px]">
-        {row.original.content}
-      </EllipsisText>
+      <div className="max-w-[400px] line-clamp-2">{row.original.content}</div>
     ),
   },
   {
@@ -84,9 +81,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     accessorKey: "viewCount",
     header: () => <TableHeadText className="text-center">조회수</TableHeadText>,
     cell: ({ row }) => (
-      <EllipsisText className="text-center">
-        {row.original.viewCount}
-      </EllipsisText>
+      <div className="text-center">{row.original.viewCount}</div>
     ),
   },
   {
@@ -96,9 +91,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
       <TableHeadText className="text-center">좋아요수</TableHeadText>
     ),
     cell: ({ row }) => (
-      <EllipsisText className="text-center">
-        {row.original.likeCount}
-      </EllipsisText>
+      <div className="text-center">{row.original.likeCount}</div>
     ),
   },
 ];

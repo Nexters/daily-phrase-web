@@ -1,8 +1,4 @@
-"use client";
-
-import { Table as TableType, flexRender } from "@tanstack/react-table";
-import React from "react";
-
+import { Table as TanstackTable, flexRender } from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -10,19 +6,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./table";
+} from "~/components/ui/table";
+import { PhraseItemWithId } from "~/types/phrase";
+import { useManageDrawer } from "../hooks/use-manage-drawer";
 
-interface DataTableProps<TData> {
-  table: TableType<TData>;
-  NoDataMsg: React.ReactNode;
-  onClickRow?: (data: TData) => void;
-}
-
-export const DataTable = <TData,>({
+export default function ManageServiceDataTable({
   table,
-  NoDataMsg,
-  onClickRow,
-}: DataTableProps<TData>) => {
+}: {
+  table: TanstackTable<PhraseItemWithId>;
+}) {
+  const openEditDrawer = useManageDrawer((v) => v.openEditDrawer);
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -51,7 +45,7 @@ export const DataTable = <TData,>({
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 className="cursor-pointer"
-                onClick={() => onClickRow?.(row.original)}
+                onClick={() => openEditDrawer(row.original)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} width={`${cell.column.getSize()}px`}>
@@ -63,7 +57,9 @@ export const DataTable = <TData,>({
           ) : (
             <TableRow>
               <TableCell colSpan={table.getAllColumns().length}>
-                {NoDataMsg}
+                <span className="w-full inline-block text-center text-base">
+                  현재 작성 된 글이 없습니다.
+                </span>
               </TableCell>
             </TableRow>
           )}
@@ -71,4 +67,4 @@ export const DataTable = <TData,>({
       </Table>
     </div>
   );
-};
+}

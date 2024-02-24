@@ -2,7 +2,7 @@ import {
   ManageDrawerContent,
   ManageDrawerRoot,
 } from "~/components/manage-service/manage-drawer";
-import { ManageServiceDataTable } from "~/components/manage-service/manage-table";
+import ManageServiceTable from "~/components/manage-service/manage-table";
 
 export default function Page() {
   return (
@@ -11,7 +11,7 @@ export default function Page() {
         <div className="flex items-center mb-6">
           <h1 className="text-2xl font-bold">서비스 관리</h1>
         </div>
-        <ManageServiceDataTable />
+        <ManageServiceTable />
       </div>
       <ManageDrawerContent />
     </ManageDrawerRoot>
