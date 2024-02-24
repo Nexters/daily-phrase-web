@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 
 import { useMutation } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { apis } from "~/apis";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "~/apis/config/cookie/token";
@@ -18,6 +20,7 @@ import { LoginSchema } from "./login-form.type";
 
 const LoginForm = () => {
   const router = useRouter();
+  const [passwordOpen, setPasswordOpen] = useState(false);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: LoginSchema) => apis.loginApi.login(data),
@@ -61,25 +64,43 @@ const LoginForm = () => {
             className="col-span-3 border-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0"
             placeholder="ID"
           />
-
-          {errors.id?.message && (
-            <ErrorMessage>{errors.id?.message}</ErrorMessage>
-          )}
         </div>
+        {errors.id?.message && (
+          <ErrorMessage className="text-xs">{errors.id?.message}</ErrorMessage>
+        )}
         <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="password" className="text-left font-medium">
-            Password
-          </Label>
+          <div className="w-fit flex items-center gap-2">
+            <Label htmlFor="password" className="text-left font-medium">
+              Password
+            </Label>
+            {passwordOpen ? (
+              <EyeIcon
+                width={16}
+                height={16}
+                onClick={() => setPasswordOpen(false)}
+              />
+            ) : (
+              <EyeOffIcon
+                width={16}
+                height={16}
+                onClick={() => setPasswordOpen(true)}
+              />
+            )}
+          </div>
+
           <Input
             id="password"
             {...register("password")}
+            type={passwordOpen ? "text" : "password"}
             className="col-span-3 border-slate-300 focus-visible:ring-0 focus-visible:ring-offset-0"
             placeholder="Password"
           />
-          {errors.password?.message && (
-            <ErrorMessage>{errors.password?.message}</ErrorMessage>
-          )}
         </div>
+        {errors.password?.message && (
+          <ErrorMessage className="text-xs">
+            {errors.password?.message}
+          </ErrorMessage>
+        )}
       </div>
       <div className="flex flex-row-reverse">
         <Button className="w-fit" type="submit" disabled={isPending}>
