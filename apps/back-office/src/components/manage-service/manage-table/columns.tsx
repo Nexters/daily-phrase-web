@@ -1,21 +1,22 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { Checkbox } from "~/components/ui/checkbox";
-import { EllipsisText } from "~/components/ui/text";
-import { cn } from "~/libs/utils";
 import { PhraseItemWithId } from "~/types/phrase";
+import { ManageTableColumnHeader } from "./column-header";
 
-const TableHeadText = ({
-  children,
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) => (
-  <div
-    className={cn("font-bold text-base tracking-normal leading-4", className)}
-  >
-    <span {...rest}>{children}</span>
-  </div>
-);
+export const columMapper = {
+  id: "ID",
+  createdAt: "작성일자",
+  title: "제목",
+  imageUrl: "이미지",
+  content: "텍스트",
+  viewCount: "조회수",
+  likeCount: "좋아요",
+};
+
+export const renderColumnText = (key: string) => {
+  return columMapper[key as keyof typeof columMapper] ?? "[잘못 된 칼럼 값]";
+};
 
 export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   {
@@ -40,65 +41,71 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
         aria-label="Select row"
       />
     ),
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     size: 40,
     accessorKey: "id",
-    header: () => <TableHeadText>ID</TableHeadText>,
-    cell: ({ row }) => <>{row.original.phraseId}</>,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
+    cell: ({ row }) => <span>{row.original.phraseId}</span>,
+    enableSorting: false,
+    enableHiding: false,
   },
   {
-    size: 100,
+    size: 70,
     accessorKey: "createdAt",
-    header: () => <TableHeadText>작성일자</TableHeadText>,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
     cell: ({ row }) => (
-      <EllipsisText className="inline-block">
-        {format(row.original.createdAt, "yy.MM.dd HH:mm:ss")}
-      </EllipsisText>
+      <div className="line-clamp-2">
+        {format(row.original.createdAt, "yy.MM.dd")}
+      </div>
     ),
   },
   {
-    minSize: 200,
     accessorKey: "title",
-    header: () => <TableHeadText>타이틀</TableHeadText>,
-    cell: ({ row }) => <EllipsisText>{row.original.title}</EllipsisText>,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
+    cell: ({ row }) => <div className="line-clamp-2">{row.original.title}</div>,
   },
   {
-    minSize: 140,
+    minSize: 100,
     accessorKey: "imageUrl",
-    header: () => <TableHeadText>이미지</TableHeadText>,
-    cell: ({ row }) => <EllipsisText>{row.original.filename}</EllipsisText>,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
+    cell: ({ row }) => (
+      <div className="line-clamp-2">{row.original.filename}</div>
+    ),
+    enableSorting: false,
   },
   {
-    minSize: 348,
+    minSize: 400,
     accessorKey: "content",
-    header: () => <TableHeadText>텍스트</TableHeadText>,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
     cell: ({ row }) => (
-      <EllipsisText className="max-w-[500px]">
-        {row.original.content}
-      </EllipsisText>
+      <div className="line-clamp-2">{row.original.content}</div>
     ),
+    enableSorting: false,
   },
   {
     size: 70,
     accessorKey: "viewCount",
-    header: () => <TableHeadText className="text-center">조회수</TableHeadText>,
-    cell: ({ row }) => (
-      <EllipsisText className="text-center">
-        {row.original.viewCount}
-      </EllipsisText>
+    header: ({ column }) => (
+      <ManageTableColumnHeader column={column} className="justify-center" />
     ),
+    cell: ({ row }) => (
+      <div className="text-center">{row.original.viewCount}</div>
+    ),
+    enableHiding: false,
   },
   {
     size: 70,
+    maxSize: 70,
     accessorKey: "likeCount",
-    header: () => (
-      <TableHeadText className="text-center">좋아요수</TableHeadText>
+    header: ({ column }) => (
+      <ManageTableColumnHeader column={column} className="justify-center" />
     ),
     cell: ({ row }) => (
-      <EllipsisText className="text-center">
-        {row.original.likeCount}
-      </EllipsisText>
+      <div className="text-center">{row.original.likeCount}</div>
     ),
+    enableHiding: false,
   },
 ];

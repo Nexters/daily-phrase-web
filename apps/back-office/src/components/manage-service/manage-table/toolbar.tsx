@@ -1,21 +1,21 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { Table } from "@tanstack/react-table";
 import { toast } from "sonner";
 import { apis } from "~/apis";
 import { queryClient } from "~/apis/config/tanstack-query/query-client";
 import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
-import DisplayDataNumSelect from "~/components/manage-service/manage-table/display-data-num-select";
 import { Button } from "~/components/ui/button";
-import { PhraseItemWithId } from "~/types/phrase";
+import { Input } from "~/components/ui/input";
 import { useManageDrawer } from "../hooks/use-manage-drawer";
+import { DataTableViewOptions } from "./data-table-view-options";
+import { ManageTable } from "./type";
 
-type Props = {
-  table: Table<PhraseItemWithId>;
-};
+interface Props {
+  table: ManageTable;
+}
 
-export const ManageActionBar = ({ table }: Props) => {
+export function ManageTableToolbar({ table }: Props) {
   const openNewDrawer = useManageDrawer((v) => v.openNewDrawer);
 
   const { mutate, isPending } = useMutation({
@@ -48,7 +48,18 @@ export const ManageActionBar = ({ table }: Props) => {
 
   return (
     <div className="flex justify-between items-center">
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center gap-3">
+        <DataTableViewOptions table={table} />
+        <div className="flex items-center py-4">
+          <Input
+            placeholder="제목 검색..."
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("title")?.setFilterValue(event.target.value)
+            }
+            className="max-w-lg"
+          />
+        </div>
         {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
           <Button
             variant="secondary"
@@ -60,11 +71,10 @@ export const ManageActionBar = ({ table }: Props) => {
         )}
       </div>
       <div className="flex justify-center items-center gap-3">
-        <DisplayDataNumSelect table={table} />
         <Button variant="default" onClick={openNewDrawer}>
           추가하기
         </Button>
       </div>
     </div>
   );
-};
+}
