@@ -24,4 +24,6 @@ export type AddPhrase = {
   imageRatio: string;
   fileName: string;
   fileSize: number;
+  isReserved: boolean;
+  publishDate: string;
 };
