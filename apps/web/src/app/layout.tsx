@@ -21,7 +21,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable-dynamic-subset.css"
         />
-        <Script strategy="lazyOnload" id="clarity-script">
+        <Script strategy="lazyOnload" id="clarity-script" crossOrigin="">
           {`
           (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};

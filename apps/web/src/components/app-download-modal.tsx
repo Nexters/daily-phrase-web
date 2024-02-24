@@ -47,7 +47,16 @@ export default function AppDownloadModal() {
     // TODO: 앱이 있으면 앱 열기, 없으면 playstore로 이동
     const device = detectDevice();
     if (device === "android") window.open(AOS_APP_LINK);
-    else router.push("/ios-not-supported");
+    else if (device !== null) router.push("/ios-not-supported");
+    if (device !== null) window.clarity?.("event", `install-modal-${device}`);
+  };
+
+  const onClickClose = (isButtonClick: boolean) => {
+    close();
+    window.clarity?.(
+      "event",
+      isButtonClick ? "install-modal-close-button" : "install-modal-dim-close",
+    );
   };
 
   if (status === "unmounted") {
@@ -65,7 +74,7 @@ export default function AppDownloadModal() {
               status === "closed" && "animate-fade-out",
               "fixed inset-0 bg-black bg-opacity-40",
             )}
-            onClick={close}
+            onClick={() => onClickClose(false)}
           />
           <div
             className={cn(
@@ -91,7 +100,7 @@ export default function AppDownloadModal() {
               <button
                 type="button"
                 className="flex items-center justify-center w-full h-10 rounded-[8px] overflow-hidden"
-                onClick={close}
+                onClick={() => onClickClose(true)}
               >
                 닫기
               </button>
