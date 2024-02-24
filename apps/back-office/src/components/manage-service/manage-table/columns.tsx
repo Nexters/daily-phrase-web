@@ -1,21 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
-import { ArrowUpDown } from "lucide-react";
-import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
-import { cn } from "~/libs/utils";
 import { PhraseItemWithId } from "~/types/phrase";
-import { DataTableColumnHeader } from "./data-table-colum-header";
-
-const TableHeadText = ({
-  children,
-  className,
-  ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) => (
-  <div className={cn("font-bold text-sm tracking-normal leading-4", className)}>
-    <span {...rest}>{children}</span>
-  </div>
-);
+import { ManageTableColumnHeader } from "./column-header";
 
 export const columMapper = {
   id: "ID",
@@ -60,7 +47,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   {
     size: 40,
     accessorKey: "id",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
     cell: ({ row }) => <span>{row.original.phraseId}</span>,
     enableSorting: false,
     enableHiding: false,
@@ -68,7 +55,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   {
     size: 70,
     accessorKey: "createdAt",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
     cell: ({ row }) => (
       <div className="line-clamp-2">
         {format(row.original.createdAt, "yy.MM.dd")}
@@ -77,13 +64,13 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   },
   {
     accessorKey: "title",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
     cell: ({ row }) => <div className="line-clamp-2">{row.original.title}</div>,
   },
   {
     minSize: 100,
     accessorKey: "imageUrl",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
     cell: ({ row }) => (
       <div className="line-clamp-2">{row.original.filename}</div>
     ),
@@ -92,7 +79,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   {
     minSize: 400,
     accessorKey: "content",
-    header: ({ column }) => <DataTableColumnHeader column={column} />,
+    header: ({ column }) => <ManageTableColumnHeader column={column} />,
     cell: ({ row }) => (
       <div className="line-clamp-2">{row.original.content}</div>
     ),
@@ -102,7 +89,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     size: 70,
     accessorKey: "viewCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} className="justify-center" />
+      <ManageTableColumnHeader column={column} className="justify-center" />
     ),
     cell: ({ row }) => (
       <div className="text-center">{row.original.viewCount}</div>
@@ -114,7 +101,7 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
     maxSize: 70,
     accessorKey: "likeCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} className="justify-center" />
+      <ManageTableColumnHeader column={column} className="justify-center" />
     ),
     cell: ({ row }) => (
       <div className="text-center">{row.original.likeCount}</div>

@@ -2,8 +2,6 @@ import { Column } from "@tanstack/react-table";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
-  ChevronsDownIcon,
-  ChevronsUpIcon,
   EyeOffIcon,
   GripVerticalIcon,
   RefreshCwIcon,
@@ -20,17 +18,16 @@ import {
 import { cn } from "~/libs/utils";
 import { renderColumnText } from "./columns";
 
-interface DataTableColumnHeaderProps<TData, TValue>
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface Props<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title?: string;
 }
 
-export function DataTableColumnHeader<TData, TValue>({
+export function ManageTableColumnHeader<TData, TValue>({
   column,
   className,
   ...props
-}: DataTableColumnHeaderProps<TData, TValue>) {
+}: Props<TData, TValue>) {
   const title = props.title ?? renderColumnText(column.id);
 
   if (!column.getCanSort() && !column.getCanHide()) {

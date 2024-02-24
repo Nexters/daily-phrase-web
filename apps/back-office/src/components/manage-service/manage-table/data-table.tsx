@@ -1,4 +1,4 @@
-import { Table as TanstackTable, flexRender } from "@tanstack/react-table";
+import { flexRender } from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -7,14 +7,14 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { PhraseItemWithId } from "~/types/phrase";
 import { useManageDrawer } from "../hooks/use-manage-drawer";
+import { ManageTable } from "./type";
 
-export default function ManageServiceDataTable({
-  table,
-}: {
-  table: TanstackTable<PhraseItemWithId>;
-}) {
+interface Props {
+  table: ManageTable;
+}
+
+export function ManageDataTable({ table }: Props) {
   const openEditDrawer = useManageDrawer((v) => v.openEditDrawer);
 
   return (

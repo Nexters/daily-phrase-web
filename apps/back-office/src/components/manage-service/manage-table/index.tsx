@@ -18,10 +18,10 @@ import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
 import ErrorFallback from "~/components/error-fallback";
 import Loading from "~/components/loading";
 import { PhraseItemWithId } from "~/types/phrase";
-import { ManageActionBar } from "./action-bar";
-import { columMapper, getManageTableColumns } from "./columns";
-import ManageServiceDataTable from "./data-table";
-import { ManagePagination } from "./pagination";
+import { getManageTableColumns } from "./columns";
+import { ManageDataTable } from "./data-table";
+import { ManageTablePagination } from "./pagination";
+import { ManageTableToolbar } from "./toolbar";
 
 export default function ManageServiceTable() {
   const { data, isPending, isError, error } = useQuery({
@@ -39,10 +39,10 @@ export default function ManageServiceTable() {
     return redirect("login");
   }
 
-  return <Root data={data.result.phraseList} />;
+  return <ManageTable data={data.result.phraseList} />;
 }
 
-const Root = ({ data }: { data: PhraseItemWithId[] }) => {
+const ManageTable = ({ data }: { data: PhraseItemWithId[] }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
@@ -67,9 +67,9 @@ const Root = ({ data }: { data: PhraseItemWithId[] }) => {
 
   return (
     <div className="space-y-4">
-      <ManageActionBar table={table} />
-      <ManageServiceDataTable table={table} />
-      <ManagePagination table={table} />
+      <ManageTableToolbar table={table} />
+      <ManageDataTable table={table} />
+      <ManageTablePagination table={table} />
     </div>
   );
 };

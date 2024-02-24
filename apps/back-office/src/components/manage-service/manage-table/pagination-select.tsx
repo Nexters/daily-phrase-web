@@ -8,9 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { ManageTable } from "./type";
 
 interface Props {
-  table: Table<PhraseItemWithId>;
+  table: ManageTable;
 }
 
 export const rowsPerPageOptions = [
@@ -21,9 +22,12 @@ export const rowsPerPageOptions = [
   { value: "100", label: "100개" },
 ];
 
-const DisplayDataNumSelect = ({ table }: Props) => {
+export function PaginationSelect({ table }: Props) {
   return (
-    <Select onValueChange={(v) => table.setPageSize(+v)}>
+    <Select
+      value={`${table.getState().pagination.pageSize}`}
+      onValueChange={(v) => table.setPageSize(+v)}
+    >
       <SelectTrigger
         className="w-[100px] font-medium focus:ring-0 focus:ring-offset-0"
         icon={<ChevronDown className="h-4 w-4" />}
@@ -39,6 +43,4 @@ const DisplayDataNumSelect = ({ table }: Props) => {
       </SelectContent>
     </Select>
   );
-};
-
-export default DisplayDataNumSelect;
+}
