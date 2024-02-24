@@ -1,3 +1,4 @@
+import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -49,30 +50,27 @@ export const useManageDrawerForm = () => {
   const defaultValues = useManageDrawer((v) => v.data);
 
   useEffect(() => {
-    if (isDrawerOpen) {
-      if (defaultValues) {
-        const drawerValue = {
-          title: defaultValues.title,
-          isReserved: defaultValues.isReserved,
-          publishDate: defaultValues.publishDate
-            ? defaultValues.publishDate
-            : "",
-          content: defaultValues.content,
-          imageList: defaultValues.imageUrl
-            ? [
-                {
-                  src: defaultValues.imageUrl,
-                  radio: defaultValues.imageRatio,
-                  filename: defaultValues.filename,
-                },
-              ]
-            : [],
-        } satisfies ManageValues;
-        form.reset(drawerValue);
-      } else {
-        form.reset(manageFormProps.defaultValues);
-      }
+    if (!isDrawerOpen) return;
+    if (!defaultValues) {
+      form.reset(manageFormProps.defaultValues);
+      return;
     }
+    const drawerValue = {
+      title: defaultValues.title,
+      isReserved: defaultValues.isReserved,
+      publishDate: defaultValues.publishDate ? defaultValues.publishDate : "",
+      content: defaultValues.content,
+      imageList: defaultValues.imageUrl
+        ? [
+            {
+              src: defaultValues.imageUrl,
+              radio: defaultValues.imageRatio,
+              filename: defaultValues.filename,
+            },
+          ]
+        : [],
+    } satisfies ManageValues;
+    form.reset(drawerValue);
   }, [form, isDrawerOpen, defaultValues]);
 
   return { form };
@@ -83,6 +81,32 @@ export const useManageDrawerMutation = () => {
   const isBlocking = useManageDrawer((v) => v.isBlocking);
   const setBlocking = useManageDrawer((v) => v.setBlocking);
   const closeDrawer = useManageDrawer((v) => v.closeDrawer);
+  const { mutate: update, isPending: isUpdatePending } = useMutation({
+    mutationFn: (data: Parameters<typeof apis.phraseApi.updatePhrase>) =>
+      apis.phraseApi.updatePhrase(...data),
+  });
+  const { mutate: create, isPending: isCreatePending } = useMutation({
+    mutationFn: (...data: Parameters<typeof apis.phraseApi.createPhrase>) =>
+      apis.phraseApi.createPhrase(...data),
+  });
+  const onSuccessCallback = () => {
+    queryClient.invalidateQueries({ queryKey: queryKeys.phraseList });
+    setBlocking(false);
+    closeDrawer();
+  };
+  const getToBeSendData = (values: ManageValues) => ({
+    title: values.title,
+    content: values.content,
+    imageUrl: values.imageList[0]?.src ?? "",
+    imageRatio: values.imageList[0]?.radio ?? "",
+    fileName: values.imageList[0]?.filename ?? "",
+    fileSize: values.imageList[0]?.size ?? 0,
+    isReserved: values.isReserved,
+    publishDate:
+      values.isReserved && values.publishDate
+        ? format(values.publishDate, "yyyy-MM-dd")
+        : "",
+  });
 
   async function onSubmit(values: ManageValues) {
     if (isBlocking) {
@@ -110,44 +134,32 @@ export const useManageDrawerMutation = () => {
       }
 
       if (defaultValues) {
-        toast.loading("글귀 수정 중...");
-        await apis.phraseApi.updatePhrase(defaultValues.phraseId, {
-          title: values.title,
-          content: values.content,
-          imageUrl: values.imageList[0]?.src ?? "",
-          imageRatio: values.imageList[0]?.radio ?? "",
-          fileName: values.imageList[0]?.filename ?? "",
-          fileSize: values.imageList[0]?.size ?? 0,
-          isReserved: values.isReserved,
-          publishDate:
-            values.isReserved && values.publishDate
-              ? format(values.publishDate, "yyyy-MM-dd")
-              : "",
+        if (isUpdatePending) toast.loading("글귀 수정 중...");
+        update([defaultValues.phraseId, getToBeSendData(values)], {
+          onSuccess: () => {
+            toast.dismiss();
+            toast.success("수정 되었습니다.");
+            onSuccessCallback();
+          },
+          onError: () => {
+            toast.dismiss();
+            toast.error("수정에 실패했습니다.");
+          },
         });
-        toast.dismiss();
-        toast.success("수정 되었습니다.");
       } else {
-        toast.loading("글귀 등록 중...");
-        await apis.phraseApi.createPhrase({
-          title: values.title,
-          content: values.content,
-          imageUrl: values.imageList[0]?.src ?? "",
-          imageRatio: values.imageList[0]?.radio ?? "",
-          fileName: values.imageList[0]?.filename ?? "",
-          fileSize: values.imageList[0]?.size ?? 0,
-          isReserved: values.isReserved,
-          publishDate:
-            values.isReserved && values.publishDate
-              ? format(values.publishDate, "yyyy-mm-dd")
-              : "",
+        if (isCreatePending) toast.loading("글귀 등록 중...");
+        create(getToBeSendData(values), {
+          onSuccess: () => {
+            toast.dismiss();
+            toast.success("등록 되었습니다.");
+            onSuccessCallback();
+          },
+          onError: () => {
+            toast.dismiss();
+            toast.error("등록에 실패했습니다.");
+          },
         });
-        toast.dismiss();
-        toast.success("등록 되었습니다.");
       }
-
-      queryClient.invalidateQueries({ queryKey: queryKeys.phraseList });
-      setBlocking(false);
-      closeDrawer();
     } catch (e) {
       setBlocking(false);
       const message = e instanceof Error ? e.message : "알 수 없는 오류";
