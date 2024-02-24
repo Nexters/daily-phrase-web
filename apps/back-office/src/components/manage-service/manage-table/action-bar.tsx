@@ -10,6 +10,7 @@ import DisplayDataNumSelect from "~/components/manage-service/manage-table/displ
 import { Button } from "~/components/ui/button";
 import { PhraseItemWithId } from "~/types/phrase";
 import { useManageDrawer } from "../hooks/use-manage-drawer";
+import { DataTableViewOptions } from "./data-table-view-options";
 
 type Props = {
   table: Table<PhraseItemWithId>;
@@ -48,7 +49,8 @@ export const ManageActionBar = ({ table }: Props) => {
 
   return (
     <div className="flex justify-between items-center">
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center gap-3">
+        <DataTableViewOptions table={table} />
         {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
           <Button
             variant="secondary"

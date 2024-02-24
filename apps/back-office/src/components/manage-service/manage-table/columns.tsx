@@ -1,8 +1,11 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
+import { ArrowUpDown } from "lucide-react";
+import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { cn } from "~/libs/utils";
 import { PhraseItemWithId } from "~/types/phrase";
+import { DataTableColumnHeader } from "./data-table-colum-header";
 
 const TableHeadText = ({
   children,
@@ -13,6 +16,20 @@ const TableHeadText = ({
     <span {...rest}>{children}</span>
   </div>
 );
+
+export const columMapper = {
+  id: "ID",
+  createdAt: "작성일자",
+  title: "제목",
+  imageUrl: "이미지",
+  content: "텍스트",
+  viewCount: "조회수",
+  likeCount: "좋아요",
+};
+
+export const renderColumnText = (key: string) => {
+  return columMapper[key as keyof typeof columMapper] ?? "[잘못 된 칼럼 값]";
+};
 
 export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
   {
@@ -37,61 +54,71 @@ export const getManageTableColumns = (): ColumnDef<PhraseItemWithId>[] => [
         aria-label="Select row"
       />
     ),
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     size: 40,
     accessorKey: "id",
-    header: () => <TableHeadText>ID</TableHeadText>,
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => <span>{row.original.phraseId}</span>,
+    enableSorting: false,
+    enableHiding: false,
   },
   {
-    size: 80,
+    size: 70,
     accessorKey: "createdAt",
-    header: () => <TableHeadText>작성일자</TableHeadText>,
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => (
       <div className="line-clamp-2">
-        {format(row.original.createdAt, "yy.MM.dd HH:mm:ss")}
+        {format(row.original.createdAt, "yy.MM.dd")}
       </div>
     ),
   },
   {
-    size: 200,
     accessorKey: "title",
-    header: () => <TableHeadText>타이틀</TableHeadText>,
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => <div className="line-clamp-2">{row.original.title}</div>,
   },
   {
     minSize: 100,
     accessorKey: "imageUrl",
-    header: () => <TableHeadText>이미지</TableHeadText>,
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => (
       <div className="line-clamp-2">{row.original.filename}</div>
     ),
+    enableSorting: false,
   },
   {
     minSize: 400,
     accessorKey: "content",
-    header: () => <TableHeadText>콘텐츠</TableHeadText>,
+    header: ({ column }) => <DataTableColumnHeader column={column} />,
     cell: ({ row }) => (
-      <div className="max-w-[400px] line-clamp-2">{row.original.content}</div>
+      <div className="line-clamp-2">{row.original.content}</div>
     ),
+    enableSorting: false,
   },
   {
     size: 70,
     accessorKey: "viewCount",
-    header: () => <TableHeadText className="text-center">조회수</TableHeadText>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} className="justify-center" />
+    ),
     cell: ({ row }) => (
       <div className="text-center">{row.original.viewCount}</div>
     ),
+    enableHiding: false,
   },
   {
     size: 70,
+    maxSize: 70,
     accessorKey: "likeCount",
-    header: () => (
-      <TableHeadText className="text-center">좋아요수</TableHeadText>
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} className="justify-center" />
     ),
     cell: ({ row }) => (
       <div className="text-center">{row.original.likeCount}</div>
     ),
+    enableHiding: false,
   },
 ];

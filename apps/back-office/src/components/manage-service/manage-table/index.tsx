@@ -2,8 +2,11 @@
 
 import { useQuery } from "@tanstack/react-query";
 import {
+  SortingState,
+  VisibilityState,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { deleteCookie } from "cookies-next";
@@ -16,7 +19,7 @@ import ErrorFallback from "~/components/error-fallback";
 import Loading from "~/components/loading";
 import { PhraseItemWithId } from "~/types/phrase";
 import { ManageActionBar } from "./action-bar";
-import { getManageTableColumns } from "./columns";
+import { columMapper, getManageTableColumns } from "./columns";
 import ManageServiceDataTable from "./data-table";
 import { ManagePagination } from "./pagination";
 
@@ -40,15 +43,25 @@ export default function ManageServiceTable() {
 }
 
 const Root = ({ data }: { data: PhraseItemWithId[] }) => {
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    imageUrl: false,
+  });
+
   const table = useReactTable({
     data,
     columns: getManageTableColumns(),
+    getPaginationRowModel: getPaginationRowModel(),
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
-    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
+      sorting,
       rowSelection,
+      columnVisibility,
     },
   });
 
