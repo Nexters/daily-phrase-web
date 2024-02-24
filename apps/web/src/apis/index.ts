@@ -1,5 +1,5 @@
-import { ApiClient, OnResponseError } from "@daily-phrase/api";
-import { ResponseError, ResponseSuccess } from "./apis.type";
+import { ApiClient, ApiData, OnResponseError } from "@daily-phrase/api";
+import { ResponseError } from "./apis.type";
 import { fetchErrorCreator } from "./config/fetch-error-creator";
 import { PhraseApi } from "./phrase-api";
 
@@ -31,8 +31,8 @@ const onResponseError: OnResponseError<
   return fetchErrorCreator(error);
 };
 
-const onResponseSuccess = <T>(response: ResponseSuccess<T>): T => {
-  return response.data;
+const onResponseSuccess = <T>(response: ApiData<T>): ApiData<T> => {
+  return response;
 };
 
 const httpClient = new ApiClient({

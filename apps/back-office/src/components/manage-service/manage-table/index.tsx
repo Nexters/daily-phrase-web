@@ -11,11 +11,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { deleteCookie } from "cookies-next";
-import { redirect } from "next/navigation";
 import { useState } from "react";
 import { apis } from "~/apis";
-import { ACCESS_TOKEN } from "~/apis/config/cookie/token";
 import { queryKeys } from "~/apis/config/tanstack-query/query-keys";
 import ErrorFallback from "~/components/error-fallback";
 import Loading from "~/components/loading";
@@ -34,12 +31,6 @@ export default function ManageServiceTable() {
   if (isPending) return <Loading />;
   if (isError) return <ErrorFallback reset={() => {}} error={error} />;
   if (!data) return null;
-
-  // TODO: 토큰 리프레쉬 하기
-  if (data?.status === 401) {
-    deleteCookie(ACCESS_TOKEN);
-    return redirect("login");
-  }
 
   return <ManageTable data={data.result.phraseList} />;
 }

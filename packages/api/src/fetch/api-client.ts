@@ -57,7 +57,10 @@ class ApiClient implements ApiClientInstance {
     } catch (error) {
       data = await response.text();
     }
-    if (response.ok) return (this.onResponseSuccess?.(data) || data) as T;
+    if (response.ok) {
+      const successResponse = this.onResponseSuccess?.(data);
+      return (successResponse ?? data) as T;
+    }
     throw (
       this.onResponseError?.(data, { ...requestConf, fetchRoute }) ||
       new BaseError({

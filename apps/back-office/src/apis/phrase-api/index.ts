@@ -9,10 +9,12 @@ export class PhraseApi {
   deletePhrase(id: number | string) {
     return this.apiClient.delete(`/api/admin/phrases/${id}`);
   }
-  getPhraseList() {
-    return this.apiClient.get<ApiData<{ phraseList: Array<PhraseItemWithId> }>>(
-      "/api/admin/phrases",
-    );
+  async getPhraseList() {
+    const data =
+      await this.apiClient.get<
+        ApiData<{ phraseList: Array<PhraseItemWithId> }>
+      >("/api/admin/phrases");
+    return data;
   }
   getPhrase(id: number | string) {
     return this.apiClient.get(`/api/admin/phrases/${id}`);

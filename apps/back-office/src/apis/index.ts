@@ -1,6 +1,6 @@
-import { ApiClient, OnResponseError } from "@daily-phrase/api";
-import { getCookie } from "cookies-next";
-import { ResponseError, ResponseSuccess } from "./apis.type";
+import { ApiClient, ApiData, OnResponseError } from "@daily-phrase/api";
+import { deleteCookie, getCookie } from "cookies-next";
+import { ResponseError } from "./apis.type";
 import { ACCESS_TOKEN } from "./config/cookie/token";
 import { fetchErrorCreator } from "./config/fetch-error-creator";
 import { LoginApi } from "./login-api";
@@ -30,12 +30,19 @@ const onResponseError: OnResponseError<
   error,
 ) => {
   console.error("[Response Error]", error);
-  /** @todo 에러 타입에 맞게 가공 */
+  if (error.status === 401) {
+    deleteCookie(ACCESS_TOKEN);
+    if (location) location.href = "login";
+  }
   return fetchErrorCreator(error);
 };
 
-const onResponseSuccess = <T>(response: ResponseSuccess<T>): T => {
-  return response.data;
+const onResponseSuccess = <T>(response: ApiData<T>): ApiData<T> => {
+  if (response.status === 401) {
+    deleteCookie(ACCESS_TOKEN);
+    if (location) location.href = "login";
+  }
+  return response;
 };
 
 const httpClient = new ApiClient({
