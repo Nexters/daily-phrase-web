@@ -31,8 +31,8 @@ const onResponseError: OnResponseError<
   return fetchErrorCreator(error);
 };
 
-const onResponseSuccess = <T>(response: ApiData<T>): ApiData<T> => {
-  return response;
+const onResponseSuccess = <T>(response: { data: ApiData<T> }): ApiData<T> => {
+  return response.data;
 };
 
 const httpClient = new ApiClient({
