@@ -50,41 +50,44 @@ export default function InputImage({
     onChange(value.filter((_, i) => i !== index));
   };
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    for (const file of acceptedFiles) {
-      const reader = new FileReader();
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      for (const file of acceptedFiles) {
+        const reader = new FileReader();
 
-      reader.onabort = () => toast.info("파일 등록이 취소되었습니다.");
-      reader.onerror = () => toast.error("파일 등록에 실패했습니다.");
-      reader.onload = () => {
-        const previewSrc = URL.createObjectURL(file);
+        reader.onabort = () => toast.info("파일 등록이 취소되었습니다.");
+        reader.onerror = () => toast.error("파일 등록에 실패했습니다.");
+        reader.onload = () => {
+          const previewSrc = URL.createObjectURL(file);
 
-        const img = new Image();
-        img.onload = () => {
-          const width = img.width;
-          const height = img.height;
-          const gcd = getGCD(width, height);
-          const radio = `${width / gcd}:${height / gcd}`;
-          const size = Math.floor(file.size / 1024); // 단위 KB
+          const img = new Image();
+          img.onload = () => {
+            const width = img.width;
+            const height = img.height;
+            const gcd = getGCD(width, height);
+            const radio = `${width / gcd}:${height / gcd}`;
+            const size = Math.floor(file.size / 1024); // 단위 KB
 
-          onChange((list) => [
-            ...list,
-            {
-              src: reader.result,
-              previewSrc,
-              width,
-              height,
-              radio,
-              size,
-              filename: file.name,
-            },
-          ]);
+            onChange([
+              ...value,
+              {
+                src: reader.result,
+                previewSrc,
+                width,
+                height,
+                radio,
+                size,
+                filename: file.name,
+              },
+            ]);
+          };
+          img.src = previewSrc;
         };
-        img.src = previewSrc;
-      };
-      reader.readAsDataURL(file);
-    }
-  }, []);
+        reader.readAsDataURL(file);
+      }
+    },
+    [value, onChange],
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     ...options,
