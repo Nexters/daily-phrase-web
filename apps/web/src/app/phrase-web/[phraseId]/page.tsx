@@ -6,6 +6,9 @@ import PhraseContent from "~/components/phrase-content";
 import Separator from "~/components/ui/separator";
 import PhraseList from "./phrase-list";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function PhraseWebPage({
   params,
 }: {
