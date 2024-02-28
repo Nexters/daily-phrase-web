@@ -19,6 +19,7 @@ import useTextareaHeight from "./hooks/use-textarea-height";
 
 export function ManageDrawerContent() {
   const isOpen = useManageDrawer((v) => v.open);
+  const phraseId = useManageDrawer((v) => v.data?.phraseId);
   const isBlocking = useManageDrawer((v) => v.isBlocking);
   const closeDrawer = useManageDrawer((v) => v.closeDrawer);
 
@@ -68,6 +69,29 @@ export function ManageDrawerContent() {
               )}
             />
             <Separator />
+            {phraseId && (
+              <>
+                <div className="flex gap-4 text-sm">
+                  <a
+                    className="text-primary underline-offset-4 hover:underline"
+                    href={`https://www.daily-phrase.com/phrase-web/${phraseId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    웹 바로가기
+                  </a>
+                  <a
+                    className="text-primary underline-offset-4 hover:underline"
+                    href={`https://www.daily-phrase.com/phrase-webview/${phraseId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    앱 웹뷰 바로가기
+                  </a>
+                </div>
+                <Separator />
+              </>
+            )}
             <FormField
               control={form.control}
               name="isReserved"

@@ -1,13 +1,7 @@
 "use client";
 
 import { PlusIcon, XIcon } from "lucide-react";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { toast } from "sonner";
 import { cn, getGCD, renderFileSize } from "~/libs/utils";
