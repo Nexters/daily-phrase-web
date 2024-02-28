@@ -8,14 +8,25 @@ import { cn } from "~/libs/utils";
 
 const PHRASE_LIST_SIZE = 3;
 
-export default function PhraseList() {
+export default function PhraseList({
+  currentPhraseId,
+}: { currentPhraseId: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const [phraseList, setPhraseList] = useState<Phrase[]>([]);
 
   const requestPhraseList = async () => {
     // TODO: 백엔드 https 부착
-    const data = await apis.phraseApi.getPhraseList(PHRASE_LIST_SIZE);
-    setPhraseList(data.result.phraseList);
+    const res = await fetch("/api/v1/phrases", {
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    const { data } = await res.json();
+    const phraseList = data.result.phraseList as Phrase[];
+    const filteredPhraseList = phraseList
+      .filter((phrase) => phrase.phraseId !== +currentPhraseId)
+      .slice(0, 3);
+    setPhraseList(filteredPhraseList);
     setIsLoading(false);
   };
 

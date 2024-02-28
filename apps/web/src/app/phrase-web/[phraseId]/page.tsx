@@ -18,7 +18,7 @@ export default async function PhraseWebPage({
     <main className="pb-[90px]">
       <PhraseContent phrase={phrase} />
       <Separator />
-      <PhraseList />
+      <PhraseList currentPhraseId={params.phraseId} />
       <Separator />
       <GoAppCard />
       <AppFooter />
