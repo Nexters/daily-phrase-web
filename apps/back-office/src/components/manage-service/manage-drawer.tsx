@@ -3,16 +3,10 @@
 import { format, parse } from "date-fns";
 import { ChevronsRight } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerMain,
-} from "~/components/ui/drawer";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Separator } from "~/components/ui/separator";
 import { ClearTextArea } from "~/components/ui/textarea";
+import { cn } from "~/libs/utils";
 import { Calendar } from "../ui/calender";
 import InputImage from "../ui/input-image";
 import { Switch } from "../ui/switch";
@@ -23,13 +17,8 @@ import {
 } from "./hooks/use-manage-drawer";
 import useTextareaHeight from "./hooks/use-textarea-height";
 
-export function ManageDrawerRoot(props: React.ComponentProps<typeof Drawer>) {
-  const { open, setOpen } = useManageDrawer();
-
-  return <Drawer {...props} modal={false} open={open} onOpenChange={setOpen} />;
-}
-
 export function ManageDrawerContent() {
+  const isOpen = useManageDrawer((v) => v.open);
   const isBlocking = useManageDrawer((v) => v.isBlocking);
   const closeDrawer = useManageDrawer((v) => v.closeDrawer);
 
@@ -39,12 +28,18 @@ export function ManageDrawerContent() {
 
   return (
     <Form {...form}>
-      <DrawerContent asChild>
+      <div
+        className={cn(
+          "fixed inset-y-0 right-0 z-50 flex h-auto flex-col border bg-background",
+          "min-w-[480px] w-1/3 transition transform duration-300",
+          isOpen ? "translate-x-0" : "translate-x-full",
+        )}
+      >
         <form
-          className="min-w-[480px] w-1/3"
+          className="w-full h-full flex flex-col"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <DrawerHeader>
+          <div className="flex items-center gap-1.5 p-6 pb-0">
             <Button
               type="button"
               disabled={isBlocking}
@@ -54,8 +49,8 @@ export function ManageDrawerContent() {
             >
               <ChevronsRight className="w-6 h-6 text-muted-foreground" />
             </Button>
-          </DrawerHeader>
-          <DrawerMain className="overflow-y-auto">
+          </div>
+          <div className="flex-1 flex flex-col gap-4 pt-8 pl-8 pr-12 overflow-y-auto">
             <FormField
               control={form.control}
               name="title"
@@ -156,8 +151,8 @@ export function ManageDrawerContent() {
                 </FormItem>
               )}
             />
-          </DrawerMain>
-          <DrawerFooter>
+          </div>
+          <div className="flex items-center justify-end gap-2 pt-8 pb-14 pl-8 pr-12">
             <Button
               type="button"
               variant="secondary"
@@ -175,9 +170,9 @@ export function ManageDrawerContent() {
             >
               저장
             </Button>
-          </DrawerFooter>
+          </div>
         </form>
-      </DrawerContent>
+      </div>
     </Form>
   );
 }
